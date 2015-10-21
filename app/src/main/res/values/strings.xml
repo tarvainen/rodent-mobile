@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RodentMobile</string>
+    <string name="title_activity_library">LibraryActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_new">New</string>
 </resources>
