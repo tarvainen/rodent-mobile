@@ -7,13 +7,13 @@ import android.view.MenuItem;
 
 public class DrawingActivity extends Activity {
 
-    private DrawingBoard drawingBoard;
+    private GestureDetectingDrawingBoard drawingBoard;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.drawingBoard = new DrawingBoard(this);
+        this.drawingBoard = new GestureDetectingDrawingBoard(this);
         setContentView(this.drawingBoard);
     }
 
