@@ -1,11 +1,12 @@
 package rodent.rodentmobile;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.graphics.Canvas;
 
-public class DrawingActivity extends AppCompatActivity {
+public class DrawingActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

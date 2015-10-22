@@ -1,5 +1,6 @@
 package rodent.rodentmobile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,7 +48,8 @@ public class LibraryActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_new) {
             // Make new file and start a new Activity for drawing.
-            Toast.makeText(LibraryActivity.this, "New", Toast.LENGTH_SHORT).show();
+            Intent newDrawingIntent = new Intent(this, DrawingActivity.class);
+            this.startActivity(newDrawingIntent);
         }
 
         return super.onOptionsItemSelected(item);
