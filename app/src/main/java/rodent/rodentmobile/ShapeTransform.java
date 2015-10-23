@@ -11,8 +11,8 @@ public class ShapeTransform {
     private Vector2<Float> size;
 
     public ShapeTransform () {
-        this.position = new Vector2<>();
-        this.size = new Vector2<>();
+        this.position = new Vector2<>(0f, 0f);
+        this.size = new Vector2<>(0f, 0f);
     }
 
     public Vector2<Float> getPosition () {

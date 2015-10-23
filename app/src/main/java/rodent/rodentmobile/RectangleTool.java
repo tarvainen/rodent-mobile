@@ -1,46 +1,57 @@
 package rodent.rodentmobile;
 
-import android.view.MotionEvent;
+import java.util.List;
 
 /**
- * Created by Teemu on 23.10.2015.
+ * Created by Atte on 23.10.2015.
  */
-public class RectangleTool implements Tool {
+public class RectangleTool extends Tool {
 
-    private boolean drawing = false;
-    private Rectangle rectangle;
+    public RectangleTool () {
+        super();
+        this.clear();
+    }
 
-    @Override
-    public void start(MotionEvent event) {
-        drawing = true;
-        rectangle = new Rectangle(event.getX(), event.getY());
+    public RectangleTool (List<Shape> container) {
+        super(container);
+        this.clear();
     }
 
     @Override
-    public void move(MotionEvent event) {
-        rectangle.y2 = event.getY();
-        rectangle.x2 = event.getX();
+    public void onStart(Vector2<Float> position) {
+        this.setStartCornerPositionToEventPosition(position);
+        this.setEndCornerPositionToEventPosition(position);
+        this.setBusy(true);
     }
 
     @Override
-    public void end(MotionEvent event) {
-        rectangle.y2 = event.getY();
-        rectangle.x2 = event.getX();
+    public void onMove(Vector2<Float> position) {
+        this.setEndCornerPositionToEventPosition(position);
     }
 
     @Override
-    public Shape getDrawable() {
-        return rectangle;
+    public void onPress (Vector2<Float> position) {
+
+    }
+
+    @Override
+    public void onEnd(Vector2<Float> position) {
+        this.setEndCornerPositionToEventPosition(position);
+        this.getShapeContainer().add(this.getShape());
+        this.clear();
+        this.setBusy(false);
     }
 
     @Override
     public void clear() {
-        rectangle = null;
-        drawing = false;
+        this.setShape(new RectangleShape());
     }
 
-    @Override
-    public boolean drawing() {
-        return drawing;
+    public void setStartCornerPositionToEventPosition (Vector2<Float> position) {
+        ((RectangleShape) this.getShape()).setStartCornerPosition(new Vector2<>(position.getX(), position.getY()));
+    }
+
+    public void setEndCornerPositionToEventPosition (Vector2<Float> position) {
+        ((RectangleShape) this.getShape()).setEndCornerPosition(new Vector2<>(position.getX(), position.getY()));
     }
 }

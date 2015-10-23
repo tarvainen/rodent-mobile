@@ -34,7 +34,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public GestureDetectingDrawingBoard (Context context, AttributeSet attrs) {
         super(context, attrs);
         this.init();
-        tool = new RectangleTool();
+        tool = new LineTool(this.getDrawableElements());
     }
 
     private void init () {
@@ -53,8 +53,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             shape.draw(canvas);
         }
 
-        if (tool.drawing()) {
-            tool.getDrawable().draw(canvas);
+        if (tool.isBusy()) {
+            tool.getShape().draw(canvas);
         }
     }
 
@@ -109,14 +109,13 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     public void handleOnTouchEventGesture (MotionEvent e) {
+        Vector2<Float> position = getScaledPositionOfEvent(e);
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            tool.start(e);
+            tool.onStart(position);
         } else if (e.getAction() == MotionEvent.ACTION_MOVE) {
-            tool.move(e);
+            tool.onMove(position);
         } else if (e.getAction() == MotionEvent.ACTION_UP) {
-            tool.end(e);
-            addDrawableElement(tool.getDrawable());
-            tool.clear();
+            tool.onEnd(position);
         }
 //        int action = e.getAction() & MotionEvent.ACTION_MASK;
 //
@@ -162,5 +161,15 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public void changeTool(Tool tool) {
         this.tool = tool;
+        tool.setShapeContainer(this.getDrawableElements());
     }
+
+    public Vector2<Float> getScaledPositionOfEvent (MotionEvent event) {
+        Vector2<Float> result = new Vector2<>(0f, 0f);
+        result.setX(event.getX() / this.canvasScaleFactor);
+        result.setY(event.getY() / this.canvasScaleFactor);
+
+        return result;
+    }
+
 }

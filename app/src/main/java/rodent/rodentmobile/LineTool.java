@@ -2,42 +2,58 @@ package rodent.rodentmobile;
 
 import android.view.MotionEvent;
 
+import java.util.List;
+
 /**
- * Created by Teemu on 23.10.2015.
+ * Created by Atte on 23.10.2015.
  */
-public class LineTool implements Tool {
+public class LineTool extends Tool {
 
-    boolean drawing = false;
-    private Line line;
-
-    public LineTool() {
+    public LineTool () {
+        super();
+        this.clear();
     }
 
-    public void start(MotionEvent event) {
-        drawing = true;
-        line = new Line(event.getX(), event.getY());
+    public LineTool (List<Shape> container) {
+        super(container);
+        this.clear();
     }
 
-    public void move(MotionEvent event) {
-        line.x2 = event.getX();
-        line.y2 = event.getY();
+    @Override
+    public void onStart (Vector2<Float> position) {
+        this.setStartPointToEventPosition(position);
+        this.setEndPointToEventPosition(position);
+        this.setBusy(true);
     }
 
-    public void end(MotionEvent event) {
-        line.x2 = event.getX();
-        line.y2 = event.getY();
+    @Override
+    public void onMove(Vector2<Float> position) {
+        this.setEndPointToEventPosition(position);
     }
 
-    public Line getDrawable() {
-        return line;
+    @Override
+    public void onPress (Vector2<Float> position) {
+
     }
 
+    @Override
+    public void onEnd(Vector2<Float> position) {
+        this.setBusy(false);
+        this.setEndPointToEventPosition(position);
+        this.getShapeContainer().add(this.getShape());
+        this.clear();
+    }
+
+    @Override
     public void clear() {
-        line = null;
-        drawing = false;
+        this.setShape(new LineShape());
     }
 
-    public boolean drawing() {
-        return drawing;
+    private void setStartPointToEventPosition (Vector2<Float> position) {
+        ((LineShape) this.getShape()).setStartPoint(new Vector2<>(position.getX(), position.getY()));
+    }
+
+    private void setEndPointToEventPosition (Vector2<Float> position) {
+        ((LineShape) this.getShape()).setEndPoint(new Vector2<>(position.getX(), position.getY()));
     }
 }
