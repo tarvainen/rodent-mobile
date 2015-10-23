@@ -49,6 +49,9 @@ public class DrawingActivity extends AppCompatActivity {
             case R.id.button_rectangle:
                 drawingBoard.changeTool(new RectangleTool());
                 break;
+            case R.id.button_freehand:
+                drawingBoard.changeTool(new FreeHandTool());
+                break;
         }
     }
 }

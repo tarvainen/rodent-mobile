@@ -67,7 +67,9 @@ public class PolylineShape extends Shape {
 
     @Override
     public void draw (Canvas canvas) {
-        canvas.drawLines(this.pointArray, this.getPaint());
+        if (this.pointArray != null) {
+            canvas.drawLines(this.pointArray, this.getPaint());
+        }
     }
 
 }

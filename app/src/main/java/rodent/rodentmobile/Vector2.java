@@ -32,4 +32,5 @@ public class Vector2<T> {
     public void setY (T y) {
         this.y = y;
     }
+
 }
