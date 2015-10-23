@@ -11,8 +11,7 @@
         android:id="@+id/drawing_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/drawing_view" />
+        android:layout_below="@+id/tools_view" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,27 +21,21 @@
         android:layout_alignParentStart="true"
         android:id="@+id/tools_view">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/button_freehand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/textView"
-            android:text="Tool" />
-    </LinearLayout>
+            android:src="@drawable/ic_open_with_black_36dp"
+            android:background="@drawable/ic_open_with_black_36dp"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/drawing_view"
-        android:layout_below="@+id/tools_view">
-
-        <TextView
+        <ImageButton
+            android:id="@+id/button_move"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Drawing"
-            android:id="@+id/textView2" />
+            android:src="@drawable/ic_create_black_36dp"
+            android:background="@drawable/ic_create_black_36dp"/>
+
+
     </LinearLayout>
 
 </RelativeLayout>
