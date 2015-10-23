@@ -7,26 +7,27 @@ import java.util.Vector;
  */
 public class ShapeTransform {
 
-    private Vector3<Float> position;
-    private Vector<Float> size;
+    private Vector2<Float> position;
+    private Vector2<Float> size;
 
     public ShapeTransform () {
-
+        this.position = new Vector2<>();
+        this.size = new Vector2<>();
     }
 
-    public Vector3<Float> getPosition () {
+    public Vector2<Float> getPosition () {
         return this.position;
     }
 
-    public void setPosition (Vector3<Float> position) {
+    public void setPosition (Vector2<Float> position) {
         this.position = position;
     }
 
-    public Vector<Float> getSize () {
+    public Vector2<Float> getSize () {
         return this.size;
     }
 
-    public void setSize (Vector<Float> size) {
+    public void setSize (Vector2<Float> size) {
         this.size = size;
     }
 
