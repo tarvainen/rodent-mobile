@@ -5,7 +5,7 @@ import android.view.MotionEvent;
 /**
  * Created by Teemu on 23.10.2015.
  */
-public class LineTool {
+public class LineTool implements Tool {
 
     boolean drawing = false;
     private Line line;
@@ -28,12 +28,16 @@ public class LineTool {
         line.y2 = event.getY();
     }
 
-    public Line getLine() {
+    public Line getDrawable() {
         return line;
     }
 
     public void clear() {
         line = null;
         drawing = false;
+    }
+
+    public boolean drawing() {
+        return drawing;
     }
 }
