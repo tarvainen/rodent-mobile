@@ -26,6 +26,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     private ScaleGestureDetector scaleDetector;
 
+    private LineTool linetool = new LineTool();
+
     public GestureDetectingDrawingBoard (Context context) {
         super(context);
         this.init();
@@ -50,6 +52,10 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         translateCanvas(canvas);
         for(Shape shape : this.getDrawableElements()) {
             shape.draw(canvas);
+        }
+
+        if (linetool.drawing) {
+            linetool.getLine().draw(canvas);
         }
     }
 
@@ -104,28 +110,37 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     public void handleOnTouchEventGesture (MotionEvent e) {
-        int action = e.getAction() & MotionEvent.ACTION_MASK;
-
-        switch (action) {
-            case MotionEvent.ACTION_DOWN: // when the canvas is pressed
-                this.touchStartPosition.setX(e.getX() - previousCanvasTranslate.getX());
-                this.touchStartPosition.setY(e.getY() - previousCanvasTranslate.getY());
-                break;
-            case MotionEvent.ACTION_MOVE: // when the finger is moved on the canvas
-                this.canvasTranslate.setX(e.getX() - touchStartPosition.getX());
-                this.canvasTranslate.setY(e.getY() - touchStartPosition.getY());
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN: // when the second finger is pressed
-                break;
-            case MotionEvent.ACTION_UP: // when the finger is lifted off the canvas
-                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
-                break;
-            case MotionEvent.ACTION_POINTER_UP: // when the second finger is lifted off the canvas
-                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
-                break;
-            default:
-                break;
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            linetool.start(e);
+        } else if (e.getAction() == MotionEvent.ACTION_MOVE) {
+            linetool.move(e);
+        } else if (e.getAction() == MotionEvent.ACTION_UP) {
+            linetool.end(e);
+            addDrawableElement(linetool.getLine());
+            linetool.clear();
         }
+//        int action = e.getAction() & MotionEvent.ACTION_MASK;
+//
+//        switch (action) {
+//            case MotionEvent.ACTION_DOWN: // when the canvas is pressed
+//                this.touchStartPosition.setX(e.getX() - previousCanvasTranslate.getX());
+//                this.touchStartPosition.setY(e.getY() - previousCanvasTranslate.getY());
+//                break;
+//            case MotionEvent.ACTION_MOVE: // when the finger is moved on the canvas
+//                this.canvasTranslate.setX(e.getX() - touchStartPosition.getX());
+//                this.canvasTranslate.setY(e.getY() - touchStartPosition.getY());
+//                break;
+//            case MotionEvent.ACTION_POINTER_DOWN: // when the second finger is pressed
+//                break;
+//            case MotionEvent.ACTION_UP: // when the finger is lifted off the canvas
+//                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
+//                break;
+//            case MotionEvent.ACTION_POINTER_UP: // when the second finger is lifted off the canvas
+//                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
+//                break;
+//            default:
+//                break;
+//        }
 
         this.postInvalidate();
     }

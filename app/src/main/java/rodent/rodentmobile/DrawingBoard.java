@@ -22,14 +22,14 @@ public class DrawingBoard extends View {
         super(context);
         this.elements = new LinkedList<>();
         this.elements.add(new Paper());
-        this.elements.add(new Line());
+//        this.elements.add(new Line());
     }
 
     public DrawingBoard (Context context, AttributeSet attrs) {
         super(context, attrs);
         this.elements = new LinkedList<>();
         this.elements.add(new Paper());
-        this.elements.add(new Line());
+//        this.elements.add(new Line());
     }
 
     public List<Shape> getDrawableElements () {
