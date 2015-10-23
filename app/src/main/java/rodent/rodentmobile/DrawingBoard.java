@@ -3,6 +3,7 @@ package rodent.rodentmobile;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -24,6 +25,14 @@ public class DrawingBoard extends SurfaceView implements Runnable {
 
     public DrawingBoard (Context context) {
         super(context);
+        this.surfaceHolder = this.getHolder();
+        this.elements = new LinkedList<>();
+        this.elements.add(new Paper());
+        this.elements.add(new Line());
+    }
+
+    public DrawingBoard (Context context, AttributeSet attrs) {
+        super(context, attrs);
         this.surfaceHolder = this.getHolder();
         this.elements = new LinkedList<>();
         this.elements.add(new Paper());
@@ -104,6 +113,10 @@ public class DrawingBoard extends SurfaceView implements Runnable {
         shape.draw(this.canvas);
     }
 
+
+    /////////////////////////////////////////////
+    // THIS CODE SUCKS HERE. MAKE SURE TO MAKE IT BEAUTIFUL LATER.
+    /////////////////////////////////////////////
     public class Line extends Shape {
         public Line () {
             super();
@@ -119,6 +132,9 @@ public class DrawingBoard extends SurfaceView implements Runnable {
         }
     }
 
+    /////////////////////////////////////////////
+    // THIS CODE SUCKS HERE. MAKE SURE TO MAKE IT BEAUTIFUL LATER.
+    /////////////////////////////////////////////
     public class Paper extends Shape {
         public Paper () {
             super();
@@ -133,7 +149,7 @@ public class DrawingBoard extends SurfaceView implements Runnable {
             canvas.drawARGB(255, 240, 240, 240);
 
             int linesX = 100;
-            float lineSeparatedDistance = canvas.getWidth() / linesX;
+            float lineSeparatedDistance = (float)canvas.getWidth() / linesX;
             int linesY = (int)(canvas.getHeight() / lineSeparatedDistance);
 
             for (int i = 0; i <= linesX; i++) {

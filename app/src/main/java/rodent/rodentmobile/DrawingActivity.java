@@ -1,11 +1,14 @@
 package rodent.rodentmobile;
 
-import android.app.Activity;
+
+import android.gesture.Gesture;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class DrawingActivity extends Activity {
+public class DrawingActivity extends AppCompatActivity {
 
     private GestureDetectingDrawingBoard drawingBoard;
 
@@ -13,8 +16,19 @@ public class DrawingActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.drawingBoard = new GestureDetectingDrawingBoard(this);
-        setContentView(this.drawingBoard);
+        setTheme(R.style.AppThemeNoActionBar);
+        setContentView(R.layout.activity_drawing);
+
+        this.drawingBoard = (GestureDetectingDrawingBoard) findViewById(R.id.drawing_board);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.drawing_toolbar_tools);
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setTitle("Drawing");
+
+        Toolbar toolbar2 = (Toolbar) findViewById(R.id.drawing_toolbar_main);
+        setSupportActionBar(toolbar2);
+        this.getSupportActionBar().setTitle("Tools");
+
     }
 
     @Override

@@ -15,7 +15,6 @@ public class Vector3<T> extends Vector2 {
         this.z = z;
     }
 
-
     public T getZ () {
         return this.z;
     }

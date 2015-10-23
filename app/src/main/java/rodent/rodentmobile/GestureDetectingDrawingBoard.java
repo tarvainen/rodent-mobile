@@ -1,6 +1,7 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -26,17 +27,20 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public GestureDetectingDrawingBoard (Context context) {
         super(context);
+        this.init();
+    }
+
+    public GestureDetectingDrawingBoard (Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this.init();
+    }
+
+    private void init () {
         this.canvasScaleFactor = 1.f;
         this.scaleDetector = new ScaleGestureDetector(this.getContext(), new ZoomGestureListener());
         this.touchStartPosition = new Vector2<>(0f, 0f);
         this.canvasTranslate = new Vector2<>(0f, 0f);
         this.previousCanvasTranslate = new Vector2<>(0f, 0f);
-
-        WindowManager manager = (WindowManager)this.getContext().getSystemService(Context.WINDOW_SERVICE);
-        Display display = manager.getDefaultDisplay();
-        float width = display.getWidth();
-        float height = display.getHeight();
-        this.displaySize = new Vector2<>(width, height);
     }
 
     @Override
@@ -57,6 +61,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     public void scaleCanvas () {
+        float width = this.getCanvas().getWidth();
+        float height = this.getCanvas().getHeight();
+        this.displaySize = new Vector2<>(width, height);
         this.getCanvas().scale(this.canvasScaleFactor, this.canvasScaleFactor);
     }
 
@@ -66,6 +73,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             previousCanvasTranslate.setX(0.f);
         } else if (isViewInRightBound()) {
             canvasTranslate.setX((1 - canvasScaleFactor) * displaySize.getX());
+            previousCanvasTranslate.setX(canvasTranslate.getX());
         }
 
         if (isViewInTopBound()) {
@@ -73,6 +81,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             previousCanvasTranslate.setY(0.f);
         } else if (isViewInBottomBound()) {
             canvasTranslate.setY((1 - canvasScaleFactor) * displaySize.getY());
+            previousCanvasTranslate.setY(canvasTranslate.getY());
         }
 
         this.getCanvas().translate(canvasTranslate.getX() / canvasScaleFactor, canvasTranslate.getY() / canvasScaleFactor);
