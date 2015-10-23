@@ -112,6 +112,7 @@ public class DrawingBoard extends SurfaceView implements Runnable {
         @Override
         public void draw (Canvas canvas) {
             Paint paint = new Paint();
+
             paint.setARGB(255, 100, 100, 100);
             paint.setStrokeWidth(5);
             canvas.drawLine(0, 0, 100, 100, paint);
@@ -126,6 +127,8 @@ public class DrawingBoard extends SurfaceView implements Runnable {
         @Override
         public void draw (Canvas canvas) {
             Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setFilterBitmap(true);
             paint.setARGB(255, 200, 200, 200);
             canvas.drawARGB(255, 240, 240, 240);
 
@@ -133,11 +136,11 @@ public class DrawingBoard extends SurfaceView implements Runnable {
             float lineSeparatedDistance = canvas.getWidth() / linesX;
             int linesY = (int)(canvas.getHeight() / lineSeparatedDistance);
 
-            for (int i = 0; i < linesX; i++) {
+            for (int i = 0; i <= linesX; i++) {
                 canvas.drawLine(i * lineSeparatedDistance, 0, i * lineSeparatedDistance, canvas.getHeight(), paint);
             }
 
-            for (int i = 0; i < linesY; i++) {
+            for (int i = 0; i <= linesY; i++) {
                 canvas.drawLine(0, i * lineSeparatedDistance, canvas.getWidth(), i * lineSeparatedDistance, paint);
             }
         }
