@@ -3,10 +3,8 @@ package rodent.rodentmobile;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
-import android.view.WindowManager;
 
 
 /**
@@ -26,7 +24,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     private ScaleGestureDetector scaleDetector;
 
-    private LineTool linetool = new LineTool();
+    private Tool tool;
 
     public GestureDetectingDrawingBoard (Context context) {
         super(context);
@@ -36,6 +34,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public GestureDetectingDrawingBoard (Context context, AttributeSet attrs) {
         super(context, attrs);
         this.init();
+        tool = new RectangleTool();
     }
 
     private void init () {
@@ -54,8 +53,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             shape.draw(canvas);
         }
 
-        if (linetool.drawing) {
-            linetool.getLine().draw(canvas);
+        if (tool.drawing()) {
+            tool.getDrawable().draw(canvas);
         }
     }
 
@@ -111,13 +110,13 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public void handleOnTouchEventGesture (MotionEvent e) {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            linetool.start(e);
+            tool.start(e);
         } else if (e.getAction() == MotionEvent.ACTION_MOVE) {
-            linetool.move(e);
+            tool.move(e);
         } else if (e.getAction() == MotionEvent.ACTION_UP) {
-            linetool.end(e);
-            addDrawableElement(linetool.getLine());
-            linetool.clear();
+            tool.end(e);
+            addDrawableElement(tool.getDrawable());
+            tool.clear();
         }
 //        int action = e.getAction() & MotionEvent.ACTION_MASK;
 //
