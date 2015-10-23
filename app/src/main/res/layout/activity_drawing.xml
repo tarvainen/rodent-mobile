@@ -13,8 +13,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tools_view" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -26,16 +25,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_open_with_black_36dp"
-            android:background="@drawable/ic_open_with_black_36dp"/>
+            android:background="@drawable/ic_open_with_black_36dp"
+            android:layout_alignParentStart="true" />
 
         <ImageButton
             android:id="@+id/button_move"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_create_black_36dp"
-            android:background="@drawable/ic_create_black_36dp"/>
+            android:background="@drawable/ic_create_black_36dp"
+            android:layout_toRightOf="@+id/button_freehand" />
 
+        <ImageButton
+            android:id="@+id/button_rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_border_style_black_36dp"
+            android:background="@drawable/ic_border_style_black_36dp"
+            android:layout_toRightOf="@+id/button_move" />
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/button_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_black_36dp"
+            android:background="@drawable/ic_remove_black_36dp"
+            android:layout_toRightOf="@+id/button_rectangle" />
+
+        <ImageButton
+            android:id="@+id/button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_format_size_black_36dp"
+            android:background="@drawable/ic_format_size_black_36dp"
+            android:layout_toRightOf="@+id/button_line" />
+
+        <ImageButton
+            android:id="@+id/button_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_settings_black_36dp"
+            android:background="@drawable/ic_settings_black_36dp"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
