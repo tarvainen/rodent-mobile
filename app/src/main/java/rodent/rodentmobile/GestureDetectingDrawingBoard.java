@@ -1,6 +1,7 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -44,12 +45,11 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     @Override
-    public void updateCanvas () {
-        if (this.lockCanvasForDrawing()) {
-            this.scaleCanvas();
-            this.translateCanvas();
-            this.drawAllElements();
-            this.unlockCanvasAndUpdate();
+    public void onDraw (Canvas canvas) {
+        scaleCanvas(canvas);
+        translateCanvas(canvas);
+        for(Shape shape : this.getDrawableElements()) {
+            shape.draw(canvas);
         }
     }
 
@@ -60,14 +60,14 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         return true;
     }
 
-    public void scaleCanvas () {
-        float width = this.getCanvas().getWidth();
-        float height = this.getCanvas().getHeight();
+    public void scaleCanvas (Canvas canvas) {
+        float width = canvas.getWidth();
+        float height = canvas.getHeight();
         this.displaySize = new Vector2<>(width, height);
-        this.getCanvas().scale(this.canvasScaleFactor, this.canvasScaleFactor);
+        canvas.scale(this.canvasScaleFactor, this.canvasScaleFactor);
     }
 
-    public void translateCanvas () {
+    public void translateCanvas (Canvas canvas) {
         if (isViewInLeftBound()) {
             canvasTranslate.setX(0.f);
             previousCanvasTranslate.setX(0.f);
@@ -84,7 +84,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             previousCanvasTranslate.setY(canvasTranslate.getY());
         }
 
-        this.getCanvas().translate(canvasTranslate.getX() / canvasScaleFactor, canvasTranslate.getY() / canvasScaleFactor);
+        canvas.translate(canvasTranslate.getX() / canvasScaleFactor, canvasTranslate.getY() / canvasScaleFactor);
     }
 
     public boolean isViewInLeftBound () {
@@ -126,6 +126,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             default:
                 break;
         }
+
+        this.postInvalidate();
     }
 
     public Vector2<Float> equalizeTranslate (Vector2<Float> translate2) {

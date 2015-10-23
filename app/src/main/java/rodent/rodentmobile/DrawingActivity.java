@@ -28,19 +28,6 @@ public class DrawingActivity extends AppCompatActivity {
         Toolbar toolbar2 = (Toolbar) findViewById(R.id.drawing_toolbar_main);
         setSupportActionBar(toolbar2);
         this.getSupportActionBar().setTitle("Tools");
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        this.drawingBoard.resume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        this.drawingBoard.pause();
     }
 
     @Override
