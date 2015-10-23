@@ -158,6 +158,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             setCanvasScaleFactor(detector.getScaleFactor() * canvasScaleFactor);
             return true;
         }
+    }
 
+    public void changeTool(Tool tool) {
+        this.tool = tool;
     }
 }
