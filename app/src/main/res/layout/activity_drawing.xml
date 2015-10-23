@@ -7,25 +7,42 @@
     android:paddingBottom="@dimen/activity_drawing_vertical_padding"
     tools:context="rodent.rodentmobile.DrawingActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/drawing_toolbar_main"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_toolbar_height">
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/drawing_toolbar_tools"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_toolbar_height"
-        android:layout_below="@+id/drawing_toolbar_main"
-        android:layout_alignParentStart="true">
-    </android.support.v7.widget.Toolbar>
-
     <rodent.rodentmobile.GestureDetectingDrawingBoard
         android:id="@+id/drawing_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/drawing_toolbar_tools" />
+        android:layout_below="@+id/drawing_view" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/tools_view">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView"
+            android:text="Tool" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/drawing_view"
+        android:layout_below="@+id/tools_view">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Drawing"
+            android:id="@+id/textView2" />
+    </LinearLayout>
 
 </RelativeLayout>

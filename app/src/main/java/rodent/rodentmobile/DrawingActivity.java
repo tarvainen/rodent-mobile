@@ -20,14 +20,6 @@ public class DrawingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drawing);
 
         this.drawingBoard = (GestureDetectingDrawingBoard) findViewById(R.id.drawing_board);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.drawing_toolbar_tools);
-        setSupportActionBar(toolbar);
-        this.getSupportActionBar().setTitle("Drawing");
-
-        Toolbar toolbar2 = (Toolbar) findViewById(R.id.drawing_toolbar_main);
-        setSupportActionBar(toolbar2);
-        this.getSupportActionBar().setTitle("Tools");
     }
 
     @Override
