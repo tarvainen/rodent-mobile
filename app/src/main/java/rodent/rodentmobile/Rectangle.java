@@ -2,9 +2,11 @@ package rodent.rodentmobile;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 
 /**
  * Created by Teemu on 23.10.2015.
+ *
  */
 public class Rectangle extends Shape {
 

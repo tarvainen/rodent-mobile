@@ -1,12 +1,11 @@
 package rodent.rodentmobile;
 
 
-import android.gesture.Gesture;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class DrawingActivity extends AppCompatActivity {
 
@@ -39,5 +38,17 @@ public class DrawingActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onButtonClicked(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.button_line:
+                drawingBoard.changeTool(new LineTool());
+                break;
+            case R.id.button_rectangle:
+                drawingBoard.changeTool(new RectangleTool());
+                break;
+        }
     }
 }

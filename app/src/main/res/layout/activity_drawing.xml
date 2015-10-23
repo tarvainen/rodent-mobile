@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_open_with_black_36dp"
             android:background="@drawable/ic_open_with_black_36dp"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:onClick="onButtonClicked"/>
 
         <ImageButton
             android:id="@+id/button_move"
@@ -34,7 +35,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_create_black_36dp"
             android:background="@drawable/ic_create_black_36dp"
-            android:layout_toRightOf="@+id/button_freehand" />
+            android:layout_toRightOf="@+id/button_freehand"
+            android:onClick="onButtonClicked"/>
 
         <ImageButton
             android:id="@+id/button_rectangle"
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_border_style_black_36dp"
             android:background="@drawable/ic_border_style_black_36dp"
-            android:layout_toRightOf="@+id/button_move" />
+            android:layout_toRightOf="@+id/button_move"
+            android:onClick="onButtonClicked"/>
 
         <ImageButton
             android:id="@+id/button_line"
@@ -50,7 +53,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_remove_black_36dp"
             android:background="@drawable/ic_remove_black_36dp"
-            android:layout_toRightOf="@+id/button_rectangle" />
+            android:layout_toRightOf="@+id/button_rectangle"
+            android:onClick="onButtonClicked"/>
 
         <ImageButton
             android:id="@+id/button_text"
@@ -58,7 +62,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_format_size_black_36dp"
             android:background="@drawable/ic_format_size_black_36dp"
-            android:layout_toRightOf="@+id/button_line" />
+            android:layout_toRightOf="@+id/button_line"
+            android:onClick="onButtonClicked"/>
 
         <ImageButton
             android:id="@+id/button_settings"
@@ -66,7 +71,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_settings_black_36dp"
             android:background="@drawable/ic_settings_black_36dp"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:onClick="onButtonClicked"/>
 
     </RelativeLayout>
 
