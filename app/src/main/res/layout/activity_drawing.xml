@@ -11,62 +11,43 @@
         android:id="@+id/drawing_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tools_view" />
+        android:layout_below="@+id/tools2" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/tools_view">
+        android:id="@+id/tools2">
 
-        <ImageButton
-            android:id="@+id/button_move"
+        <Spinner
+            android:id="@+id/spinner_interpolation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_open_with_black_36dp"
+            android:background="#DBDBDB"
+            android:spinnerMode="dropdown"
             android:layout_alignParentStart="true"
-            android:onClick="onButtonClicked"/>
+            android:padding="3dp">
+        </Spinner>
 
-        <ImageButton
-            android:id="@+id/button_freehand"
+        <Spinner
+            android:id="@+id/spinner_lines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_create_black_36dp"
-            android:layout_toRightOf="@+id/button_move"
-            android:onClick="onButtonClicked"/>
+            android:background="#DBDBDB"
+            android:spinnerMode="dropdown"
+            android:layout_toRightOf="@+id/spinner_interpolation"
+            android:padding="3dp">
+        </Spinner>
 
-        <ImageButton
-            android:id="@+id/button_rectangle"
+        <Spinner
+            android:id="@+id/spinner_polygons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_border_style_black_36dp"
-            android:layout_toRightOf="@+id/button_freehand"
-            android:onClick="onButtonClicked"/>
-
-        <ImageButton
-            android:id="@+id/button_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_remove_black_36dp"
-            android:layout_toRightOf="@+id/button_rectangle"
-            android:onClick="onButtonClicked"/>
-
-        <ImageButton
-            android:id="@+id/button_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_format_size_black_36dp"
-            android:layout_toRightOf="@+id/button_line"
-            android:onClick="onButtonClicked"/>
-
-        <ImageButton
-            android:id="@+id/button_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_settings_black_36dp"
-            android:layout_alignParentEnd="true"
-            android:onClick="onButtonClicked"/>
+            android:background="#DBDBDB"
+            android:spinnerMode="dropdown"
+            android:layout_toRightOf="@+id/spinner_lines"
+            android:padding="3dp">
+        </Spinner>
 
     </RelativeLayout>
 

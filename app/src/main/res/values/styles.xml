@@ -11,4 +11,9 @@
         <item name="android:windowActionBar">false</item>
     </style>
 
+
+    <style parent="@android:style/Widget.Spinner" name="SpinnerwithNoArrow">
+        <item name="android:background">@android:drawable/edit_text</item>
+    </style>
+
 </resources>

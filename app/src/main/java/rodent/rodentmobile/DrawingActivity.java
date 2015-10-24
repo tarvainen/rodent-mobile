@@ -1,57 +1,117 @@
 package rodent.rodentmobile;
 
 
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
-public class DrawingActivity extends AppCompatActivity {
+
+public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
 
     private GestureDetectingDrawingBoard drawingBoard;
+    private Spinner activeSpinner;
 
+    private Handler longTouchHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppThemeNoActionBar);
         setContentView(R.layout.activity_drawing);
-
         this.drawingBoard = (GestureDetectingDrawingBoard) findViewById(R.id.drawing_board);
+        this.createLongTouchHandler();
+        this.setUpSpinners();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_drawing, menu);
+    public void run() {
+        activeSpinner.performClick();
+    }
+
+    private void setUpSpinners () {
+        Spinner interpolationSpinner = (Spinner) findViewById(R.id.spinner_interpolation);
+        interpolationSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.interpolation_tool_id, R.array.interpolation_tools, R.array.interpolation_tool_names));
+        interpolationSpinner.setOnItemSelectedListener(this);
+        interpolationSpinner.setOnTouchListener(this);
+
+        Spinner lineSpinner = (Spinner) findViewById(R.id.spinner_lines);
+        lineSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.line_tool_id, R.array.line_tools, R.array.line_tool_names));
+        lineSpinner.setOnItemSelectedListener(this);
+        lineSpinner.setOnTouchListener(this);
+
+        Spinner polySpinner = (Spinner) findViewById(R.id.spinner_polygons);
+        polySpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.poly_tool_id, R.array.poly_tools, R.array.poly_tool_names));
+        polySpinner.setOnItemSelectedListener(this);
+        polySpinner.setOnTouchListener(this);
+
+        this.activeSpinner = interpolationSpinner;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long idval) {
+        selectToolFromSpinnerPosition(position);
+    }
+
+    @Override
+    public boolean onTouch (View v, MotionEvent e) {
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            longTouchHandler.postDelayed(this, 100);
+            Spinner spinner = (Spinner) findViewById(v.getId());
+            this.activeSpinner = spinner;
+            selectToolFromSpinnerPosition(spinner.getSelectedItemPosition());
+        }
+        if (e.getAction() == MotionEvent.ACTION_UP) {
+            this.longTouchHandler.removeCallbacks(this);
+        }
+
         return true;
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+    public void onNothingSelected(AdapterView<?> parent) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    public void onButtonClicked(View v) {
-        int id = v.getId();
+    private void selectToolFromSpinnerPosition (int position) {
+        IconSpinnerAdapter adapter = (IconSpinnerAdapter)activeSpinner.getAdapter();
+        int id = adapter.getIdResources().getResourceId(position, 0);
         switch (id) {
-            case R.id.button_line:
-                drawingBoard.changeTool(new LineTool());
+            case R.id.tool_move:
+                //drawingBoard.changeTool(new LineTool());
                 break;
-            case R.id.button_rectangle:
+            case R.id.tool_rectangle:
                 drawingBoard.changeTool(new RectangleTool());
                 break;
-            case R.id.button_freehand:
+            case R.id.tool_freehand:
                 drawingBoard.changeTool(new FreeHandTool());
+                break;
+            case R.id.tool_line:
+                drawingBoard.changeTool(new LineTool());
+                break;
+            case R.id.tool_polyline:
+                //drawingBoard.changeTool(new PolyLineTool());
                 break;
         }
     }
+
+    private void createLongTouchHandler () {
+        this.longTouchHandler = new Handler();
+    }
+
+    private IconSpinnerAdapter createAdapter (Context context, int resource, int idResource, int drawableResource, int nameResource) {
+        IconSpinnerAdapter adapter;
+        TypedArray ids = getResources().obtainTypedArray(idResource);
+        TypedArray drawables = getResources().obtainTypedArray(drawableResource);
+        String names[] = getResources().getStringArray(nameResource);
+        adapter = new IconSpinnerAdapter(context, resource, ids, drawables, names);
+        return adapter;
+    }
+
 }

@@ -1,8 +1,5 @@
 package rodent.rodentmobile;
 
-import android.util.Log;
-
-import java.util.Vector;
 
 /**
  * Created by Atte on 24.10.2015.

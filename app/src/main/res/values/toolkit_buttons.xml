@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="interpolation_tools">
+        <item>@drawable/ic_open_with_black_36dp</item>
+        <item>@drawable/ic_create_black_36dp</item>
+    </array>
+
+    <string-array name="interpolation_tool_names">
+        <item>Move</item>
+        <item>Freehand</item>
+    </string-array>
+
+    <array name="interpolation_tool_id">
+        <item>@id/tool_move</item>
+        <item>@id/tool_freehand</item>
+    </array>
+    
+    
+    
+    <array name="line_tools">
+        <item>@drawable/ic_remove_black_36dp</item>
+        <item>@drawable/ic_polymer_black_36dp</item>
+    </array>
+
+    <string-array name="line_tool_names">
+        <item>Line</item>
+        <item>Polyline</item>
+    </string-array>
+
+    <array name="line_tool_id">
+        <item>@id/tool_line</item>
+        <item>@id/tool_polyline</item>
+    </array>
+
+    <array name="poly_tools">
+        <item>@drawable/ic_border_style_black_36dp</item>
+    </array>
+
+    <string-array name="poly_tool_names">
+        <item>Rectangle</item>
+    </string-array>
+
+    <array name="poly_tool_id">
+        <item>@id/tool_rectangle</item>
+    </array>
+    
+
+    <item type="id" name="tool_move"></item>
+    <item type="id" name="tool_freehand"></item>
+    <item type="id" name="tool_line"></item>
+    <item type="id" name="tool_rectangle"></item>
+    <item type="id" name="tool_polyline"></item>
+</resources>
