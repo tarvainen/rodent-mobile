@@ -167,6 +167,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     public void changeTool(Tool tool) {
+        if (this.tool != null) {
+            this.tool.onDeactivation();
+        }
         this.tool = tool;
         tool.setShapeContainer(this.getDrawableElements());
     }

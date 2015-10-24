@@ -66,4 +66,8 @@ public abstract class Tool {
     public abstract void onEnd (Vector2<Float> position);
     public abstract void clear ();
 
+    protected void onDeactivation () {
+
+    }
+
 }

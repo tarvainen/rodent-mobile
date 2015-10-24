@@ -97,7 +97,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 drawingBoard.changeTool(new LineTool());
                 break;
             case R.id.tool_polyline:
-                //drawingBoard.changeTool(new PolyLineTool());
+                drawingBoard.changeTool(new PolyLineTool());
                 break;
         }
     }
