@@ -3,6 +3,7 @@ package rodent.rodentmobile;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +35,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         activeSpinner.performClick();
     }
 
-    private void setUpSpinners () {
+    public void setUpSpinners () {
         Spinner interpolationSpinner = (Spinner) findViewById(R.id.spinner_interpolation);
         interpolationSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.interpolation_tool_id, R.array.interpolation_tools, R.array.interpolation_tool_names));
         interpolationSpinner.setOnItemSelectedListener(this);
@@ -50,7 +51,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         polySpinner.setOnItemSelectedListener(this);
         polySpinner.setOnTouchListener(this);
 
-        this.activeSpinner = interpolationSpinner;
+        this.setActiveSpinner(interpolationSpinner);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             longTouchHandler.postDelayed(this, 100);
             Spinner spinner = (Spinner) findViewById(v.getId());
-            this.activeSpinner = spinner;
+            this.setActiveSpinner(spinner);
             selectToolFromSpinnerPosition(spinner.getSelectedItemPosition());
         }
         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -79,12 +80,12 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     }
 
-    private void selectToolFromSpinnerPosition (int position) {
+    public void selectToolFromSpinnerPosition (int position) {
         IconSpinnerAdapter adapter = (IconSpinnerAdapter)activeSpinner.getAdapter();
         int id = adapter.getIdResources().getResourceId(position, 0);
         switch (id) {
             case R.id.tool_move:
-                //drawingBoard.changeTool(new LineTool());
+                drawingBoard.changeTool(new MoveTool(true));
                 break;
             case R.id.tool_rectangle:
                 drawingBoard.changeTool(new RectangleTool());
@@ -101,17 +102,25 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    private void createLongTouchHandler () {
+    public void createLongTouchHandler () {
         this.longTouchHandler = new Handler();
     }
 
-    private IconSpinnerAdapter createAdapter (Context context, int resource, int idResource, int drawableResource, int nameResource) {
+    public IconSpinnerAdapter createAdapter (Context context, int resource, int idResource, int drawableResource, int nameResource) {
         IconSpinnerAdapter adapter;
         TypedArray ids = getResources().obtainTypedArray(idResource);
         TypedArray drawables = getResources().obtainTypedArray(drawableResource);
         String names[] = getResources().getStringArray(nameResource);
         adapter = new IconSpinnerAdapter(context, resource, ids, drawables, names);
         return adapter;
+    }
+
+    public void setActiveSpinner (Spinner spinner) {
+        if (this.activeSpinner != null) {
+            this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_unselected_bg));
+        }
+        this.activeSpinner = spinner;
+        this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_selected_bg));
     }
 
 }

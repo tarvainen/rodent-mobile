@@ -10,6 +10,7 @@ import java.util.List;
 public abstract class Tool {
 
     private boolean isInUse;
+    private boolean allowCanvasTranslate;
     private Shape drawable;
     private List<Shape> shapeContainer;
 
@@ -17,12 +18,14 @@ public abstract class Tool {
         this.isInUse = false;
         this.drawable = null;
         this.shapeContainer = null;
+        this.allowCanvasTranslate = false;
     }
 
     public Tool (List<Shape> targetContainer) {
         this.shapeContainer = targetContainer;
         this.isInUse = false;
         this.drawable = null;
+        this.allowCanvasTranslate = false;
     }
 
     public boolean isBusy () {
@@ -47,6 +50,14 @@ public abstract class Tool {
 
     public Shape getShape () {
         return this.drawable;
+    }
+
+    public void setAllowCanvasTranslate (boolean allow) {
+        this.allowCanvasTranslate = allow;
+    }
+
+    public boolean isCanvasTranslateAllowed () {
+        return this.allowCanvasTranslate;
     }
 
     public abstract void onStart (Vector2<Float> position);

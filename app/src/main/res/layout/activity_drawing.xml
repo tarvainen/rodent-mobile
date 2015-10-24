@@ -11,6 +11,7 @@
         android:id="@+id/drawing_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/button_unselected_bg"
         android:layout_below="@+id/tools2" />
 
     <RelativeLayout
@@ -23,7 +24,7 @@
             android:id="@+id/spinner_interpolation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#DBDBDB"
+            android:background="@color/button_unselected_bg"
             android:spinnerMode="dropdown"
             android:layout_alignParentStart="true"
             android:padding="3dp">
@@ -33,7 +34,7 @@
             android:id="@+id/spinner_lines"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#DBDBDB"
+            android:background="@color/button_unselected_bg"
             android:spinnerMode="dropdown"
             android:layout_toRightOf="@+id/spinner_interpolation"
             android:padding="3dp">
@@ -43,7 +44,7 @@
             android:id="@+id/spinner_polygons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#DBDBDB"
+            android:background="@color/button_unselected_bg"
             android:spinnerMode="dropdown"
             android:layout_toRightOf="@+id/spinner_lines"
             android:padding="3dp">

@@ -50,4 +50,7 @@
     <item type="id" name="tool_line"></item>
     <item type="id" name="tool_rectangle"></item>
     <item type="id" name="tool_polyline"></item>
+    
+    <item type="color" name="button_unselected_bg">#fff</item>
+    <item type="color" name="button_selected_bg">#DADADA</item>
 </resources>

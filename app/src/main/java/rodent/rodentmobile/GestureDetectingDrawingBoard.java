@@ -23,7 +23,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private Vector2<Float> displaySize;
 
     private ScaleGestureDetector scaleDetector;
-
     private Tool tool;
 
     public GestureDetectingDrawingBoard (Context context) {
@@ -117,30 +116,35 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         } else if (e.getAction() == MotionEvent.ACTION_UP) {
             tool.onEnd(position);
         }
-//        int action = e.getAction() & MotionEvent.ACTION_MASK;
-//
-//        switch (action) {
-//            case MotionEvent.ACTION_DOWN: // when the canvas is pressed
-//                this.touchStartPosition.setX(e.getX() - previousCanvasTranslate.getX());
-//                this.touchStartPosition.setY(e.getY() - previousCanvasTranslate.getY());
-//                break;
-//            case MotionEvent.ACTION_MOVE: // when the finger is moved on the canvas
-//                this.canvasTranslate.setX(e.getX() - touchStartPosition.getX());
-//                this.canvasTranslate.setY(e.getY() - touchStartPosition.getY());
-//                break;
-//            case MotionEvent.ACTION_POINTER_DOWN: // when the second finger is pressed
-//                break;
-//            case MotionEvent.ACTION_UP: // when the finger is lifted off the canvas
-//                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
-//                break;
-//            case MotionEvent.ACTION_POINTER_UP: // when the second finger is lifted off the canvas
-//                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
-//                break;
-//            default:
-//                break;
-//        }
+
+        if (this.tool.isCanvasTranslateAllowed()) {
+            handleCanvasTranslateGestures(e);
+        }
 
         this.postInvalidate();
+    }
+
+    public void handleCanvasTranslateGestures (MotionEvent e) {
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN: // when the canvas is pressed
+                this.touchStartPosition.setX(e.getX() - previousCanvasTranslate.getX());
+                this.touchStartPosition.setY(e.getY() - previousCanvasTranslate.getY());
+                break;
+            case MotionEvent.ACTION_MOVE: // when the finger is moved on the canvas
+                this.canvasTranslate.setX(e.getX() - touchStartPosition.getX());
+                this.canvasTranslate.setY(e.getY() - touchStartPosition.getY());
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN: // when the second finger is pressed
+                break;
+            case MotionEvent.ACTION_UP: // when the finger is lifted off the canvas
+                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
+                break;
+            case MotionEvent.ACTION_POINTER_UP: // when the second finger is lifted off the canvas
+                this.previousCanvasTranslate = equalizeTranslate(canvasTranslate);
+                break;
+            default:
+                break;
+        }
     }
 
     public Vector2<Float> equalizeTranslate (Vector2<Float> translate2) {
@@ -154,6 +158,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private class ZoomGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
         public boolean onScale (ScaleGestureDetector detector) {
+            if (!tool.isCanvasTranslateAllowed()) {
+                return true;
+            }
             setCanvasScaleFactor(detector.getScaleFactor() * canvasScaleFactor);
             return true;
         }
@@ -166,8 +173,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public Vector2<Float> getScaledPositionOfEvent (MotionEvent event) {
         Vector2<Float> result = new Vector2<>(0f, 0f);
-        result.setX(event.getX() / this.canvasScaleFactor);
-        result.setY(event.getY() / this.canvasScaleFactor);
+        result.setX(event.getX() / this.canvasScaleFactor - this.previousCanvasTranslate.getX() / canvasScaleFactor);
+        result.setY(event.getY() / this.canvasScaleFactor - this.previousCanvasTranslate.getY() / canvasScaleFactor);
 
         return result;
     }
