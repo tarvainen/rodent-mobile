@@ -20,8 +20,8 @@ public class RodentFile extends MyFile {
 
     public RodentFile() {}
 
-    public RodentFile(String filename, List<Shape> shapes) {
-        super(filename + ".rodent", shapes);
+    public RodentFile(String filename) {
+        super(filename + ".rodent");
     }
 
     @Override

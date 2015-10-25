@@ -52,6 +52,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public void onDraw (Canvas canvas) {
         scaleCanvas(canvas);
         translateCanvas(canvas);
+        paper.draw(canvas);
         for(Shape shape : this.getDrawableElements()) {
             shape.draw(canvas);
         }

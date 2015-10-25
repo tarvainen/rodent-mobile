@@ -6,10 +6,12 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
@@ -37,7 +39,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         if (b != null) {
             try {
                 file = (MyFile) getIntent().getExtras().get("FILE");
-                if (file != null) {
+                if (file != null && file.getShapes() != null) {
                     for (Shape s : file.getShapes()) {
                         drawingBoard.addDrawableElement(s);
                     }
@@ -46,6 +48,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 e.printStackTrace();
             }
         }
+        Log.d("elements", "" + drawingBoard.getDrawableElements().size());
     }
 
     @Override
@@ -152,8 +155,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void saveFile() {
-        MyFile file = new RodentFile("drawing", drawingBoard.getDrawableElements());
+        file.setShapes(drawingBoard.getDrawableElements());
         file.save();
+        Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
     }
 
 }

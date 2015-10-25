@@ -14,11 +14,13 @@ public abstract class MyFile implements Serializable{
 
     public MyFile() {}
 
-    public MyFile(String filename, List shapes) {
+    public MyFile(String filename) {
         this.filename = filename;
-        this.shapes = shapes;
     }
 
+    public void setShapes(List<Shape> shapes) {
+        this.shapes = shapes;
+    }
     public abstract void save();
     public abstract void load(String path);
     public List<Shape> getShapes() { return shapes; }

@@ -1,5 +1,8 @@
 package rodent.rodentmobile;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +20,14 @@ import java.util.ArrayList;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
 
-public class LibraryActivity extends AppCompatActivity {
+public class LibraryActivity extends AppCompatActivity implements NewFileDialogFragment.NewFileDialogListener {
 
     private ArrayList<String> items;
     private ImageAdapter adapter;
+    private GridView gridView;
 
     private void loadFiles() {
-        items = new ArrayList<>();
+        items.clear();
         File file = new File(Environment.getExternalStorageDirectory() + "/rodent");
         File fileList[] = file.listFiles();
         for (int i = 0; i < fileList.length; i++) {
@@ -36,9 +40,10 @@ public class LibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
 
+        items = new ArrayList<>();
         loadFiles();
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
+        gridView = (GridView) findViewById(R.id.gridView);
         adapter = new ImageAdapter(this, items);
         gridView.setAdapter(adapter);
 
@@ -66,32 +71,40 @@ public class LibraryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        loadFiles();
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_library, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_new) {
-            // Make new file and start a new Activity for drawing.
-            Intent newDrawingIntent = new Intent(this, DrawingActivity.class);
-            this.startActivity(newDrawingIntent);
+            DialogFragment dialog = new NewFileDialogFragment();
+            dialog.show(getFragmentManager(), "NewFileDialogFragment");
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog, String filename) {
+        Intent newDrawingIntent = new Intent(this, DrawingActivity.class);
+        MyFile file = new RodentFile(filename);
+        newDrawingIntent.putExtra("FILE", file);
+        this.startActivity(newDrawingIntent);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+
     }
 }
