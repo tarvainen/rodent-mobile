@@ -1,9 +1,6 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
-import android.graphics.DashPathEffect;
-import android.graphics.Paint;
-import android.graphics.Path;
 
 /**
  * Created by Atte on 23/10/15.

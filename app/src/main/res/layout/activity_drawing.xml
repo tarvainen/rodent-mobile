@@ -50,6 +50,16 @@
             android:padding="3dp">
         </Spinner>
 
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_file"
+            android:layout_alignParentEnd="false"
+            android:layout_toRightOf="@+id/spinner_polygons"
+            android:background="@color/button_unselected_bg"
+            android:padding="3dp"
+            android:spinnerMode="dropdown" />
+
     </RelativeLayout>
 
 </RelativeLayout>

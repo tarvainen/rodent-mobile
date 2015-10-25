@@ -1,31 +1,72 @@
 package rodent.rodentmobile;
 
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import java.io.File;
+import java.util.ArrayList;
+
+import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.filesystem.RodentFile;
+
 public class LibraryActivity extends AppCompatActivity {
+
+    private ArrayList<String> items;
+    private ImageAdapter adapter;
+
+    private void loadFiles() {
+        items = new ArrayList<>();
+        File file = new File(Environment.getExternalStorageDirectory() + "/rodent");
+        File fileList[] = file.listFiles();
+        for (int i = 0; i < fileList.length; i++) {
+            items.add(fileList[i].getName());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
 
+        loadFiles();
+
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new ImageAdapter(this));
+        adapter = new ImageAdapter(this, items);
+        gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                // Handle item clicks here.
+                String item = items.get(position);
+                String filetype = item.split("\\.")[1];
+                switch (filetype) {
+                    case "rodent":
+                        MyFile file = new RodentFile();
+                        file.load(Environment.getExternalStorageDirectory() + "/rodent/" + item);
+                        Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+                        intent.putExtra("FILE", file);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
+                }
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
