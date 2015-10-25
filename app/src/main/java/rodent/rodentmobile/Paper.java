@@ -7,6 +7,9 @@ import android.graphics.Paint;
 // THIS CODE SUCKS HERE. MAKE SURE TO MAKE IT BEAUTIFUL LATER.
 /////////////////////////////////////////////
 public class Paper extends Shape {
+
+    private float millisInPx;
+
     public Paper() {
         super();
     }
@@ -21,6 +24,7 @@ public class Paper extends Shape {
 
         int linesX = 100;
         float lineSeparatedDistance = (float) canvas.getWidth() / linesX;
+        this.millisInPx = lineSeparatedDistance;
         int linesY = (int) (canvas.getHeight() / lineSeparatedDistance);
 
         for (int i = 0; i <= linesX; i++) {
@@ -30,5 +34,9 @@ public class Paper extends Shape {
         for (int i = 0; i <= linesY; i++) {
             canvas.drawLine(0, i * lineSeparatedDistance, canvas.getWidth(), i * lineSeparatedDistance, paint);
         }
+    }
+
+    public float getMillisInPx () {
+        return this.millisInPx;
     }
 }

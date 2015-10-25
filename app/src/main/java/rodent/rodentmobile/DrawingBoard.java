@@ -15,18 +15,24 @@ import java.util.List;
 public class DrawingBoard extends View {
 
     private List<Shape> elements;
-
+    private Paper paper;
 
     public DrawingBoard (Context context) {
         super(context);
         this.elements = new LinkedList<>();
-        this.elements.add(new Paper());
+        this.paper = new Paper();
+        this.elements.add(this.paper);
     }
 
     public DrawingBoard (Context context, AttributeSet attrs) {
         super(context, attrs);
         this.elements = new LinkedList<>();
-        this.elements.add(new Paper());
+        this.paper = new Paper();
+        this.elements.add(this.paper);
+    }
+
+    public Paper getPaper () {
+        return this.paper;
     }
 
     public List<Shape> getDrawableElements () {

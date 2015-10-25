@@ -24,6 +24,7 @@ public class LineTool extends Tool {
         this.setStartPointToEventPosition(position);
         this.setEndPointToEventPosition(position);
         this.setBusy(true);
+        this.getShape().setSelected(true);
     }
 
     @Override
@@ -41,6 +42,7 @@ public class LineTool extends Tool {
         this.setBusy(false);
         this.setEndPointToEventPosition(position);
         this.getShapeContainer().add(this.getShape());
+        this.getShape().setSelected(false);
         this.clear();
     }
 

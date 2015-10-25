@@ -3,6 +3,7 @@ package rodent.rodentmobile;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
@@ -25,6 +26,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private ScaleGestureDetector scaleDetector;
     private Tool tool;
 
+    private boolean snipetisnapActivated;
+
     public GestureDetectingDrawingBoard (Context context) {
         super(context);
         this.init();
@@ -42,6 +45,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         this.touchStartPosition = new Vector2<>(0f, 0f);
         this.canvasTranslate = new Vector2<>(0f, 0f);
         this.previousCanvasTranslate = new Vector2<>(0f, 0f);
+        this.snipetisnapActivated = true;
     }
 
     @Override
@@ -109,6 +113,11 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public void handleOnTouchEventGesture (MotionEvent e) {
         Vector2<Float> position = getScaledPositionOfEvent(e);
+
+        if (this.snipetisnapActivated) {
+            position = getSnipetiSnappedPositionOfScaledEventPosition(position);
+        }
+
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             tool.onStart(position);
         } else if (e.getAction() == MotionEvent.ACTION_MOVE) {
@@ -177,9 +186,16 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public Vector2<Float> getScaledPositionOfEvent (MotionEvent event) {
         Vector2<Float> result = new Vector2<>(0f, 0f);
-        result.setX(event.getX() / this.canvasScaleFactor - this.previousCanvasTranslate.getX() / canvasScaleFactor);
-        result.setY(event.getY() / this.canvasScaleFactor - this.previousCanvasTranslate.getY() / canvasScaleFactor);
+        result.setX((event.getX() - this.previousCanvasTranslate.getX()) / canvasScaleFactor);
+        result.setY((event.getY() - this.previousCanvasTranslate.getY()) / canvasScaleFactor);
+        return result;
+    }
 
+    public Vector2<Float> getSnipetiSnappedPositionOfScaledEventPosition (Vector2<Float> position) {
+        Vector2<Float> result = new Vector2<>(0f, 0f);
+        float mill = this.getPaper().getMillisInPx();
+        result.setX((int)(position.getX() / mill) *  mill);
+        result.setY((int)(position.getY() / mill) *  mill);
         return result;
     }
 
