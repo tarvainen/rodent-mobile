@@ -43,7 +43,22 @@
     <array name="poly_tool_id">
         <item>@id/tool_rectangle</item>
     </array>
-    
+
+    <!-- File tools -->
+    <array name="file_tools">
+        <item>@drawable/ic_sd_card_black_36dp</item>
+    </array>
+
+    <string-array name="file_tool_names">
+        <item>Save</item>
+    </string-array>
+
+    <array name="file_tool_id">
+        <item>@id/file_save</item>
+    </array>
+
+    <item type="id" name="file_save"></item>
+    <!-- /File tools-->
 
     <item type="id" name="tool_move"></item>
     <item type="id" name="tool_freehand"></item>

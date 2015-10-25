@@ -1,7 +1,6 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
-import android.graphics.Path;
 
 /**
  * Created by attetarvainen on 23/10/15.

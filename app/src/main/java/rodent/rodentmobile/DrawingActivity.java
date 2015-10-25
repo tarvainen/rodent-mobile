@@ -3,7 +3,6 @@ package rodent.rodentmobile;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+
+import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.filesystem.RodentFile;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
@@ -20,6 +22,8 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private Handler longTouchHandler;
 
+    private MyFile file;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +32,20 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         this.drawingBoard = (GestureDetectingDrawingBoard) findViewById(R.id.drawing_board);
         this.createLongTouchHandler();
         this.setUpSpinners();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            try {
+                file = (MyFile) getIntent().getExtras().get("FILE");
+                if (file != null) {
+                    for (Shape s : file.getShapes()) {
+                        drawingBoard.addDrawableElement(s);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -50,6 +68,11 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         polySpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.poly_tool_id, R.array.poly_tools, R.array.poly_tool_names));
         polySpinner.setOnItemSelectedListener(this);
         polySpinner.setOnTouchListener(this);
+
+        Spinner fileSpinner = (Spinner) findViewById(R.id.spinner_file);
+        fileSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.file_tool_id, R.array.file_tools, R.array.file_tool_names));
+        fileSpinner.setOnItemSelectedListener(this);
+        fileSpinner.setOnTouchListener(this);
 
         this.setActiveSpinner(interpolationSpinner);
     }
@@ -99,6 +122,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.tool_polyline:
                 drawingBoard.changeTool(new PolyLineTool());
                 break;
+            case R.id.file_save:
+                saveFile();
+                break;
         }
     }
 
@@ -121,6 +147,11 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         }
         this.activeSpinner = spinner;
         this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_selected_bg));
+    }
+
+    private void saveFile() {
+        MyFile file = new RodentFile("drawing", drawingBoard.getDrawableElements());
+        file.save();
     }
 
 }

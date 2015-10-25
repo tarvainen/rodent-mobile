@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -16,16 +16,15 @@ public class DrawingBoard extends View {
 
     private List<Shape> elements;
 
-
     public DrawingBoard (Context context) {
         super(context);
-        this.elements = new LinkedList<>();
+        this.elements = new ArrayList<>();
         this.elements.add(new Paper());
     }
 
     public DrawingBoard (Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.elements = new LinkedList<>();
+        this.elements = new ArrayList<>();
         this.elements.add(new Paper());
     }
 

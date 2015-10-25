@@ -1,11 +1,15 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
+import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by Teemu on 21.10.2015.
@@ -15,21 +19,17 @@ import android.widget.TextView;
  */
 public class ImageAdapter extends BaseAdapter {
 
-    // Array of strings for testing purposes only. The items displayed in the
-    // gallery should be loaded from the device memory.
-    private String[] testItems = {
-            "File 1", "File 2", "File 3", "File 4"
-    };
-
+    private ArrayList<String> items;
     private Context context;
 
-    public ImageAdapter(Context context) {
+    public ImageAdapter(Context context, ArrayList items) {
         this.context = context;
+        this.items = items;
     }
 
     @Override
     public int getCount() {
-        return testItems.length;
+        return items.size();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ImageAdapter extends BaseAdapter {
             textView = (TextView) convertView;
         }
 
-        textView.setText(testItems[position]);
+        textView.setText(items.get(position));
         return textView;
     }
 }
