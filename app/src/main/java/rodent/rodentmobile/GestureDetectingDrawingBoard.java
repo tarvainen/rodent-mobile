@@ -172,6 +172,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         }
         this.tool = tool;
         tool.setShapeContainer(this.getDrawableElements());
+        postInvalidate();
     }
 
     public Vector2<Float> getScaledPositionOfEvent (MotionEvent event) {

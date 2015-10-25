@@ -18,6 +18,7 @@ public class FreeHandTool extends Tool {
         this.lastMovePosition = position;
         this.clear();
         ((PolylineShape) this.getShape()).addPoint(position);
+        this.getShape().setSelected(true);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class FreeHandTool extends Tool {
     @Override
     public void onEnd(Vector2<Float> position) {
         this.getShapeContainer().add(this.getShape());
+        this.getShape().setSelected(false);
         this.setBusy(false);
         this.clear();
     }
