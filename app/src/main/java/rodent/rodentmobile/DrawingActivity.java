@@ -122,13 +122,10 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.tool_polyline:
                 drawingBoard.changeTool(new PolyLineTool());
                 break;
-<<<<<<< HEAD
             case R.id.file_save:
                 saveFile();
-=======
             case R.id.tool_polygon:
                 drawingBoard.changeTool(new PolygonTool());
->>>>>>> origin/master
                 break;
         }
     }
