@@ -14,16 +14,27 @@ public abstract class Shape implements Serializable{
 //    private Paint paint;
     private Vector2<Float> position;
     private Vector2<Float> size;
+    boolean selected;
 
     public Shape () {
+<<<<<<< HEAD
 //        this.paint = new Paint();
 //        this.paint.setARGB(180, 80, 80, 80);
 //        this.paint.setAntiAlias(true);
 //        this.paint.setStrokeWidth(5);
 //        this.paint.setStyle(Paint.Style.STROKE);
 //        this.paint.setStrokeCap(Paint.Cap.ROUND);
+=======
+        this.paint = new Paint();
+        this.paint.setARGB(255, 80, 80, 80);
+        this.paint.setAntiAlias(true);
+        this.paint.setStrokeWidth(4);
+        this.paint.setStyle(Paint.Style.STROKE);
+        this.paint.setStrokeCap(Paint.Cap.ROUND);
+>>>>>>> origin/master
         this.position = new Vector2<>(0f, 0f);
         this.size = new Vector2<>(0f, 0f);
+        this.selected = false;
     }
 
     public Paint getPaint () {
@@ -52,6 +63,15 @@ public abstract class Shape implements Serializable{
         this.size = size;
     }
 
+    public void setSelected (boolean selected) {
+        this.selected = selected;
+    }
+
+    public boolean isSelected () {
+        return this.selected;
+    }
+
     public abstract void draw (Canvas canvas);
+
 
 }

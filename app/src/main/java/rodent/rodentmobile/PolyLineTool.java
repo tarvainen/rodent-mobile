@@ -1,8 +1,5 @@
 package rodent.rodentmobile;
 
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +23,7 @@ public class PolyLineTool extends Tool {
         if (((PolylineShape)this.getShape()).getPoints().size() == 1) {
             ((PolylineShape)this.getShape()).addPoint(position);
         }
+        this.getShape().setSelected(true);
     }
 
     @Override
@@ -55,6 +53,7 @@ public class PolyLineTool extends Tool {
     @Override
     public void onDeactivation () {
         this.getShapeContainer().add(this.getShape());
+        this.getShape().setSelected(false);
         this.setBusy(false);
         this.clear();
     }

@@ -34,14 +34,17 @@
 
     <array name="poly_tools">
         <item>@drawable/ic_border_style_black_36dp</item>
+        <item>@drawable/ic_details_black_36dp</item>
     </array>
 
     <string-array name="poly_tool_names">
         <item>Rectangle</item>
+        <item>Polygon</item>
     </string-array>
 
     <array name="poly_tool_id">
         <item>@id/tool_rectangle</item>
+        <item>@id/tool_polygon</item>
     </array>
 
     <!-- File tools -->
@@ -65,7 +68,8 @@
     <item type="id" name="tool_line"></item>
     <item type="id" name="tool_rectangle"></item>
     <item type="id" name="tool_polyline"></item>
-    
+    <item type="id" name="tool_polygon"></item>
+
     <item type="color" name="button_unselected_bg">#fff</item>
     <item type="color" name="button_selected_bg">#DADADA</item>
 </resources>

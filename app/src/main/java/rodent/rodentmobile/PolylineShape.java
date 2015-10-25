@@ -1,6 +1,13 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
+<<<<<<< HEAD
+=======
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
+import android.util.Log;
+>>>>>>> origin/master
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +74,16 @@ public class PolylineShape extends Shape {
     public void draw (Canvas canvas) {
         if (this.pointArray != null) {
             canvas.drawLines(this.pointArray, this.getPaint());
+            if (this.isSelected()) {
+                this.showCornerPinPoints(canvas);
+            }
+        }
+    }
+
+    public void showCornerPinPoints (Canvas canvas) {
+        for (Vector2<Float> point : this.points) {
+            RectF rect = new RectF(point.getX() - 1f, point.getY() - 1f, point.getX() + 1f, point.getY() + 1f);
+            canvas.drawArc(rect, 0f, 360f, false, this.getPaint());
         }
     }
 
