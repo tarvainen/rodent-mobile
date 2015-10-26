@@ -24,7 +24,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private Vector2<Float> displaySize;
 
     private ScaleGestureDetector scaleDetector;
-    private Tool tool;
 
     private boolean snipetisnapActivated;
 
@@ -36,7 +35,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public GestureDetectingDrawingBoard (Context context, AttributeSet attrs) {
         super(context, attrs);
         this.init();
-        tool = new LineTool(this.getDrawableElements());
     }
 
     private void init () {
@@ -45,20 +43,19 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         this.touchStartPosition = new Vector2<>(0f, 0f);
         this.canvasTranslate = new Vector2<>(0f, 0f);
         this.previousCanvasTranslate = new Vector2<>(0f, 0f);
-        this.snipetisnapActivated = true;
+        this.setSnippingActivate(true);
+        this.setTool(new MoveTool());
     }
 
     @Override
     public void onDraw (Canvas canvas) {
         scaleCanvas(canvas);
         translateCanvas(canvas);
-        paper.draw(canvas);
-        for(Shape shape : this.getDrawableElements()) {
-            shape.draw(canvas);
-        }
+        drawBackgroundPaper(canvas);
+        drawElements(canvas);
 
-        if (tool.isBusy()) {
-            tool.getShape().draw(canvas);
+        if (isToolBusy()) {
+            drawBusyElement(canvas);
         }
     }
 
@@ -114,9 +111,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
 
     public void handleOnTouchEventGesture (MotionEvent e) {
         Vector2<Float> position = getScaledPositionOfEvent(e);
-
+        Tool tool = this.getTool();
         if (this.snipetisnapActivated) {
-            position = getSnipetiSnappedPositionOfScaledEventPosition(position);
+            position = getGridSnippedPositionOfEvent(position);
         }
 
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
@@ -127,7 +124,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             tool.onEnd(position);
         }
 
-        if (this.tool.isCanvasTranslateAllowed()) {
+        if (tool.isCanvasTranslateAllowed()) {
             handleCanvasTranslateGestures(e);
         }
 
@@ -165,26 +162,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         this.canvasScaleFactor = Math.max(MIN_CANVAS_SCALE_FACTOR, Math.min(factor, MAX_CANVAS_SCALE_FACTOR));
     }
 
-    private class ZoomGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
-        @Override
-        public boolean onScale (ScaleGestureDetector detector) {
-            if (!tool.isCanvasTranslateAllowed()) {
-                return true;
-            }
-            setCanvasScaleFactor(detector.getScaleFactor() * canvasScaleFactor);
-            return true;
-        }
-    }
-
-    public void changeTool(Tool tool) {
-        if (this.tool != null) {
-            this.tool.onDeactivation();
-        }
-        this.tool = tool;
-        tool.setShapeContainer(this.getDrawableElements());
-        postInvalidate();
-    }
-
     public Vector2<Float> getScaledPositionOfEvent (MotionEvent event) {
         Vector2<Float> result = new Vector2<>(0f, 0f);
         result.setX((event.getX() - this.previousCanvasTranslate.getX()) / canvasScaleFactor);
@@ -192,12 +169,23 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         return result;
     }
 
-    public Vector2<Float> getSnipetiSnappedPositionOfScaledEventPosition (Vector2<Float> position) {
-        Vector2<Float> result = new Vector2<>(0f, 0f);
-        float mill = this.getPaper().getMillisInPx();
-        result.setX((int)(position.getX() / mill) *  mill);
-        result.setY((int)(position.getY() / mill) *  mill);
-        return result;
+    public boolean isGridSnippingActivated () {
+        return this.snipetisnapActivated;
+    }
+
+    public void setSnippingActivate (boolean snips) {
+        this.snipetisnapActivated = snips;
+    }
+
+    private class ZoomGestureListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        @Override
+        public boolean onScale (ScaleGestureDetector detector) {
+            if (!getTool().isCanvasTranslateAllowed()) {
+                return true;
+            }
+            setCanvasScaleFactor(detector.getScaleFactor() * canvasScaleFactor);
+            return true;
+        }
     }
 
 }

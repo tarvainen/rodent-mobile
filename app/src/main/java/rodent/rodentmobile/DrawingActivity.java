@@ -109,6 +109,10 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     public void selectToolFromSpinnerPosition (int position) {
         IconSpinnerAdapter adapter = (IconSpinnerAdapter)activeSpinner.getAdapter();
         int id = adapter.getIdResources().getResourceId(position, 0);
+        Tool tool = drawingBoard.getTool();
+        if (tool != null) {
+            tool.onDeactivation();
+        }
         switch (id) {
             case R.id.tool_move:
                 drawingBoard.changeTool(new MoveTool(true));
