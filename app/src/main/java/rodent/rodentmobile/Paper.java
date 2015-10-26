@@ -44,4 +44,9 @@ public class Paper extends Shape {
     public boolean wasTouched (Vector2<Float> position) {
         return true;
     }
+
+    @Override
+    public void drawBoundingBox (Canvas canvas) {
+
+    }
 }

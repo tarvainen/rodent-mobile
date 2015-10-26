@@ -1,5 +1,7 @@
 package rodent.rodentmobile;
 
+import java.util.List;
+
 /**
  * Created by attetarvainen on 26/10/15.
  */
@@ -43,6 +45,38 @@ public class VectorMath {
 
     public static Vector2<Float> substract (Vector2<Float> p1, Vector2<Float> p2) {
         return new Vector2<>(p1.getX() - p2.getX(), p1.getY() - p2.getY());
+    }
+
+    public static Vector2<Float> min (List<AnchorPoint> points) {
+        float minX = Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+
+        for (Vector2<Float> point : points) {
+            if (point.getX() < minX) {
+                minX = point.getX();
+            }
+            if (point.getY() < minY) {
+                minY = point.getY();
+            }
+        }
+
+        return new Vector2<>(minX, minY);
+    }
+
+    public static Vector2<Float> max (List<AnchorPoint> points) {
+        float maxX = Float.MIN_VALUE;
+        float maxY = Float.MIN_VALUE;
+
+        for (Vector2<Float> point : points) {
+            if (point.getX() > maxX) {
+                maxX = point.getX();
+            }
+            if (point.getY() > maxY) {
+                maxY = point.getY();
+            }
+        }
+
+        return new Vector2<Float>(maxX, maxY);
     }
 
     private static float sqr (float val) {

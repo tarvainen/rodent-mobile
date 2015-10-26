@@ -38,6 +38,7 @@ public class FreeHandTool extends Tool {
     public void onEnd(Vector2<Float> position) {
         this.getShapeContainer().add(this.getShape());
         this.getShape().setSelected(false);
+        this.getShape().setReady(true);
         this.setBusy(false);
         this.clear();
     }

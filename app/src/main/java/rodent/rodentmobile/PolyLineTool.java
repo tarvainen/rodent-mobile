@@ -55,6 +55,7 @@ public class PolyLineTool extends Tool {
         this.getShapeContainer().add(this.getShape());
         this.getShape().setSelected(false);
         this.setBusy(false);
+        this.getShape().setReady(true);
         this.clear();
     }
 

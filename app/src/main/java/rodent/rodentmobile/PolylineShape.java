@@ -67,6 +67,7 @@ public class PolylineShape extends Shape {
 
     @Override
     public void draw (Canvas canvas) {
+        super.draw(canvas);
         if (this.pointArray != null) {
             canvas.drawLines(this.pointArray, this.getPaint());
             if (this.isSelected()) {
@@ -86,10 +87,10 @@ public class PolylineShape extends Shape {
         Vector2<Float> vsPoint = null;
         for (AnchorPoint point : this.points) {
             if (vsPoint == null) {
-                vsPoint = point.getPosition();
+                vsPoint = point;
                 continue;
             }
-            Vector2<Float> cp = point.getPosition();
+            Vector2<Float> cp = point;
             if (VectorMath.getDistanceToSegment(touchPosition, cp, vsPoint) < SELECTION_RADIUS) {
                 this.setSelected(!this.isSelected());
                 return true;
@@ -97,6 +98,13 @@ public class PolylineShape extends Shape {
             vsPoint = cp;
         }
         return false;
+    }
+
+    @Override
+    public void drawBoundingBox (Canvas canvas) {
+        Vector2<Float> min = VectorMath.min(this.getPoints());
+        Vector2<Float> max = VectorMath.max(this.getPoints());
+        canvas.drawRect(min.getX(), min.getY(), max.getX(), max.getY(), this.getBoundingPaint());
     }
 
 }

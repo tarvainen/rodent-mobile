@@ -43,6 +43,7 @@ public class LineTool extends Tool {
         this.setEndPointToEventPosition(position);
         this.getShapeContainer().add(this.getShape());
         this.getShape().setSelected(false);
+        this.getShape().setReady(true);
         this.clear();
     }
 
