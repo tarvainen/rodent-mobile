@@ -19,9 +19,9 @@ public class PolyLineTool extends Tool {
     @Override
     public void onStart(Vector2<Float> position) {
         this.pointPosition = position;
-        ((PolylineShape)this.getShape()).addPoint(position);
+        ((PolylineShape)this.getShape()).addPoint(new AnchorPoint(position));
         if (((PolylineShape)this.getShape()).getPoints().size() == 1) {
-            ((PolylineShape)this.getShape()).addPoint(position);
+            ((PolylineShape) this.getShape()).addPoint(new AnchorPoint(position));
         }
         this.getShape().setSelected(true);
     }
@@ -44,9 +44,9 @@ public class PolyLineTool extends Tool {
     }
 
     private void updateLastPoint () {
-        List<Vector2<Float>> points = ((PolylineShape)this.getShape()).getPoints();
+        List<AnchorPoint> points = ((PolylineShape)this.getShape()).getPoints();
         points.remove(points.size() - 1);
-        points.add(this.pointPosition);
+        points.add(new AnchorPoint(this.pointPosition));
         ((PolylineShape)this.getShape()).setPoints(points);
     }
 

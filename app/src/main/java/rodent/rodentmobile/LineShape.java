@@ -34,8 +34,8 @@ public class LineShape extends PolylineShape {
 
     private void updatePoints () {
         this.getPoints().clear();
-        this.addPoint(this.getPosition());
-        this.addPoint(this.getSize());
+        this.addPoint(new AnchorPoint(this.getPosition()));
+        this.addPoint(new AnchorPoint(this.getSize()));
     }
 
     @Override

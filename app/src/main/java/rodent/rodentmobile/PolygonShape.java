@@ -20,8 +20,8 @@ public class PolygonShape extends PolylineShape {
     }
 
     public void connectStartAndEndPointWithLine (Canvas canvas) {
-        Vector2<Float> start = this.getPoints().get(0);
-        Vector2<Float> end = this.getPoints().get(this.getPoints().size() - 1);
+        Vector2<Float> start = this.getPoints().get(0).getPosition();
+        Vector2<Float> end = this.getPoints().get(this.getPoints().size() - 1).getPosition();
         canvas.drawLine(start.getX(), start.getY(), end.getX(), end.getY(), this.getPaint());
     }
 

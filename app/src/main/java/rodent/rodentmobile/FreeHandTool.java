@@ -17,7 +17,7 @@ public class FreeHandTool extends Tool {
         this.setBusy(true);
         this.lastMovePosition = position;
         this.clear();
-        ((PolylineShape) this.getShape()).addPoint(position);
+        ((PolylineShape) this.getShape()).addPoint(new AnchorPoint(position));
         this.getShape().setSelected(true);
     }
 
@@ -25,7 +25,7 @@ public class FreeHandTool extends Tool {
     public void onMove(Vector2<Float> position) {
         if (getDistanceBetween(position, lastMovePosition) > 10) {
             lastMovePosition = position;
-            ((PolylineShape) this.getShape()).addPoint(position);
+            ((PolylineShape) this.getShape()).addPoint(new AnchorPoint(position));
         }
     }
 

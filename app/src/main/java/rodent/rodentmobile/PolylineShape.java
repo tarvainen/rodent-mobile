@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class PolylineShape extends Shape {
 
-    private List<Vector2<Float>> points;
+    private List<AnchorPoint> points;
     private float [] pointArray;
 
     public PolylineShape () {
@@ -23,16 +23,16 @@ public class PolylineShape extends Shape {
         this.points = new ArrayList<>();
     }
 
-    void setPoints (List<Vector2<Float>> points) {
+    void setPoints (List<AnchorPoint> points) {
         this.points = points;
         this.renderPointsToArray();
     }
 
-    List<Vector2<Float>> getPoints () {
+    List<AnchorPoint> getPoints () {
         return this.points;
     }
 
-    void addPoint (Vector2<Float> point) {
+    void addPoint (AnchorPoint point) {
         this.points.add(point);
         this.renderPointsToArray();
     }
@@ -46,7 +46,7 @@ public class PolylineShape extends Shape {
         int size = this.points.size();
         this.pointArray[0] = this.points.get(0).getX();
         this.pointArray[1] = this.points.get(0).getY();
-        for (Vector2<Float> point : this.points) {
+        for (AnchorPoint point : this.points) {
             if (i == 0){
                 i += 2;
                 continue;
@@ -75,9 +75,8 @@ public class PolylineShape extends Shape {
     }
 
     public void showCornerPinPoints (Canvas canvas) {
-        for (Vector2<Float> point : this.points) {
-            RectF rect = new RectF(point.getX() - 1f, point.getY() - 1f, point.getX() + 1f, point.getY() + 1f);
-            canvas.drawArc(rect, 0f, 360f, false, this.getPaint());
+        for (AnchorPoint point : this.points) {
+            point.draw(canvas);
         }
     }
 
