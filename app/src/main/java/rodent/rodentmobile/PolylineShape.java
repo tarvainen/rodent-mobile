@@ -1,8 +1,6 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
-import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,4 +105,8 @@ public class PolylineShape extends Shape {
         canvas.drawRect(min.getX(), min.getY(), max.getX(), max.getY(), this.getBoundingPaint());
     }
 
+    @Override
+    public void update () {
+        this.renderPointsToArray();
+    }
 }

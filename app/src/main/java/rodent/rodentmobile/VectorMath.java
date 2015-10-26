@@ -11,6 +11,10 @@ public class VectorMath {
         return sqr(p1.getX() - p2.getX()) + sqr(p1.getY() - p2.getY());
     }
 
+    public static float getDistanceBetween (Vector2<Float> p1, Vector2<Float> p2) {
+        return (float) Math.sqrt(getSquaredDistanceBetween(p1, p2));
+    }
+
     public static float getDistanceToSegmentSquared (Vector2<Float> point, Vector2<Float> segStart, Vector2<Float> segEnd) {
         float segmentLength = getSquaredDistanceBetween(segStart, segEnd);
 

@@ -15,7 +15,7 @@ public abstract class Shape implements Serializable{
     // Have to make a CustomPaint to serialize paint.
 //    private Paint paint;
 
-    public final float SELECTION_RADIUS = 10.0f;
+    public static final float SELECTION_RADIUS = 20.0f;
     private Vector2<Float> position;
     private Vector2<Float> size;
     boolean selected;
@@ -90,6 +90,10 @@ public abstract class Shape implements Serializable{
         if (this.selected && this.ready) {
             this.drawBoundingBox(canvas);
         }
+    }
+
+    public void update () {
+
     }
 
     public abstract boolean wasTouched (Vector2<Float> touchPosition);

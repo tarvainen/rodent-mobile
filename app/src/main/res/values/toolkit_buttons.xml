@@ -2,16 +2,19 @@
 <resources>
     <array name="interpolation_tools">
         <item>@drawable/ic_open_with_black_36dp</item>
+        <item>@drawable/ic_send_black_36dp</item>
         <item>@drawable/ic_create_black_36dp</item>
     </array>
 
     <string-array name="interpolation_tool_names">
         <item>Move</item>
+        <item>AnchorPoint</item>
         <item>Freehand</item>
     </string-array>
 
     <array name="interpolation_tool_id">
         <item>@id/tool_move</item>
+        <item>@id/tool_anchor</item>
         <item>@id/tool_freehand</item>
     </array>
     
@@ -69,6 +72,7 @@
     <item type="id" name="tool_rectangle"></item>
     <item type="id" name="tool_polyline"></item>
     <item type="id" name="tool_polygon"></item>
+    <item type="id" name="tool_anchor"></item>
 
     <item type="color" name="button_unselected_bg">#fff</item>
     <item type="color" name="button_selected_bg">#DADADA</item>

@@ -117,6 +117,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.tool_move:
                 drawingBoard.changeTool(new MoveTool(true));
                 break;
+            case R.id.tool_anchor:
+                drawingBoard.changeTool(new AnchorPointTool());
+                break;
             case R.id.tool_rectangle:
                 drawingBoard.changeTool(new RectangleTool());
                 break;

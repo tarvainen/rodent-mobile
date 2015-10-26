@@ -113,10 +113,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         Vector2<Float> position = getScaledPositionOfEvent(e);
         Tool tool = this.getTool();
 
-        if (e.getAction() == MotionEvent.ACTION_DOWN) {
-            handleSelections(position);
-        }
-
         if (this.snipetisnapActivated) {
             position = getGridSnippedPositionOfEvent(position);
         }
@@ -193,10 +189,5 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         }
     }
 
-    private void handleSelections (Vector2<Float> position) {
-        for (Shape shape : this.getDrawableElements()) {
-            shape.wasTouched(position);
-        }
-    }
 
 }

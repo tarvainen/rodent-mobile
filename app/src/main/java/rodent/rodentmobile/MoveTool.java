@@ -16,7 +16,7 @@ public class MoveTool extends Tool {
 
     @Override
     public void onStart(Vector2<Float> position) {
-
+        this.handleSelections(position);
     }
 
     @Override
@@ -37,5 +37,25 @@ public class MoveTool extends Tool {
     @Override
     public void clear() {
 
+    }
+
+    @Override
+    public void onDeactivation () {
+        this.deselectAll();
+    }
+
+    public void handleSelections (Vector2<Float> position) {
+        for (Shape shape : this.getShapeContainer()) {
+            shape.wasTouched(position);
+        }
+    }
+
+    public void deselectAll () {
+        if (this.getShapeContainer() == null) {
+            return;
+        }
+        for (Shape shape : this.getShapeContainer()) {
+            shape.setSelected(false);
+        }
     }
 }
