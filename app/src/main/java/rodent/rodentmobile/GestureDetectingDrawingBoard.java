@@ -112,6 +112,11 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public void handleOnTouchEventGesture (MotionEvent e) {
         Vector2<Float> position = getScaledPositionOfEvent(e);
         Tool tool = this.getTool();
+
+        if (e.getAction() == MotionEvent.ACTION_DOWN) {
+            handleSelections(position);
+        }
+
         if (this.snipetisnapActivated) {
             position = getGridSnippedPositionOfEvent(position);
         }
@@ -185,6 +190,12 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             }
             setCanvasScaleFactor(detector.getScaleFactor() * canvasScaleFactor);
             return true;
+        }
+    }
+
+    private void handleSelections (Vector2<Float> position) {
+        for (Shape shape : this.getDrawableElements()) {
+            shape.wasTouched(position);
         }
     }
 

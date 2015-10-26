@@ -2,6 +2,7 @@ package rodent.rodentmobile;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,24 @@ public class PolylineShape extends Shape {
         for (AnchorPoint point : this.points) {
             point.draw(canvas);
         }
+    }
+
+    @Override
+    public boolean wasTouched (Vector2<Float> touchPosition) {
+        Vector2<Float> vsPoint = null;
+        for (AnchorPoint point : this.points) {
+            if (vsPoint == null) {
+                vsPoint = point.getPosition();
+                continue;
+            }
+            Vector2<Float> cp = point.getPosition();
+            if (VectorMath.getDistanceToSegment(touchPosition, cp, vsPoint) < SELECTION_RADIUS) {
+                this.setSelected(!this.isSelected());
+                return true;
+            }
+            vsPoint = cp;
+        }
+        return false;
     }
 
 }

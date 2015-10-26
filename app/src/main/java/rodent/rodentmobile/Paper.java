@@ -39,4 +39,9 @@ public class Paper extends Shape {
     public float getMillisInPx () {
         return this.millisInPx;
     }
+
+    @Override
+    public boolean wasTouched (Vector2<Float> position) {
+        return true;
+    }
 }

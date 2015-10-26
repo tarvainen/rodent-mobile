@@ -26,6 +26,11 @@ public class AnchorPoint extends Shape {
     }
 
     @Override
+    public boolean wasTouched (Vector2<Float> position) {
+        return true;
+    }
+
+    @Override
     public void draw(Canvas canvas) {
         Vector2<Float> point = this.getPosition();
         RectF rect = new RectF(point.getX() - 1f, point.getY() - 1f, point.getX() + 1f, point.getY() + 1f);
