@@ -1,11 +1,9 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 /**
  * Created by Atte on 22.10.2015.
@@ -21,6 +19,8 @@ public abstract class Shape implements Serializable{
     boolean selected;
     boolean ready;
 
+    private BoundingBox boundingBox;
+
     Paint boundingPaint;
 
     public Shape () {
@@ -34,10 +34,7 @@ public abstract class Shape implements Serializable{
         this.size = new Vector2<>(0f, 0f);
         this.selected = false;
         this.ready = false;
-        this.boundingPaint = new Paint();
-        this.boundingPaint.setStrokeWidth(2);
-        this.boundingPaint.setARGB(100, 80, 80, 80);
-        this.boundingPaint.setStyle(Paint.Style.STROKE);
+        this.boundingBox = new BoundingBox();
     }
 
     public Paint getPaint () {
@@ -50,9 +47,6 @@ public abstract class Shape implements Serializable{
         return paint;
     }
 
-    public Paint getBoundingPaint () {
-        return this.boundingPaint;
-    }
 
     public Vector2<Float> getPosition () {
         return this.position;
@@ -84,6 +78,14 @@ public abstract class Shape implements Serializable{
 
     public boolean isReady () {
         return this.ready;
+    }
+
+    public void setBoundingBox (BoundingBox box) {
+        this.boundingBox = box;
+    }
+
+    public BoundingBox getBoundingBox () {
+        return this.boundingBox;
     }
 
     public void draw (Canvas canvas) {

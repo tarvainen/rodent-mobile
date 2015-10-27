@@ -20,9 +20,7 @@ public class PolyLineTool extends Tool {
     public void onStart(Vector2<Float> position) {
         this.pointPosition = position;
         ((PolylineShape)this.getShape()).addPoint(new AnchorPoint(position));
-        if (((PolylineShape)this.getShape()).getPoints().size() == 1) {
-            ((PolylineShape) this.getShape()).addPoint(new AnchorPoint(position));
-        }
+
         this.getShape().setSelected(true);
     }
 

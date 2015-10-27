@@ -41,7 +41,9 @@ public class LineTool extends Tool {
     public void onEnd(Vector2<Float> position) {
         this.setBusy(false);
         this.setEndPointToEventPosition(position);
-        this.getShapeContainer().add(this.getShape());
+        if (!isEndPointSameThanStartPoint()) {
+            this.getShapeContainer().add(this.getShape());
+        }
         this.getShape().setSelected(false);
         this.getShape().setReady(true);
         this.clear();
@@ -58,5 +60,10 @@ public class LineTool extends Tool {
 
     private void setEndPointToEventPosition (Vector2<Float> position) {
         ((LineShape) this.getShape()).setEndPoint(new Vector2<>(position.getX(), position.getY()));
+    }
+
+    private boolean isEndPointSameThanStartPoint () {
+        LineShape shape = (LineShape) this.getShape();
+        return VectorMath.getDistanceBetween(shape.getStartPoint(), shape.getEndPoint()) < 0.01f;
     }
 }

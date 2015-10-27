@@ -45,8 +45,18 @@ public class MoveTool extends Tool {
     }
 
     public void handleSelections (Vector2<Float> position) {
+        selectLimitedAmountOfElementsAtPosition(position, Integer.MAX_VALUE);
+    }
+
+    public void selectLimitedAmountOfElementsAtPosition (Vector2<Float> position, int limit) {
+        int selected = 0;
         for (Shape shape : this.getShapeContainer()) {
-            shape.wasTouched(position);
+            if (shape.wasTouched(position)) {
+                selected++;
+                if (selected >= limit) {
+                    return;
+                }
+            }
         }
     }
 

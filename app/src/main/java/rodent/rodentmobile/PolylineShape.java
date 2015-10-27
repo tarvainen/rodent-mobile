@@ -68,9 +68,9 @@ public class PolylineShape extends Shape {
         super.draw(canvas);
         if (this.pointArray != null) {
             canvas.drawLines(this.pointArray, this.getPaint());
-            if (this.isSelected()) {
-                this.showCornerPinPoints(canvas);
-            }
+        }
+        if (this.isSelected()) {
+            this.showCornerPinPoints(canvas);
         }
     }
 
@@ -102,7 +102,8 @@ public class PolylineShape extends Shape {
     public void drawBoundingBox (Canvas canvas) {
         Vector2<Float> min = VectorMath.min(this.getPoints());
         Vector2<Float> max = VectorMath.max(this.getPoints());
-        canvas.drawRect(min.getX(), min.getY(), max.getX(), max.getY(), this.getBoundingPaint());
+        this.getBoundingBox().setCornersFromMinAndMaxValuesOfShape(min, max);
+        this.getBoundingBox().draw(canvas);
     }
 
     @Override

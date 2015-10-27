@@ -1,7 +1,5 @@
 package rodent.rodentmobile;
 
-import android.util.Log;
-
 /**
  * Created by Atte on 26/10/15.
  */
@@ -10,16 +8,17 @@ public class AnchorPointTool extends MoveTool {
     AnchorPoint currentPoint;
     Shape currentShape;
 
+    boolean touchedAnchorPoint;
+
     public AnchorPointTool() {
         super();
         this.clear();
+        this.touchedAnchorPoint = false;
     }
 
     @Override
     public void onStart(Vector2<Float> position) {
-        this.deselectAll();
-        super.onStart(position);
-        handleAnchorPointTouching(position);
+        touchedAnchorPoint = handleAnchorPointTouching(position);
     }
 
     @Override
@@ -42,6 +41,10 @@ public class AnchorPointTool extends MoveTool {
 
     @Override
     public void onEnd(Vector2<Float> position) {
+        if (!touchedAnchorPoint) {
+            this.deselectAll();
+            this.selectLimitedAmountOfElementsAtPosition(position, 1);
+        }
         this.currentPoint = null;
     }
 
@@ -50,24 +53,26 @@ public class AnchorPointTool extends MoveTool {
         this.currentPoint = null;
     }
 
-    public void handleAnchorPointTouching (Vector2<Float> position) {
+    public boolean handleAnchorPointTouching (Vector2<Float> position) {
         this.currentShape = getSelectedShape();
         if (this.currentShape == null) {
-            return;
+            return false;
         }
 
         PolylineShape shape;
         if (!PolylineShape.class.isAssignableFrom(currentShape.getClass())) {
-            return;
+            return false;
         }
         shape = (PolylineShape) currentShape;
 
         for (AnchorPoint point : shape.getPoints()) {
             if (VectorMath.getDistanceBetween(position, point) < Shape.SELECTION_RADIUS) {
                 this.currentPoint = point;
-                return;
+                return true;
             }
         }
+
+        return false;
 
     }
 

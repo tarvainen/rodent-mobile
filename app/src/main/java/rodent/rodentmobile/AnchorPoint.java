@@ -11,6 +11,7 @@ import android.graphics.RectF;
 public class AnchorPoint extends Vector2<Float> {
 
     private Paint paint;
+    private float radius;
 
     public AnchorPoint() {
         super();
@@ -28,14 +29,15 @@ public class AnchorPoint extends Vector2<Float> {
         this.paint = new Paint();
         paint.setARGB(180, 80, 80, 80);
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(5);
+        paint.setStrokeWidth(3);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
+        this.radius = 5f;
     }
 
     public void draw(Canvas canvas) {
         Vector2<Float> point = this;
-        RectF rect = new RectF(point.getX() - 1f, point.getY() - 1f, point.getX() + 1f, point.getY() + 1f);
+
+        RectF rect = new RectF(point.getX() - radius, point.getY() - radius, point.getX() + radius, point.getY() + radius);
         canvas.drawArc(rect, 0f, 360f, false, this.paint);
     }
 
