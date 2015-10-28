@@ -28,6 +28,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("paskaa", "On");
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppThemeNoActionBar);
         setContentView(R.layout.activity_drawing);

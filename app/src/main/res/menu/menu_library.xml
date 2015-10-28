@@ -15,4 +15,11 @@
         android:orderInCategory="1"
         android:title="@string/action_new"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_open_controller"
+        android:icon="@drawable/ic_create_black_24dp"
+        android:orderInCategory="0"
+        android:title="ohjaa"
+        app:showAsAction="ifRoom" />
 </menu>

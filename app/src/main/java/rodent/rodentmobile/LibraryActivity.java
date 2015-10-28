@@ -87,6 +87,9 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
         } else if (id == R.id.action_new) {
             DialogFragment dialog = new NewFileDialogFragment();
             dialog.show(getFragmentManager(), "NewFileDialogFragment");
+        } else if (id == R.id.action_open_controller) {
+            Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
+            this.startActivity(newControllerIntent);
         }
 
         return super.onOptionsItemSelected(item);
