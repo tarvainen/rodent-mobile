@@ -21,6 +21,7 @@ public abstract class MyFile implements Serializable{
     public void setShapes(List<Shape> shapes) {
         this.shapes = shapes;
     }
+
     public abstract void save();
     public abstract void load(String path);
     public List<Shape> getShapes() { return shapes; }

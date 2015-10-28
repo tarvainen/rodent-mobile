@@ -19,14 +19,12 @@ public class CustomPaint extends Paint implements Serializable {
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
-        Log.d("CustomPaint", "writeObject");
         out.writeInt(getColor());
         out.writeBoolean(isAntiAlias());
         out.writeFloat(getStrokeWidth());
     }
 
     private void readObject(ObjectInputStream in) throws IOException {
-        Log.d("CustomPaint", "readObject");
         setColor(in.readInt());
         setAntiAlias(in.readBoolean());
         setStrokeWidth(in.readFloat());

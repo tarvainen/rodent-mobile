@@ -1,20 +1,20 @@
 package rodent.rodentmobile;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 import rodent.rodentmobile.filesystem.MyFile;
@@ -22,16 +22,20 @@ import rodent.rodentmobile.filesystem.RodentFile;
 
 public class LibraryActivity extends AppCompatActivity implements NewFileDialogFragment.NewFileDialogListener {
 
-    private ArrayList<String> items;
+    private ArrayList<File> files;
     private ImageAdapter adapter;
-    private GridView gridView;
 
     private void loadFiles() {
-        items.clear();
+        files.clear();
         File file = new File(Environment.getExternalStorageDirectory() + "/rodent");
-        File fileList[] = file.listFiles();
-        for (int i = 0; i < fileList.length; i++) {
-            items.add(fileList[i].getName());
+        File[] allFiles = file.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String filename) {
+                return filename.toLowerCase().endsWith(".rodent");
+            }
+        });
+        for (File f : allFiles) {
+            files.add(f);
         }
     }
 
@@ -40,30 +44,23 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
 
-        items = new ArrayList<>();
+        files = new ArrayList<>();
         loadFiles();
 
-        gridView = (GridView) findViewById(R.id.gridView);
-        adapter = new ImageAdapter(this, items);
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+        adapter = new ImageAdapter(this, files);
         gridView.setAdapter(adapter);
+        registerForContextMenu(gridView);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String item = items.get(position);
-                String filetype = item.split("\\.")[1];
-                switch (filetype) {
-                    case "rodent":
-                        MyFile file = new RodentFile();
-                        file.load(Environment.getExternalStorageDirectory() + "/rodent/" + item);
-                        Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
-                        intent.putExtra("FILE", file);
-                        startActivity(intent);
-                        break;
-                    default:
-                        break;
-                }
+                MyFile rodentFile = new RodentFile();
+                rodentFile.load(files.get(position).getPath());
+                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+                intent.putExtra("FILE", rodentFile);
+                startActivity(intent);
             }
         });
     }
@@ -106,5 +103,27 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.context_menu_library, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item_delete:
+                files.get(info.position).delete();
+                files.remove(info.position);
+                adapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+        }
     }
 }

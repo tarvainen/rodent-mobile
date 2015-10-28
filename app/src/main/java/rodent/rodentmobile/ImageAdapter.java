@@ -1,7 +1,6 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
-import android.os.Environment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,17 +18,17 @@ import java.util.ArrayList;
  */
 public class ImageAdapter extends BaseAdapter {
 
-    private ArrayList<String> items;
+    private ArrayList<File> files;
     private Context context;
 
-    public ImageAdapter(Context context, ArrayList items) {
+    public ImageAdapter(Context context, ArrayList<File> files) {
         this.context = context;
-        this.items = items;
+        this.files = files;
     }
 
     @Override
     public int getCount() {
-        return items.size();
+        return files.size();
     }
 
     @Override
@@ -57,7 +56,7 @@ public class ImageAdapter extends BaseAdapter {
             textView = (TextView) convertView;
         }
 
-        textView.setText(items.get(position));
+        textView.setText(files.get(position).getName());
         return textView;
     }
 }

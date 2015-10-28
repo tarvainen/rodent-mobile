@@ -6,4 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_new">New</string>
     <string name="title_activity_drawing">DrawingActivity</string>
+
+    <string name="context_menu_library_delete">Delete</string>
 </resources>

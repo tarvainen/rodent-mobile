@@ -1,11 +1,11 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -90,5 +90,12 @@ public class DrawingBoard extends View {
     @Override
     public void onDraw (Canvas canvas) {
         this.drawElements(canvas);
+    }
+
+    public Bitmap getBitmap() {
+        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawElements(canvas);
+        return bitmap;
     }
 }
