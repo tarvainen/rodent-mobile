@@ -113,7 +113,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         Vector2<Float> position = getScaledPositionOfEvent(e);
         Tool tool = this.getTool();
 
-        if (this.snipetisnapActivated) {
+        if (this.snipetisnapActivated && !FreeHandTool.class.isAssignableFrom(this.getTool().getClass())) {
             position = getGridSnippedPositionOfEvent(position);
         }
 

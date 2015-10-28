@@ -1,13 +1,10 @@
 package rodent.rodentmobile;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,6 +87,9 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
         } else if (id == R.id.action_new) {
             DialogFragment dialog = new NewFileDialogFragment();
             dialog.show(getFragmentManager(), "NewFileDialogFragment");
+        } else if (id == R.id.action_open_controller) {
+            Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
+            this.startActivity(newControllerIntent);
         }
 
         return super.onOptionsItemSelected(item);
