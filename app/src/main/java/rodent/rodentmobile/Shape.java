@@ -10,8 +10,7 @@ import java.io.Serializable;
  */
 public abstract class Shape implements Serializable{
 
-    // Have to make a CustomPaint to serialize paint.
-//    private Paint paint;
+    private CustomPaint paint;
 
     public static final float SELECTION_RADIUS = 20.0f;
     private Vector2<Float> position;
@@ -21,15 +20,12 @@ public abstract class Shape implements Serializable{
 
     private BoundingBox boundingBox;
 
-    Paint boundingPaint;
-
     public Shape () {
-//        this.paint = new Paint();
-//        this.paint.setARGB(180, 80, 80, 80);
-//        this.paint.setAntiAlias(true);
-//        this.paint.setStrokeWidth(5);
-//        this.paint.setStyle(Paint.Style.STROKE);
-//        this.paint.setStrokeCap(Paint.Cap.ROUND);
+        this.paint = new CustomPaint();
+        this.paint.setARGB(180, 80, 80, 80);
+        this.paint.setAntiAlias(true);
+        this.paint.setStrokeWidth(5);
+        this.paint.setStyle(Paint.Style.STROKE);
         this.position = new Vector2<>(0f, 0f);
         this.size = new Vector2<>(0f, 0f);
         this.selected = false;
@@ -37,13 +33,7 @@ public abstract class Shape implements Serializable{
         this.boundingBox = new BoundingBox();
     }
 
-    public Paint getPaint () {
-        Paint paint = new Paint();
-        paint.setARGB(180, 80, 80, 80);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(5);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
+    public CustomPaint getPaint () {
         return paint;
     }
 

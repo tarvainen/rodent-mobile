@@ -4,10 +4,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
+import java.io.Serializable;
+
 /**
  * Created by Atte on 27/10/15.
  */
-public class BoundingBox {
+public class BoundingBox implements Serializable {
 
     private static final int UPPER_LEFT = 0;
     private static final int UPPER_RIGHT = 1;
@@ -17,11 +19,11 @@ public class BoundingBox {
     private Vector2<Float>[] corners;
     private float pinRadius;
 
-    private Paint paint;
+    private CustomPaint paint;
 
     public BoundingBox () {
         this.corners = new Vector2[4];
-        this.paint = new Paint();
+        this.paint = new CustomPaint();
         this.paint.setARGB(120, 80, 80, 80);
         this.paint.setStrokeWidth(2);
         this.paint.setAntiAlias(true);
