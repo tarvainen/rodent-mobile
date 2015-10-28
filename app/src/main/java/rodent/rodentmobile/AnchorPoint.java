@@ -10,7 +10,7 @@ import android.graphics.RectF;
  */
 public class AnchorPoint extends Vector2<Float> {
 
-    private Paint paint;
+    private CustomPaint paint;
     private float radius;
 
     public AnchorPoint() {
@@ -26,7 +26,7 @@ public class AnchorPoint extends Vector2<Float> {
     }
 
     private void init () {
-        this.paint = new Paint();
+        this.paint = new CustomPaint();
         paint.setARGB(180, 80, 80, 80);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(3);

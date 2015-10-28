@@ -16,7 +16,7 @@ public class Paper extends Shape {
 
     @Override
     public void draw(Canvas canvas) {
-        Paint paint = new Paint();
+        Paint paint = new CustomPaint();
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setARGB(255, 200, 200, 200);
