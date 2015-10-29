@@ -1,13 +1,11 @@
 package rodent.rodentmobile;
 
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import org.java_websocket.client.WebSocketClient;
@@ -15,8 +13,6 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import rodent.rodentmobile.R;
 
 public class ManualControllerActivity extends AppCompatActivity {
 
@@ -52,7 +48,9 @@ public class ManualControllerActivity extends AppCompatActivity {
 
     private void connectWebSocket() {
         if (this.mWebSocketClient != null && this.mWebSocketClient.getConnection().isOpen()) {
-            this.mWebSocketClient.close();
+            Log.d("joo", "closeee");
+            this.mWebSocketClient.getConnection().closeConnection(0, "Close");
+            return;
         }
 
         URI uri;
