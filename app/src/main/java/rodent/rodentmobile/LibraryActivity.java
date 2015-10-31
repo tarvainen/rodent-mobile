@@ -11,33 +11,22 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
+import rodent.rodentmobile.NewFileDialogFragment.NewFileDialogListener;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
 
-public class LibraryActivity extends AppCompatActivity implements NewFileDialogFragment.NewFileDialogListener {
-
+public class LibraryActivity extends AppCompatActivity implements NewFileDialogListener,
+                                                                  OnItemClickListener,
+                                                                  FilenameFilter {
     private ArrayList<File> files;
     private ImageAdapter adapter;
-
-    private void loadFiles() {
-        files.clear();
-        File file = new File(Environment.getExternalStorageDirectory() + "/rodent");
-        File[] allFiles = file.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String filename) {
-                return filename.toLowerCase().endsWith(".rodent");
-            }
-        });
-        for (File f : allFiles) {
-            files.add(f);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,18 +40,7 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
         adapter = new ImageAdapter(this, files);
         gridView.setAdapter(adapter);
         registerForContextMenu(gridView);
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                MyFile rodentFile = new RodentFile();
-                rodentFile.load(files.get(position).getPath());
-                Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
-                intent.putExtra("FILE", rodentFile);
-                startActivity(intent);
-            }
-        });
+        gridView.setOnItemClickListener(this);
     }
 
     @Override
@@ -104,9 +82,7 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
     }
 
     @Override
-    public void onDialogNegativeClick(DialogFragment dialog) {
-
-    }
+    public void onDialogNegativeClick(DialogFragment dialog) {}
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -121,7 +97,9 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
         int id = item.getItemId();
         switch (id) {
             case R.id.item_delete:
-                files.get(info.position).delete();
+                File file = files.get(info.position);
+                deleteThumbnail(file);
+                file.delete();
                 files.remove(info.position);
                 adapter.notifyDataSetChanged();
                 return true;
@@ -129,4 +107,36 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogF
                 return super.onContextItemSelected(item);
         }
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        MyFile rodentFile = new RodentFile(files.get(position));
+        Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+        intent.putExtra("FILE", rodentFile);
+        startActivity(intent);
+    }
+
+    @Override
+    public boolean accept(File dir, String filename) {
+        return filename.toLowerCase().endsWith(".rodent");
+    }
+
+    private void deleteThumbnail(File f) {
+        try {
+            File thumbnail = new File(f.getParent(), f.getName() + ".png");
+            thumbnail.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadFiles() {
+        files.clear();
+        File file = new File(Environment.getExternalStorageDirectory() + "/rodent");
+        File[] allFiles = file.listFiles(this);
+        for (File f : allFiles) {
+            files.add(f);
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import rodent.rodentmobile.Shape;
 
 /**
  * Created by Teemu on 25.10.2015.
+ *
  */
 public abstract class MyFile implements Serializable{
     protected String filename;
@@ -25,4 +26,5 @@ public abstract class MyFile implements Serializable{
     public abstract void save();
     public abstract void load(String path);
     public List<Shape> getShapes() { return shapes; }
+    public String getFilename() { return filename; }
 }
