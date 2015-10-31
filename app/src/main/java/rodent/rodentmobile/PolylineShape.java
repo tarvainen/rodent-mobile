@@ -110,4 +110,15 @@ public class PolylineShape extends Shape {
     public void update () {
         this.renderPointsToArray();
     }
+
+    @Override
+    public String toGCode () {
+        String result = "";
+
+        for (AnchorPoint point : this.points) {
+            result += "G00 X" + point.getX() + " Y" + point.getY() + "\n";
+        }
+
+        return result;
+    }
 }

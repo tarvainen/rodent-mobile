@@ -2,6 +2,7 @@ package rodent.rodentmobile;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("paskaa", "On");
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppThemeNoActionBar);
         setContentView(R.layout.activity_drawing);
@@ -49,7 +49,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 e.printStackTrace();
             }
         }
-        Log.d("elements", "" + drawingBoard.getDrawableElements().size());
     }
 
     @Override
@@ -145,6 +144,16 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         this.longTouchHandler = new Handler();
     }
 
+    public void onImageViewClick (View v) {
+        switch (v.getId()) {
+            case R.id.btn_open_broadcast:
+                openBroadcast();
+                break;
+            default:
+                break;
+        }
+    }
+
     public IconSpinnerAdapter createAdapter (Context context, int resource, int idResource, int drawableResource, int nameResource) {
         IconSpinnerAdapter adapter;
         TypedArray ids = getResources().obtainTypedArray(idResource);
@@ -163,9 +172,17 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void saveFile() {
+        file.setMillInPx(this.drawingBoard.getPaper().getMillisInPx());
         file.setShapes(drawingBoard.getDrawableElements());
         file.save();
         Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void openBroadcast () {
+        Intent intent = new Intent(this, BroadcastActivity.class);
+        MyFile file = this.file;
+        intent.putExtra("FILE", file);
+        this.startActivity(intent);
     }
 
 }

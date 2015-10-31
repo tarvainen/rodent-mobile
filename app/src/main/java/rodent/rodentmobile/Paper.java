@@ -49,4 +49,9 @@ public class Paper extends Shape {
     public void drawBoundingBox (Canvas canvas) {
 
     }
+
+    @Override
+    public String toGCode () {
+        return "";
+    }
 }

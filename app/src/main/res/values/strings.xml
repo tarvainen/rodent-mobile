@@ -9,4 +9,5 @@
 
     <string name="context_menu_library_delete">Delete</string>
     <string name="title_activity_manual_controller">ManualControllerActivity</string>
+    <string name="title_activity_broadcast">BroadcastActivity</string>
 </resources>

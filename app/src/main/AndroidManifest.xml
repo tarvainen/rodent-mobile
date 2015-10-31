@@ -3,8 +3,7 @@
     package="rodent.rodentmobile" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +26,10 @@
         <activity
             android:name=".ManualControllerActivity"
             android:label="@string/title_activity_manual_controller" >
+        </activity>
+        <activity
+            android:name=".BroadcastActivity"
+            android:label="@string/title_activity_broadcast" >
         </activity>
     </application>
 

@@ -69,7 +69,7 @@ public class ManualControllerActivity extends AppCompatActivity {
 
             @Override
             public void onMessage(String s) {
-
+                Log.d("juuuu", s);
             }
 
             @Override
