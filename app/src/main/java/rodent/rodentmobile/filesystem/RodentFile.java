@@ -1,7 +1,6 @@
 package rodent.rodentmobile.filesystem;
 
 import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,19 +8,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.List;
-
-import rodent.rodentmobile.Shape;
 
 /**
  * Created by Teemu on 25.10.2015.
+ *
  */
 public class RodentFile extends MyFile {
 
-    public RodentFile() {}
-
     public RodentFile(String filename) {
         super(filename + ".rodent");
+    }
+
+    public RodentFile(File file) {
+        load(file.getPath());
     }
 
     @Override
@@ -29,7 +28,7 @@ public class RodentFile extends MyFile {
         try {
             File root = Environment.getExternalStorageDirectory();
             File dir = new File(root.getAbsolutePath() + "/rodent");
-            dir.mkdirs();
+            if (!dir.exists()) dir.mkdirs();
             File file = new File(dir, filename);
             FileOutputStream outStream = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(outStream);

@@ -7,6 +7,7 @@ import rodent.rodentmobile.Shape;
 
 /**
  * Created by Teemu on 25.10.2015.
+ *
  */
 public abstract class MyFile implements Serializable{
     protected String filename;
@@ -38,4 +39,6 @@ public abstract class MyFile implements Serializable{
     public float getMillInPx () {
         return this.millInPx;
     }
+
+    public String getFilename() { return filename; }
 }

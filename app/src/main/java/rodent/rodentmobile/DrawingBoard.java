@@ -1,7 +1,6 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.View;
@@ -92,10 +91,4 @@ public class DrawingBoard extends View {
         this.drawElements(canvas);
     }
 
-    public Bitmap getBitmap() {
-        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawElements(canvas);
-        return bitmap;
-    }
 }

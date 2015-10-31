@@ -4,7 +4,9 @@ package rodent.rodentmobile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,8 +16,10 @@ import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import rodent.rodentmobile.filesystem.MyFile;
-import rodent.rodentmobile.filesystem.RodentFile;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
@@ -36,18 +40,19 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         this.createLongTouchHandler();
         this.setUpSpinners();
 
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            try {
-                file = (MyFile) getIntent().getExtras().get("FILE");
-                if (file != null && file.getShapes() != null) {
-                    for (Shape s : file.getShapes()) {
-                        drawingBoard.addDrawableElement(s);
-                    }
+        setupFromFile();
+    }
+
+    private void setupFromFile() {
+        try {
+            file = (MyFile) getIntent().getExtras().get("FILE");
+            if (file != null && file.getShapes() != null) {
+                for (Shape s : file.getShapes()) {
+                    drawingBoard.addDrawableElement(s);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -99,7 +104,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
         return true;
     }
-
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -171,7 +175,21 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_selected_bg));
     }
 
+    private void saveThumbnail() {
+        Bitmap bitmap = drawingBoard.getBitmap();
+        FileOutputStream out;
+        try {
+            File f = new File(Environment.getExternalStorageDirectory() + "/rodent", this.file.getFilename() + ".png");
+            out = new FileOutputStream(f);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void saveFile() {
+        saveThumbnail();
         file.setMillInPx(this.drawingBoard.getPaper().getMillisInPx());
         file.setShapes(drawingBoard.getDrawableElements());
         file.save();

@@ -1,10 +1,14 @@
 package rodent.rodentmobile;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -44,19 +48,19 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TextView is used for initial testing. The library should display file
-        // thumbnails as ImageViews.
-        TextView textView;
-        if (convertView == null) {
-            textView = new TextView(context);
-            textView.setLayoutParams(new GridView.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 85));
-            textView.setPadding(8, 8, 8, 8);
-        } else {
-            textView = (TextView) convertView;
-        }
+        View view = convertView;
 
-        textView.setText(files.get(position).getName());
-        return textView;
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.library_item, null);
+        }
+        view.setLayoutParams(new GridView.LayoutParams(-2, -2)); // -2 = WRAP_CONTENT
+        view.setPadding(8, 8, 8, 8);
+        ((TextView)view.findViewById(R.id.textView)).setText(files.get(position).getName());
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        Bitmap bm = BitmapFactory.decodeFile(
+                files.get(position) + ".png");
+        imageView.setImageBitmap(bm);
+
+        return view;
     }
 }
