@@ -112,11 +112,11 @@ public class PolylineShape extends Shape {
     }
 
     @Override
-    public String toGCode () {
+    public String toGCode (float millisInPx) {
         String result = "";
 
         for (AnchorPoint point : this.points) {
-            result += "G00 X" + point.getX() + " Y" + point.getY() + "\n";
+            result += "G00 X" + point.getX() / millisInPx + " Y" + point.getY() / millisInPx + "\n";
         }
 
         return result;

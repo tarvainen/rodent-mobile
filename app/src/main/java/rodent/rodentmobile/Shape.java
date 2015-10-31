@@ -92,6 +92,6 @@ public abstract class Shape implements Serializable{
 
     public abstract void drawBoundingBox (Canvas canvas);
 
-    public abstract String toGCode ();
+    public abstract String toGCode (float millisInPx);
 
 }

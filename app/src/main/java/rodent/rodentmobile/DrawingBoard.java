@@ -3,6 +3,7 @@ package rodent.rodentmobile;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.LinkedList;
@@ -31,6 +32,7 @@ public class DrawingBoard extends View {
     }
 
     public Paper getPaper () {
+        Log.d("pippipp", this.paper.getMillisInPx() + "");
         return this.paper;
     }
 

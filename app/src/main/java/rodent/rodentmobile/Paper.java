@@ -2,6 +2,7 @@ package rodent.rodentmobile;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 /////////////////////////////////////////////
 // THIS CODE SUCKS HERE. MAKE SURE TO MAKE IT BEAUTIFUL LATER.
@@ -51,7 +52,7 @@ public class Paper extends Shape {
     }
 
     @Override
-    public String toGCode () {
+    public String toGCode (float millisInPx) {
         return "";
     }
 }

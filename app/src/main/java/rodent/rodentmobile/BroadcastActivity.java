@@ -57,8 +57,9 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void createSimpleTestGCode () {
+        Log.d("jouup", file.getMillInPx() + "");
         for (Shape shape : file.getShapes()) {
-            this.gcode += shape.toGCode();
+            this.gcode += shape.toGCode(file.getMillInPx());
         }
 
         Log.d("GCODE", this.gcode);

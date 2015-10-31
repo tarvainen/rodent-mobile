@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
@@ -57,6 +58,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         if (isToolBusy()) {
             drawBusyElement(canvas);
         }
+        Log.d("on draw", this.getPaper().getMillisInPx() + "");
+
     }
 
     @Override
@@ -196,9 +199,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public Bitmap getBitmap() {
         Bitmap bitmap = Bitmap.createBitmap(85, 85, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        drawBackgroundPaper(canvas);
         canvas.scale(0.25f, 0.25f); // Magic variables.
         drawElements(canvas);
+        invalidate();
         return bitmap;
     }
 }
