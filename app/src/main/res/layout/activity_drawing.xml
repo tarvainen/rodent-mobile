@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/button_unselected_bg"
-        android:layout_below="@+id/tools2" />
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tools3" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
             android:background="@color/button_unselected_bg"
             android:spinnerMode="dropdown"
             android:layout_alignParentStart="true"
-            android:padding="3dp">
+            android:layout_margin="4dp">
         </Spinner>
 
         <Spinner
@@ -37,7 +38,7 @@
             android:background="@color/button_unselected_bg"
             android:spinnerMode="dropdown"
             android:layout_toRightOf="@+id/spinner_interpolation"
-            android:padding="3dp">
+            android:layout_margin="4dp">
         </Spinner>
 
         <Spinner
@@ -47,28 +48,77 @@
             android:background="@color/button_unselected_bg"
             android:spinnerMode="dropdown"
             android:layout_toRightOf="@+id/spinner_lines"
-            android:padding="3dp">
+            android:layout_margin="4dp">
         </Spinner>
 
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_file"
-            android:layout_alignParentEnd="false"
-            android:layout_toRightOf="@+id/spinner_polygons"
-            android:background="@color/button_unselected_bg"
-            android:padding="3dp"
-            android:spinnerMode="dropdown" />
+    </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/btn_open_broadcast"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tools3"
+        android:layout_below="@+id/tools2"
+        android:layout_alignParentStart="true">
+
+
+        <ImageButton
+            android:id="@+id/action_open_broadcast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="10dp"
             android:src="@drawable/ic_wifi_black_36dp"
             android:layout_centerVertical="true"
-            android:onClick="onImageViewClick"/>
+            android:onClick="onActionButtonClick"
+            android:padding="15dp"/>
+
+        <ImageButton
+            android:id="@+id/action_delete_element"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_black_36dp"
+            android:layout_centerVertical="true"
+            android:onClick="onActionButtonClick"
+            android:padding="15dp"/>
+
+        <ImageButton
+            android:id="@+id/action_copy_element"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_content_copy_black_36dp"
+            android:onClick="onActionButtonClick"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/action_delete_element"
+            android:padding="15dp"/>
+
+        <ImageButton
+            android:id="@+id/action_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_undo_black_36dp"
+            android:onClick="onActionButtonClick"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/action_copy_element"
+            android:padding="15dp"/>
+
+        <ImageButton
+            android:id="@+id/action_redo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_redo_black_36dp"
+            android:onClick="onActionButtonClick"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/action_undo"
+            android:padding="15dp"/>
+
+        <ImageButton
+            android:id="@+id/action_save_file"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_sd_card_black_36dp"
+            android:onClick="onActionButtonClick"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/action_redo"
+            android:padding="15dp"/>
 
     </RelativeLayout>
 

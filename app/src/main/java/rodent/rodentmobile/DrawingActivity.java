@@ -77,11 +77,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         polySpinner.setOnItemSelectedListener(this);
         polySpinner.setOnTouchListener(this);
 
-        Spinner fileSpinner = (Spinner) findViewById(R.id.spinner_file);
-        fileSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.file_tool_id, R.array.file_tools, R.array.file_tool_names));
-        fileSpinner.setOnItemSelectedListener(this);
-        fileSpinner.setOnTouchListener(this);
-
         this.setActiveSpinner(interpolationSpinner);
     }
 
@@ -136,8 +131,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.tool_polyline:
                 drawingBoard.changeTool(new PolyLineTool());
                 break;
-            case R.id.file_save:
-                saveFile();
             case R.id.tool_polygon:
                 drawingBoard.changeTool(new PolygonTool());
                 break;
@@ -148,11 +141,21 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         this.longTouchHandler = new Handler();
     }
 
-    public void onImageViewClick (View v) {
+    public void onActionButtonClick (View v) {
         switch (v.getId()) {
-            case R.id.btn_open_broadcast:
+            case R.id.action_open_broadcast:
                 openBroadcast();
                 break;
+            case R.id.action_delete_element:
+                break;
+            case R.id.action_copy_element:
+                break;
+            case R.id.action_undo:
+                break;
+            case R.id.action_redo:
+                break;
+            case R.id.action_save_file:
+                saveFile();
             default:
                 break;
         }

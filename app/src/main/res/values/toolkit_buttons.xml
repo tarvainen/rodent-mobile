@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Interpolation tools -->
     <array name="interpolation_tools">
         <item>@drawable/ic_open_with_black_36dp</item>
         <item>@drawable/ic_send_black_36dp</item>
@@ -17,9 +19,11 @@
         <item>@id/tool_anchor</item>
         <item>@id/tool_freehand</item>
     </array>
+
+    <!-- /Interpolation tools -->
     
     
-    
+    <!-- Line tools -->
     <array name="line_tools">
         <item>@drawable/ic_remove_black_36dp</item>
         <item>@drawable/ic_polymer_black_36dp</item>
@@ -34,7 +38,10 @@
         <item>@id/tool_line</item>
         <item>@id/tool_polyline</item>
     </array>
+    <!-- /Line tools -->
 
+
+    <!-- Polygonal tools -->
     <array name="poly_tools">
         <item>@drawable/ic_border_style_black_36dp</item>
         <item>@drawable/ic_details_black_36dp</item>
@@ -49,22 +56,8 @@
         <item>@id/tool_rectangle</item>
         <item>@id/tool_polygon</item>
     </array>
+    <!-- /Polygonal tools -->
 
-    <!-- File tools -->
-    <array name="file_tools">
-        <item>@drawable/ic_sd_card_black_36dp</item>
-    </array>
-
-    <string-array name="file_tool_names">
-        <item>Save</item>
-    </string-array>
-
-    <array name="file_tool_id">
-        <item>@id/file_save</item>
-    </array>
-
-    <item type="id" name="file_save"></item>
-    <!-- /File tools-->
 
     <item type="id" name="tool_move"></item>
     <item type="id" name="tool_freehand"></item>
