@@ -190,7 +190,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private void saveFile() {
         saveThumbnail();
-        file.setMillInPx(this.drawingBoard.getPaper().getMillisInPx());
+        file.setPaper(this.drawingBoard.getPaper());
         file.setShapes(drawingBoard.getDrawableElements());
         file.save();
         Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();

@@ -15,6 +15,8 @@ public abstract class Shape implements Serializable{
     public static final float SELECTION_RADIUS = 20.0f;
     private Vector2<Float> position;
     private Vector2<Float> size;
+    private float depth;
+
     boolean selected;
     boolean ready;
 
@@ -31,6 +33,7 @@ public abstract class Shape implements Serializable{
         this.selected = false;
         this.ready = false;
         this.boundingBox = new BoundingBox();
+        this.depth = 0f;
     }
 
     public CustomPaint getPaint () {
@@ -78,6 +81,14 @@ public abstract class Shape implements Serializable{
         return this.boundingBox;
     }
 
+    public void setDepth (float depth) {
+        this.depth = depth;
+    }
+
+    public float getDepth () {
+        return this.depth;
+    }
+
     public void draw (Canvas canvas) {
         if (this.selected && this.ready) {
             this.drawBoundingBox(canvas);
@@ -92,6 +103,14 @@ public abstract class Shape implements Serializable{
 
     public abstract void drawBoundingBox (Canvas canvas);
 
-    public abstract String toGCode (float millisInPx);
+    public abstract String toGCode (Paper paper);
+
+    public float round (float value) {
+        return Utils.round(value, 2);
+    }
+
+    public float flipMap (float value, float max) {
+        return max - value;
+    }
 
 }

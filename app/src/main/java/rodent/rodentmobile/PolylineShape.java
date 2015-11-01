@@ -113,14 +113,21 @@ public class PolylineShape extends Shape {
     }
 
     @Override
-    public String toGCode (float millisInPx) {
+    public String toGCode (Paper paper) {
         String result = "";
+        float millisInPx = paper.getMillisInPx();
+        float height = paper.getSize().getY() / millisInPx;
 
-        Log.d("millis", millisInPx + "");
+        AnchorPoint start = this.points.get(0);
+        result += "G00 X" + round(start.getX() / millisInPx)  + " Y" + flipMap(round(start.getY() / millisInPx), height) + "\n";
+        result += "G00 Z" + this.getDepth() + "\n";
+
         for (AnchorPoint point : this.points) {
-            result += "G00 X" + point.getX() / millisInPx + " Y" + point.getY() / millisInPx + "\n";
+            result += "G00 X" + round(point.getX() / millisInPx);
+            result += " Y" + flipMap(round(point.getY() / millisInPx), height) + "\n";
         }
 
+        result += "G00 Z1.00\n";
         return result;
     }
 }

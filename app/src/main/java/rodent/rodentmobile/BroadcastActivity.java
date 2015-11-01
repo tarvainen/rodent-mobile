@@ -121,7 +121,7 @@ public class BroadcastActivity extends AppCompatActivity {
 
     private void createSimpleTestGCode () {
         for (Shape shape : file.getShapes()) {
-            this.gcode += shape.toGCode(file.getMillInPx());
+            this.gcode += shape.toGCode(file.getPaper());
         }
 
         String rows[]= this.gcode.split("\n");

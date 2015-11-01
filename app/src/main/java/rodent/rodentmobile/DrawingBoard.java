@@ -32,7 +32,6 @@ public class DrawingBoard extends View {
     }
 
     public Paper getPaper () {
-        Log.d("pippipp", this.paper.getMillisInPx() + "");
         return this.paper;
     }
 

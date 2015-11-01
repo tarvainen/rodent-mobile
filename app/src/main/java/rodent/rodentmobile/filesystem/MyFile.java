@@ -3,6 +3,7 @@ package rodent.rodentmobile.filesystem;
 import java.io.Serializable;
 import java.util.List;
 
+import rodent.rodentmobile.Paper;
 import rodent.rodentmobile.Shape;
 
 /**
@@ -12,23 +13,18 @@ import rodent.rodentmobile.Shape;
 public abstract class MyFile implements Serializable{
     protected String filename;
     protected List<Shape> shapes;
-    protected float millInPx;
+    protected Paper paper;
 
     public MyFile() {
-        this.millInPx = 1.0f;
+
     }
 
     public MyFile(String filename) {
         this.filename = filename;
-        this.millInPx = 1.0f;
     }
 
     public void setShapes(List<Shape> shapes) {
         this.shapes = shapes;
-    }
-
-    public void setMillInPx (float millInPx) {
-        this.millInPx = millInPx;
     }
 
     public abstract void save();
@@ -36,9 +32,13 @@ public abstract class MyFile implements Serializable{
 
     public List<Shape> getShapes() { return shapes; }
 
-    public float getMillInPx () {
-        return this.millInPx;
+    public String getFilename() { return filename; }
+
+    public void setPaper (Paper paper) {
+        this.paper = paper;
     }
 
-    public String getFilename() { return filename; }
+    public Paper getPaper () {
+        return this.paper;
+    }
 }

@@ -28,6 +28,8 @@ public class Paper extends Shape {
         this.millisInPx = lineSeparatedDistance;
         int linesY = (int) (canvas.getHeight() / lineSeparatedDistance);
 
+        this.setSize(new Vector2<>((float)canvas.getWidth(), (float)canvas.getHeight()));
+
         for (int i = 0; i <= linesX; i++) {
             canvas.drawLine(i * lineSeparatedDistance, 0, i * lineSeparatedDistance, canvas.getHeight(), paint);
         }
@@ -52,7 +54,7 @@ public class Paper extends Shape {
     }
 
     @Override
-    public String toGCode (float millisInPx) {
+    public String toGCode (Paper paper) {
         return "";
     }
 }
