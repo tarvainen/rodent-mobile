@@ -1,5 +1,7 @@
 package rodent.rodentmobile;
 
+import android.util.Log;
+
 import java.util.List;
 
 /**
@@ -80,7 +82,7 @@ public class VectorMath {
             }
         }
 
-        return new Vector2<Float>(maxX, maxY);
+        return new Vector2<>(maxX, maxY);
     }
 
     public static Vector2<Float> sum (Vector2<Float> p1, Vector2<Float> p2) {
@@ -89,6 +91,18 @@ public class VectorMath {
 
     private static float sqr (float val) {
         return val * val;
+    }
+
+    public static Vector2<Float> getScaledPosition (Vector2<Float> min, Vector2<Float> max, Vector2<Float> target, Vector2<Float> amount) {
+        float x = getScaledPosition(min.getX(), max.getX(), target.getX(), amount.getX());
+        float y = getScaledPosition(min.getY(), max.getY(), target.getY(), amount.getY());
+        return new Vector2<>(x, y);
+    }
+
+    private static float getScaledPosition (float min, float max, float target, float amount) {
+        float len = max - min;
+        float elLen = target - min;
+        return target + (elLen / len) * amount;
     }
 
 

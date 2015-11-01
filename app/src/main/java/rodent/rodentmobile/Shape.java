@@ -117,6 +117,7 @@ public abstract class Shape implements Serializable {
         return max - value;
     }
 
+    public abstract void scale (int corner, Vector2<Float> amount);
 
 
 }

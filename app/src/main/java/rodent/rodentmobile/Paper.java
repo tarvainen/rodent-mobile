@@ -58,5 +58,9 @@ public class Paper extends Shape {
         return "";
     }
 
+    @Override
+    public void scale (int corner, Vector2<Float> amount) {
+
+    }
 
 }

@@ -1,6 +1,7 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -137,8 +138,17 @@ public class PolylineShape extends Shape {
             Vector2<Float> result = VectorMath.sum(point, delta);
             point.setX(result.getX());
             point.setY(result.getY());
-            this.update();
         }
+        this.update();
     }
 
+    @Override
+    public void scale (int corner, Vector2<Float> amount) {
+        Vector2<Float> referencePoint = this.getBoundingBox().getCorner(corner);
+        for (AnchorPoint point : this.points) {
+            Vector2<Float> res = VectorMath.getScaledPosition(this.getBoundingBox().getCorner(corner), this.getBoundingBox().getCorner(corner + 2), point, amount);
+            point.setX(res.getX());
+            point.setY(res.getY());
+        }
+    }
 }

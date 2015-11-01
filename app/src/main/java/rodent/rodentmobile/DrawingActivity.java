@@ -136,6 +136,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.tool_polygon:
                 drawingBoard.changeTool(new PolygonTool());
                 break;
+            case R.id.tool_scale:
+                drawingBoard.changeTool(new ScaleTool());
+                break;
         }
     }
 
