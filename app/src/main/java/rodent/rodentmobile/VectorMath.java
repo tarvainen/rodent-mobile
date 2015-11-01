@@ -5,7 +5,7 @@ import android.util.Log;
 import java.util.List;
 
 /**
- * Created by attetarvainen on 26/10/15.
+ * Created by Atte on 26/10/15.
  */
 public class VectorMath {
 

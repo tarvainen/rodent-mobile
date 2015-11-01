@@ -7,6 +7,11 @@ import java.util.List;
  */
 public class RectangleTool extends Tool {
 
+    AnchorPoint p1;
+    AnchorPoint p2;
+    AnchorPoint p3;
+    AnchorPoint p4;
+
     public RectangleTool () {
         super();
         this.clear();
@@ -20,13 +25,13 @@ public class RectangleTool extends Tool {
     @Override
     public void onStart(Vector2<Float> position) {
         this.setStartCornerPositionToEventPosition(position);
-        this.setEndCornerPositionToEventPosition(position);
         this.setBusy(true);
     }
 
     @Override
     public void onMove(Vector2<Float> position) {
         this.setEndCornerPositionToEventPosition(position);
+        this.getShape().update();
     }
 
     @Override
@@ -38,20 +43,33 @@ public class RectangleTool extends Tool {
     public void onEnd(Vector2<Float> position) {
         this.setEndCornerPositionToEventPosition(position);
         this.getShapeContainer().add(this.getShape());
+        this.getShape().update();
+        this.getShape().setReady(true);
         this.clear();
         this.setBusy(false);
     }
 
     @Override
     public void clear() {
-        this.setShape(new RectangleShape());
+        this.setShape(new PolygonShape());
     }
 
     public void setStartCornerPositionToEventPosition (Vector2<Float> position) {
-        ((RectangleShape) this.getShape()).setStartCornerPosition(new Vector2<>(position.getX(), position.getY()));
+        this.p1 = new AnchorPoint(position.getX(), position.getY());
+        this.p2 = new AnchorPoint(position.getX(), position.getY());
+        this.p3 = new AnchorPoint(position.getX(), position.getY());
+        this.p4 = new AnchorPoint(position.getX(), position.getY());
+
+        ((PolygonShape) this.getShape()).addPoint(p1);
+        ((PolygonShape) this.getShape()).addPoint(p2);
+        ((PolygonShape) this.getShape()).addPoint(p3);
+        ((PolygonShape) this.getShape()).addPoint(p4);
     }
 
     public void setEndCornerPositionToEventPosition (Vector2<Float> position) {
-        ((RectangleShape) this.getShape()).setEndCornerPosition(new Vector2<>(position.getX(), position.getY()));
+        this.p2.setX(position.getX());
+        this.p3.setX(position.getX());
+        this.p3.setY(position.getY());
+        this.p4.setY(position.getY());
     }
 }

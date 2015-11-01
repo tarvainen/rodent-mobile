@@ -25,6 +25,13 @@ public class AnchorPoint extends Vector2<Float> {
         this.init();
     }
 
+    public AnchorPoint (float x, float y) {
+        super();
+        this.setX(x);
+        this.setY(y);
+        this.init();
+    }
+
     private void init () {
         this.paint = new CustomPaint();
         paint.setARGB(180, 80, 80, 80);
