@@ -17,8 +17,8 @@ public abstract class Shape implements Serializable{
     private Vector2<Float> size;
     private float depth;
 
-    boolean selected;
-    boolean ready;
+    private boolean selected;
+    private boolean ready;
 
     private BoundingBox boundingBox;
 
@@ -104,6 +104,10 @@ public abstract class Shape implements Serializable{
     public abstract void drawBoundingBox (Canvas canvas);
 
     public abstract String toGCode (Paper paper);
+
+    public void move (Vector2<Float> delta) {
+
+    }
 
     public float round (float value) {
         return Utils.round(value, 2);

@@ -5,6 +5,14 @@ package rodent.rodentmobile;
  */
 public class MoveTool extends Tool {
 
+    private Vector2<Float> lastMovePosition;
+    private boolean moved;
+
+    {
+        this.lastMovePosition = new Vector2<>(0f, 0f);
+        this.moved = false;
+    }
+
     public MoveTool () {
         super();
     }
@@ -16,12 +24,15 @@ public class MoveTool extends Tool {
 
     @Override
     public void onStart(Vector2<Float> position) {
-        this.handleSelections(position);
+        this.lastMovePosition = position;
+        this.moved = false;
     }
 
     @Override
     public void onMove(Vector2<Float> position) {
-
+        this.moved = true;
+        handleMovement(position);
+        this.lastMovePosition = position;
     }
 
     @Override
@@ -31,7 +42,9 @@ public class MoveTool extends Tool {
 
     @Override
     public void onEnd(Vector2<Float> position) {
-
+        if (!this.moved) {
+            this.handleSelections(position);
+        }
     }
 
     @Override
@@ -61,11 +74,19 @@ public class MoveTool extends Tool {
     }
 
     public void deselectAll () {
-        if (this.getShapeContainer() == null) {
-            return;
-        }
         for (Shape shape : this.getShapeContainer()) {
             shape.setSelected(false);
         }
     }
+
+    private void handleMovement (Vector2<Float> position) {
+
+        Vector2<Float> dPosition = VectorMath.substract(position, lastMovePosition);
+        for (Shape shape : this.getShapeContainer()) {
+            if (shape.isSelected()) {
+                shape.move(dPosition);
+            }
+        }
+    }
+
 }

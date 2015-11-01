@@ -83,6 +83,10 @@ public class VectorMath {
         return new Vector2<Float>(maxX, maxY);
     }
 
+    public static Vector2<Float> sum (Vector2<Float> p1, Vector2<Float> p2) {
+        return new Vector2<>(p1.getX() + p2.getX(), p1.getY() + p2.getY());
+    }
+
     private static float sqr (float val) {
         return val * val;
     }

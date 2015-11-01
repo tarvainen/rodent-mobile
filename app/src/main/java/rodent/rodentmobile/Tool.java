@@ -2,6 +2,7 @@ package rodent.rodentmobile;
 
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public abstract class Tool {
     public Tool () {
         this.isInUse = false;
         this.drawable = null;
-        this.shapeContainer = null;
+        this.shapeContainer = new ArrayList<>();
         this.allowCanvasTranslate = false;
     }
 

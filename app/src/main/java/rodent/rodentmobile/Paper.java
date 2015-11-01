@@ -57,4 +57,5 @@ public class Paper extends Shape {
     public String toGCode (Paper paper) {
         return "";
     }
+
 }

@@ -1,7 +1,6 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,5 +128,16 @@ public class PolylineShape extends Shape {
 
         result += "G00 Z1.00\n";
         return result;
+    }
+
+    @Override
+    public void move (Vector2<Float> delta) {
+        for (AnchorPoint point : this.points) {
+            Vector2<Float> p = point;
+            Vector2<Float> result = VectorMath.sum(point, delta);
+            point.setX(result.getX());
+            point.setY(result.getY());
+            this.update();
+        }
     }
 }
