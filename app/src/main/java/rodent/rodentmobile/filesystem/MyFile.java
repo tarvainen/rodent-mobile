@@ -3,8 +3,8 @@ package rodent.rodentmobile.filesystem;
 import java.io.Serializable;
 import java.util.List;
 
-import rodent.rodentmobile.Paper;
-import rodent.rodentmobile.Shape;
+import rodent.rodentmobile.drawing.shapes.Paper;
+import rodent.rodentmobile.drawing.shapes.Shape;
 
 /**
  * Created by Teemu on 25.10.2015.
