@@ -1,6 +1,7 @@
 package rodent.rodentmobile;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,7 @@ public class PolylineShape extends Shape {
     public String toGCode (float millisInPx) {
         String result = "";
 
+        Log.d("millis", millisInPx + "");
         for (AnchorPoint point : this.points) {
             result += "G00 X" + point.getX() / millisInPx + " Y" + point.getY() / millisInPx + "\n";
         }

@@ -104,4 +104,12 @@ public class ManualControllerActivity extends AppCompatActivity {
             this.mWebSocketClient.send(msg);
         }
     }
+
+    @Override
+    public void onStop () {
+        super.onStop();
+        if (this.mWebSocketClient != null) {
+            this.mWebSocketClient.getConnection().closeConnection(0, "Closed");
+        }
+    }
 }
