@@ -19,6 +19,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import rodent.rodentmobile.actions.CopyAction;
+import rodent.rodentmobile.actions.DeleteAction;
 import rodent.rodentmobile.filesystem.MyFile;
 
 
@@ -147,8 +149,10 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 openBroadcast();
                 break;
             case R.id.action_delete_element:
+                this.performDeleteAction();
                 break;
             case R.id.action_copy_element:
+                this.performCopyAction();
                 break;
             case R.id.action_undo:
                 break;
@@ -204,6 +208,25 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         MyFile file = this.file;
         intent.putExtra("FILE", file);
         this.startActivity(intent);
+    }
+
+    private void performCopyAction () {
+        CopyAction copyAction = new CopyAction(drawingBoard.getDrawableElements());
+        try {
+            copyAction.execute();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Copy action failed", Toast.LENGTH_SHORT).show();
+        }
+        drawingBoard.invalidate();
+    }
+
+    private void performDeleteAction () {
+        DeleteAction action = new DeleteAction();
+        action.setShapes(drawingBoard.getDrawableElements());
+        if (action.execute() == 0) {
+            Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
+        }
+        drawingBoard.invalidate();
     }
 
 }

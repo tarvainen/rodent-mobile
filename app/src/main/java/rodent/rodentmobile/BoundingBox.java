@@ -31,6 +31,16 @@ public class BoundingBox implements Serializable {
         this.pinRadius = 5f;
     }
 
+    public BoundingBox (BoundingBox box) {
+        this.corners = new Vector2[4];
+        for (int i = 0; i < box.corners.length; i++) {
+            this.corners[i] = box.corners[i];
+        }
+
+        this.paint = box.paint;
+        this.pinRadius = box.pinRadius;
+    }
+
     public void setCorners(Vector2<Float> upperLeft, Vector2<Float> upperRight, Vector2<Float> lowerRight, Vector2<Float> lowerLeft) {
         this.setCorner(upperLeft, UPPER_LEFT);
         this.setCorner(upperRight, UPPER_RIGHT);

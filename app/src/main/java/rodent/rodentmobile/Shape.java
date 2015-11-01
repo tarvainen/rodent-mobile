@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by Atte on 22.10.2015.
  */
-public abstract class Shape implements Serializable{
+public abstract class Shape implements Serializable {
 
     private CustomPaint paint;
 
@@ -116,5 +116,7 @@ public abstract class Shape implements Serializable{
     public float flipMap (float value, float max) {
         return max - value;
     }
+
+
 
 }

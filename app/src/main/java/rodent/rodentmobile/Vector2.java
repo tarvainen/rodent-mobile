@@ -19,6 +19,11 @@ public class Vector2<T> implements Serializable{
         this.y = y;
     }
 
+    public Vector2 (Vector2<T> element) {
+        this.x = element.getX();
+        this.y = element.getY();
+    }
+
     public T getX () {
         return this.x;
     }
@@ -34,5 +39,6 @@ public class Vector2<T> implements Serializable{
     public void setY (T y) {
         this.y = y;
     }
+
 
 }
