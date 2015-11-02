@@ -4,8 +4,9 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/filename_edittext"
+        android:id="@+id/editText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:inputType="textNoSuggestions|text" />
 
 </LinearLayout>

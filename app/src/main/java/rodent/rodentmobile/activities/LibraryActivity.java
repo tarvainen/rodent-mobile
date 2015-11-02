@@ -18,14 +18,14 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
-import rodent.rodentmobile.ui.ImageAdapter;
-import rodent.rodentmobile.ui.NewFileDialogFragment;
-import rodent.rodentmobile.ui.NewFileDialogFragment.NewFileDialogListener;
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
+import rodent.rodentmobile.ui.ImageAdapter;
+import rodent.rodentmobile.ui.TextPromptDialogFragment;
+import rodent.rodentmobile.ui.TextPromptDialogFragment.TextPromptDialogListener;
 
-public class LibraryActivity extends AppCompatActivity implements NewFileDialogListener,
+public class LibraryActivity extends AppCompatActivity implements TextPromptDialogListener,
                                                                   OnItemClickListener,
                                                                   FilenameFilter {
     private ArrayList<File> files;
@@ -66,8 +66,11 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_new) {
-            DialogFragment dialog = new NewFileDialogFragment();
-            dialog.show(getFragmentManager(), "NewFileDialogFragment");
+            DialogFragment dialog = new TextPromptDialogFragment();
+            Bundle arguments = new Bundle();
+            arguments.putString("PROMPT", "Enter filename:");
+            dialog.setArguments(arguments);
+            dialog.show(getFragmentManager(), "TextPromptDialogFragment");
         } else if (id == R.id.action_open_controller) {
             Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
             this.startActivity(newControllerIntent);
