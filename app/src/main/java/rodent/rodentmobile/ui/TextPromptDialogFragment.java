@@ -7,32 +7,29 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.widget.EditText;
 import android.view.View;
+import android.widget.EditText;
 
 import rodent.rodentmobile.R;
 
-/**
- * Created by Teemu on 25.10.2015.
- */
-public class NewFileDialogFragment extends DialogFragment {
+public class TextPromptDialogFragment extends DialogFragment {
 
-    public interface NewFileDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog, String filename);
+    public interface TextPromptDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog, String text);
         void onDialogNegativeClick(DialogFragment dialog);
     }
 
-    NewFileDialogListener mListener;
+    TextPromptDialogListener mListener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
         try {
-            mListener = (NewFileDialogListener) activity;
+            mListener = (TextPromptDialogListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement NewFileDialogListener");
+                    + " must implement TextPromptDialogListener");
         }
     }
 
@@ -42,18 +39,18 @@ public class NewFileDialogFragment extends DialogFragment {
         final View dialogView = inflater.inflate(R.layout.newfiledialog_layout, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(dialogView);
-        builder.setMessage("Enter filename");
+        builder.setMessage(getArguments().getString("PROMPT"));
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                EditText editText = (EditText) dialogView.findViewById(R.id.filename_edittext);
-                mListener.onDialogPositiveClick(NewFileDialogFragment.this, editText.getText().toString());
+                EditText editText = (EditText) dialogView.findViewById(R.id.editText);
+                mListener.onDialogPositiveClick(TextPromptDialogFragment.this, editText.getText().toString());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mListener.onDialogNegativeClick(NewFileDialogFragment.this);
+                mListener.onDialogNegativeClick(TextPromptDialogFragment.this);
             }
         });
         return builder.create();
