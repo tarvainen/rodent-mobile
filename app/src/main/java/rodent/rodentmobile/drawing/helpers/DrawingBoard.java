@@ -27,6 +27,7 @@ public class DrawingBoard extends View {
         super(context);
         this.elements = new LinkedList<>();
         this.paper = new Paper();
+
     }
 
     public DrawingBoard (Context context, AttributeSet attrs) {

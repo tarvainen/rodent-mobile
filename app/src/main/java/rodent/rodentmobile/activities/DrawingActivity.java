@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
+import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.drawing.actions.CopyAction;
@@ -71,7 +73,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     }
 
     @Override
-    public void run() {
+    public void run () {
         activeSpinner.performClick();
     }
 
@@ -150,6 +152,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case R.id.tool_scale:
                 drawingBoard.changeTool(new ScaleTool());
+                break;
+            case R.id.tool_rotate:
+                drawingBoard.changeTool(new RotateTool());
                 break;
         }
     }
