@@ -1,7 +1,9 @@
 package rodent.rodentmobile.activities;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,6 +11,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,13 +21,12 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.security.Key;
 
-import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
-import rodent.rodentmobile.ui.IconSpinnerAdapter;
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.drawing.actions.CopyAction;
 import rodent.rodentmobile.drawing.actions.DeleteAction;
-import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
 import rodent.rodentmobile.drawing.shapes.Shape;
 import rodent.rodentmobile.drawing.tools.AnchorPointTool;
 import rodent.rodentmobile.drawing.tools.FreeHandTool;
@@ -34,6 +37,8 @@ import rodent.rodentmobile.drawing.tools.PolygonTool;
 import rodent.rodentmobile.drawing.tools.RectangleTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
 import rodent.rodentmobile.drawing.tools.Tool;
+import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.ui.IconSpinnerAdapter;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
@@ -175,6 +180,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case R.id.action_save_file:
                 saveFile();
+                break;
             default:
                 break;
         }
@@ -216,6 +222,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         file.setShapes(drawingBoard.getDrawableElements());
         file.save();
         Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+        drawingBoard.setModified(false);
     }
 
     private void openBroadcast () {
@@ -244,4 +251,39 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         drawingBoard.invalidate();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (drawingBoard.isModified()) {
+                createSavePromptDialog();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void createSavePromptDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Save changes?");
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveFile();
+                finish();
+            }
+        });
+        builder.setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+            }
+        });
+        AlertDialog savePrompt = builder.create();
+        savePrompt.show();
+    }
 }

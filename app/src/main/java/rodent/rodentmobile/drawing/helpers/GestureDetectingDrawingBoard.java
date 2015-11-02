@@ -32,6 +32,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private ScaleGestureDetector scaleDetector;
 
     private boolean snipetisnapActivated;
+    private boolean modified = false;
 
     public GestureDetectingDrawingBoard (Context context) {
         super(context);
@@ -64,13 +65,13 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             drawBusyElement(canvas);
         }
         Log.d("on draw", this.getPaper().getMillisInPx() + "");
-
     }
 
     @Override
     public boolean onTouchEvent (MotionEvent event) {
         this.scaleDetector.onTouchEvent(event);
         this.handleOnTouchEventGesture(event);
+        this.modified = true;
         return true;
     }
 
@@ -208,5 +209,13 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         drawElements(canvas);
         invalidate();
         return bitmap;
+    }
+
+    public boolean isModified() {
+        return this.modified;
+    }
+
+    public void setModified(boolean modified) {
+        this.modified = modified;
     }
 }
