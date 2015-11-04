@@ -64,6 +64,19 @@
     </array>
     <!-- /Polygonal tools -->
 
+    <!-- Circular tools -->
+    <array name="circ_tools">
+        <item>@drawable/ic_panorama_fish_eye_black_36dp</item>
+    </array>
+
+    <string-array name="circ_tools_names">
+        <item>Circle</item>
+    </string-array>
+
+    <array name="circ_tool_id">
+        <item>@id/tool_circle</item>
+    </array>
+    <!-- /Circular tools -->
 
     <item type="id" name="tool_move"></item>
     <item type="id" name="tool_freehand"></item>
@@ -71,6 +84,7 @@
     <item type="id" name="tool_rectangle"></item>
     <item type="id" name="tool_polyline"></item>
     <item type="id" name="tool_polygon"></item>
+    <item type="id" name="tool_circle"></item>
     <item type="id" name="tool_anchor"></item>
     <item type="id" name="tool_scale"></item>
     <item type="id" name="tool_rotate"></item>

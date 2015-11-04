@@ -52,6 +52,16 @@
             android:layout_margin="4dp">
         </Spinner>
 
+        <Spinner
+            android:id="@+id/spinner_circles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/button_unselected_bg"
+            android:spinnerMode="dropdown"
+            android:layout_toRightOf="@+id/spinner_polygons"
+            android:layout_margin="4dp">
+        </Spinner>
+
     </RelativeLayout>
 
     <RelativeLayout

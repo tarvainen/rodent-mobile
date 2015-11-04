@@ -163,9 +163,31 @@ public class PolylineShape extends Shape {
     @Override
     public void rotate (Vector2<Float> pivot, Angle amount) {
         for (AnchorPoint point : this.points) {
-            Vector2<Float> result = VectorMath.getRotatedPosition (pivot, point, amount);
+            Vector2<Float> result = VectorMath.getRotatedPosition(pivot, point, amount);
             point.setX(result.getX());
             point.setY(result.getY());
         }
+    }
+
+    public static PolylineShape asCircleShape (Vector2<Float> position, float radius) {
+        PolylineShape result = new PolylineShape();
+        Angle angle = new Angle();
+        angle.setDegrees(0);
+        float segments = 20;
+        float angleIncrement = 360 / segments;
+
+        for (int i = 0; i <= segments; i++) {
+            result.addPoint(circumfencePointAtAngleAndRadius(angle, radius, position));
+            angle.setDegrees(angle.getDegrees() + angleIncrement);
+        }
+
+        return result;
+
+    }
+
+    private static AnchorPoint circumfencePointAtAngleAndRadius (Angle angle, float radius, Vector2<Float> origo) {
+        float x = (float)Math.cos(angle.getRadians()) * radius + origo.getX();
+        float y = (float)Math.sin(angle.getRadians()) * radius + origo.getY();
+        return new AnchorPoint(x, y);
     }
 }

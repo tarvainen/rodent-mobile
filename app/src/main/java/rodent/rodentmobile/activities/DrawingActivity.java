@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
+import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
 import rodent.rodentmobile.R;
@@ -93,6 +94,11 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         polySpinner.setOnItemSelectedListener(this);
         polySpinner.setOnTouchListener(this);
 
+        Spinner circSpinner = (Spinner) findViewById(R.id.spinner_circles);
+        circSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.circ_tool_id, R.array.circ_tools, R.array.circ_tools_names));
+        circSpinner.setOnItemSelectedListener(this);
+        circSpinner.setOnTouchListener(this);
+
         this.setActiveSpinner(interpolationSpinner);
     }
 
@@ -155,6 +161,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case R.id.tool_rotate:
                 drawingBoard.changeTool(new RotateTool());
+                break;
+            case R.id.tool_circle:
+                drawingBoard.changeTool(new CircleTool());
                 break;
         }
     }
