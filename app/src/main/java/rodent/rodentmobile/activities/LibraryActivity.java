@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,6 +58,15 @@ public class LibraryActivity extends AppCompatActivity implements TextPromptDial
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library, menu);
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown (int keyCode, KeyEvent e) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && e.getRepeatCount() == 0) {
+            finishAffinity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, e);
     }
 
     @Override
