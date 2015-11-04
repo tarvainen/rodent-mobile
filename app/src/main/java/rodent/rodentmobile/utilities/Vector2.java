@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Atte on 22.10.2015.
  */
-public class Vector2<T> implements Serializable{
+public class Vector2<T> implements Serializable {
 
     private T x;
     private T y;
@@ -39,6 +39,7 @@ public class Vector2<T> implements Serializable{
     public void setY (T y) {
         this.y = y;
     }
+
 
 
 }

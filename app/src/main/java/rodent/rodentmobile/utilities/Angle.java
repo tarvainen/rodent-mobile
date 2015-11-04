@@ -1,9 +1,11 @@
 package rodent.rodentmobile.utilities;
 
+import java.io.Serializable;
+
 /**
  * Created by Atte on 02/11/15.
  */
-public class Angle {
+public class Angle implements Serializable {
 
     private float angle;
 
@@ -31,7 +33,7 @@ public class Angle {
         Angle angle = new Angle();
         float dX = b.getX() - a.getX();
         float dY = b.getY() - a.getY();
-        angle.setRadians((float)Math.atan2(dX, dY));
+        angle.setRadians((float)Math.atan2(dY, dX));
         return angle;
     }
 

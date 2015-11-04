@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rodent.rodentmobile.drawing.helpers.AnchorPoint;
+import rodent.rodentmobile.utilities.Angle;
 import rodent.rodentmobile.utilities.Vector2;
 import rodent.rodentmobile.utilities.VectorMath;
 
@@ -34,6 +35,7 @@ public class PolylineShape extends Shape {
     public List<AnchorPoint> getPoints () {
         return this.points;
     }
+
 
     public void addPoint (AnchorPoint point) {
         this.points.add(point);
@@ -113,6 +115,10 @@ public class PolylineShape extends Shape {
     @Override
     public void update () {
         this.renderPointsToArray();
+        Vector2<Float> min = VectorMath.min(this.getPoints());
+        Vector2<Float> max = VectorMath.max(this.getPoints());
+        this.setPosition(min);
+        this.setSize(new Vector2<Float>(max.getX() - min.getX(), max.getY() - min.getY()));
     }
 
     @Override
@@ -151,6 +157,15 @@ public class PolylineShape extends Shape {
             Vector2<Float> res = VectorMath.getScaledPosition(this.getBoundingBox().getCorner(corner), this.getBoundingBox().getCorner(corner + 2), point, amount);
             point.setX(res.getX());
             point.setY(res.getY());
+        }
+    }
+
+    @Override
+    public void rotate (Vector2<Float> pivot, Angle amount) {
+        for (AnchorPoint point : this.points) {
+            Vector2<Float> result = VectorMath.getRotatedPosition (pivot, point, amount);
+            point.setX(result.getX());
+            point.setY(result.getY());
         }
     }
 }

@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import rodent.rodentmobile.drawing.helpers.BoundingBox;
 import rodent.rodentmobile.drawing.helpers.CustomPaint;
+import rodent.rodentmobile.utilities.Angle;
 import rodent.rodentmobile.utilities.Utils;
 import rodent.rodentmobile.utilities.Vector2;
 
@@ -21,6 +22,8 @@ public abstract class Shape implements Serializable {
     private Vector2<Float> position;
     private Vector2<Float> size;
     private float depth;
+
+    private Angle angle;
 
     private boolean selected;
     private boolean ready;
@@ -39,6 +42,7 @@ public abstract class Shape implements Serializable {
         this.ready = false;
         this.boundingBox = new BoundingBox();
         this.depth = 0f;
+        this.angle = new Angle();
     }
 
     public CustomPaint getPaint () {
@@ -94,6 +98,14 @@ public abstract class Shape implements Serializable {
         return this.depth;
     }
 
+    public void setAngle (Angle angle) {
+        this.angle = angle;
+    }
+
+    public Angle getAngle () {
+        return this.angle;
+    }
+
     public void draw (Canvas canvas) {
         if (this.selected && this.ready) {
             this.drawBoundingBox(canvas);
@@ -123,6 +135,12 @@ public abstract class Shape implements Serializable {
     }
 
     public abstract void scale (int corner, Vector2<Float> amount);
+
+    public abstract void rotate (Vector2<Float> pivot, Angle amount);
+
+    public Vector2<Float> getCenter () {
+        return new Vector2<>(this.size.getX() / 2 + this.position.getX(), this.size.getY() / 2 + this.position.getY());
+    }
 
 
 }

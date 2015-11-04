@@ -67,6 +67,12 @@ public class BoundingBox implements Serializable {
         this.setCorner(new Vector2<>(min.getX(), max.getY()), LOWER_LEFT);
     }
 
+    public Vector2<Float> getCenter () {
+        float x = this.corners[UPPER_RIGHT].getX() - this.corners[UPPER_LEFT].getX();
+        float y = this.corners[LOWER_LEFT].getY() - this.corners[UPPER_LEFT].getY();
+        return new Vector2<>(x, y);
+    }
+
     public void draw (Canvas canvas) {
         RectF rect = new RectF();
         rect.left = this.corners[UPPER_LEFT].getX();

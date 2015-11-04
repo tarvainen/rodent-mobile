@@ -1,54 +1,54 @@
 package rodent.rodentmobile.drawing.tools;
 
-import android.util.Log;
 
 import rodent.rodentmobile.drawing.shapes.PolylineShape;
 import rodent.rodentmobile.drawing.shapes.Shape;
+import rodent.rodentmobile.utilities.Angle;
 import rodent.rodentmobile.utilities.Vector2;
-import rodent.rodentmobile.utilities.VectorMath;
 
 /**
  * Created by Atte on 02/11/15.
  */
 public class RotateTool extends MoveTool {
-    Vector2<Float> currentPoint;
     Shape currentShape;
 
     Vector2<Float> lastPosition;
-    boolean touchedAnchorPoint;
-
-
-    int selectedCorner;
+    Vector2<Float> pivotPoint;
+    Angle prevAngle;
+    boolean moved;
 
     public RotateTool () {
         super();
         this.clear();
-        this.touchedAnchorPoint = false;
-        this.selectedCorner = 0;
+        this.moved = false;
     }
 
     @Override
     public void onStart(Vector2<Float> position) {
-        touchedAnchorPoint = handleAnchorPointTouching(position);
+        handleAnchorPointTouching(position);
         lastPosition = position;
+        if (this.pivotPoint != null) {
+            prevAngle = Angle.getAngleBetween(position, pivotPoint);
+        }
+        this.moved = false;
     }
 
     @Override
     public void onMove(Vector2<Float> position) {
-        Vector2<Float> delta = VectorMath.substract(position, lastPosition);
-        Log.d("delta", delta.getX() + " " + delta.getY());
-
-        if (this.currentPoint != null) {
-            currentPoint.setX(position.getX());
-            currentPoint.setY(position.getY());
+        if (this.prevAngle == null) {
+            return;
         }
 
+        Angle angle = Angle.getAngleBetween(position, pivotPoint);
+        prevAngle.substract(angle);
+
         if (this.currentShape != null) {
-            this.currentShape.scale(this.selectedCorner, delta);
+            this.currentShape.rotate(pivotPoint, prevAngle);
             this.currentShape.update();
         }
 
         lastPosition = position;
+        prevAngle = angle;
     }
 
     @Override
@@ -58,16 +58,16 @@ public class RotateTool extends MoveTool {
 
     @Override
     public void onEnd(Vector2<Float> position) {
-        if (!touchedAnchorPoint) {
+        if (!moved) {
             this.deselectAll();
             this.selectLimitedAmountOfElementsAtPosition(position, 1);
         }
-        this.currentPoint = null;
+
     }
 
     @Override
     public void clear() {
-        this.currentPoint = null;
+
     }
 
     public boolean handleAnchorPointTouching (Vector2<Float> position) {
@@ -82,15 +82,9 @@ public class RotateTool extends MoveTool {
         }
         shape = (PolylineShape) currentShape;
 
-        int i = 0;
-        for (Vector2<Float> point : shape.getBoundingBox().getCorners()) {
-            if (VectorMath.getDistanceBetween(position, point) < Shape.SELECTION_RADIUS) {
-                this.selectedCorner = i + 2;
-                this.currentPoint = point;
-                return true;
-            }
-            i++;
-        }
+        shape.update();
+        Vector2<Float> p = shape.getCenter();
+        this.pivotPoint = new Vector2<>(p.getX(), p.getY());
 
         return false;
 

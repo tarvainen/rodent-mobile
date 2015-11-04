@@ -1,5 +1,7 @@
 package rodent.rodentmobile.utilities;
 
+import android.util.Log;
+
 import java.util.List;
 
 import rodent.rodentmobile.drawing.helpers.AnchorPoint;
@@ -53,6 +55,10 @@ public class VectorMath {
         return new Vector2<>(p1.getX() - p2.getX(), p1.getY() - p2.getY());
     }
 
+    public static float getLength (Vector2<Float> vector) {
+        return (float)Math.sqrt(Math.pow(vector.getX(), 2) + Math.pow(vector.getY(), 2));
+    }
+
     public static Vector2<Float> min (List<AnchorPoint> points) {
         float minX = Float.MAX_VALUE;
         float minY = Float.MAX_VALUE;
@@ -103,6 +109,22 @@ public class VectorMath {
         float len = max - min;
         float elLen = target - min;
         return target + (elLen / len) * amount;
+    }
+
+    public static Vector2<Float> getRotatedPosition (Vector2<Float> pivot, Vector2<Float> point, Angle amount) {
+        float len = getDistanceBetween(pivot, point);
+
+        Angle a = Angle.getAngleBetween(pivot, point);
+        a.substract(amount);
+        Log.d("len", len + "");
+        Log.d("amountradians", amount.getRadians() + "");
+        float x = (float)Math.cos(a.getRadians()) * len + pivot.getX();
+        float y = (float)Math.sin(a.getRadians()) * len + pivot.getY();
+        Log.d("pivot", pivot.getX() + " " + pivot.getY());
+        Log.d("point", point.getX() + " " + point.getY());
+        Log.d("angle", amount.getDegrees() + "");
+        Log.d("result", x + " " + y);
+        return new Vector2<>(x, y);
     }
 
 

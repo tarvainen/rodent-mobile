@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import rodent.rodentmobile.drawing.helpers.CustomPaint;
+import rodent.rodentmobile.utilities.Angle;
 import rodent.rodentmobile.utilities.Vector2;
 
 /////////////////////////////////////////////
@@ -62,6 +63,11 @@ public class Paper extends Shape {
 
     @Override
     public void scale (int corner, Vector2<Float> amount) {
+
+    }
+
+    @Override
+    public void rotate (Vector2<Float> pivot, Angle amount) {
 
     }
 

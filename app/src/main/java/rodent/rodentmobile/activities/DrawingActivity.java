@@ -11,27 +11,20 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.security.Key;
-
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
 import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
-
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.drawing.actions.CopyAction;
 import rodent.rodentmobile.drawing.actions.DeleteAction;
-import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
 import rodent.rodentmobile.drawing.shapes.Shape;
 import rodent.rodentmobile.drawing.tools.AnchorPointTool;
 import rodent.rodentmobile.drawing.tools.FreeHandTool;
@@ -43,7 +36,6 @@ import rodent.rodentmobile.drawing.tools.RectangleTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
 import rodent.rodentmobile.drawing.tools.Tool;
 import rodent.rodentmobile.filesystem.MyFile;
-import rodent.rodentmobile.ui.IconSpinnerAdapter;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
