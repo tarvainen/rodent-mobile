@@ -19,6 +19,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
+
+import rodent.rodentmobile.drawing.actions.HorizontalFlipAction;
+import rodent.rodentmobile.drawing.actions.VerticalFlipAction;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
 import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
@@ -190,6 +193,12 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.action_save_file:
                 saveFile();
                 break;
+            case R.id.action_flip_horizontally:
+                this.performHorizontalFlipAction();
+                break;
+            case R.id.action_flip_vertically:
+                this.performVerticalFlipAction();
+                break;
             default:
                 break;
         }
@@ -253,6 +262,24 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private void performDeleteAction () {
         DeleteAction action = new DeleteAction();
+        action.setShapes(drawingBoard.getDrawableElements());
+        if (action.execute() == 0) {
+            Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
+        }
+        drawingBoard.invalidate();
+    }
+
+    private void performHorizontalFlipAction () {
+        HorizontalFlipAction action = new HorizontalFlipAction();
+        action.setShapes(drawingBoard.getDrawableElements());
+        if (action.execute() == 0) {
+            Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
+        }
+        drawingBoard.invalidate();
+    }
+
+    private void performVerticalFlipAction () {
+        VerticalFlipAction action = new VerticalFlipAction();
         action.setShapes(drawingBoard.getDrawableElements());
         if (action.execute() == 0) {
             Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();

@@ -91,13 +91,33 @@
             android:padding="15dp"/>
 
         <ImageButton
+            android:id="@+id/action_flip_horizontally"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_flip_black_36dp"
+            android:onClick="onActionButtonClick"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/action_copy_element"
+            android:padding="15dp"/>
+
+        <ImageButton
+            android:id="@+id/action_flip_vertically"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_flip_v_black_36dp"
+            android:onClick="onActionButtonClick"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/action_flip_horizontally"
+            android:padding="15dp"/>
+
+        <ImageButton
             android:id="@+id/action_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_undo_black_36dp"
             android:onClick="onActionButtonClick"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/action_copy_element"
+            android:layout_toEndOf="@+id/action_flip_vertically"
             android:padding="15dp"/>
 
         <ImageButton

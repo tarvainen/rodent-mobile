@@ -78,6 +78,7 @@
     </array>
     <!-- /Circular tools -->
 
+
     <item type="id" name="tool_move"></item>
     <item type="id" name="tool_freehand"></item>
     <item type="id" name="tool_line"></item>

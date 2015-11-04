@@ -169,6 +169,26 @@ public class PolylineShape extends Shape {
         }
     }
 
+    @Override
+    public void flipHorizontally () {
+        Vector2<Float> max = VectorMath.max(this.points);
+        float xPin = max.getX();
+        for (AnchorPoint point : this.points) {
+            float delta = xPin - point.getX();
+            point.setX(xPin + delta);
+        }
+    }
+
+    @Override
+    public void flipVertically () {
+        Vector2<Float> max = VectorMath.max(this.points);
+        float yPin = max.getY();
+        for (AnchorPoint point : this.points) {
+            float delta = yPin - point.getY();
+            point.setY(yPin + delta);
+        }
+    }
+
     public static PolylineShape asCircleShape (Vector2<Float> position, float radius) {
         PolylineShape result = new PolylineShape();
         Angle angle = new Angle();

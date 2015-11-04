@@ -142,5 +142,6 @@ public abstract class Shape implements Serializable {
         return new Vector2<>(this.size.getX() / 2 + this.position.getX(), this.size.getY() / 2 + this.position.getY());
     }
 
-
+    public abstract void flipHorizontally ();
+    public abstract void flipVertically ();
 }

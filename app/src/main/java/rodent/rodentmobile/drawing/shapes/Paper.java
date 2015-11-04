@@ -71,4 +71,14 @@ public class Paper extends Shape {
 
     }
 
+    @Override
+    public void flipHorizontally () {
+
+    }
+
+    @Override
+    public void flipVertically () {
+
+    }
+
 }
