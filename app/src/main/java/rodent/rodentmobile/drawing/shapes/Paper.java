@@ -3,6 +3,8 @@ package rodent.rodentmobile.drawing.shapes;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import java.io.Serializable;
+
 import rodent.rodentmobile.drawing.helpers.CustomPaint;
 import rodent.rodentmobile.utilities.Angle;
 import rodent.rodentmobile.utilities.Vector2;
@@ -20,7 +22,7 @@ public class Paper extends Shape {
 
     @Override
     public void draw(Canvas canvas) {
-        Paint paint = new CustomPaint();
+        CustomPaint paint = new CustomPaint();
         paint.setAntiAlias(true);
         paint.setFilterBitmap(true);
         paint.setARGB(255, 200, 200, 200);

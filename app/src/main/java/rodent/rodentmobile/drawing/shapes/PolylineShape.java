@@ -118,7 +118,7 @@ public class PolylineShape extends Shape {
         Vector2<Float> min = VectorMath.min(this.getPoints());
         Vector2<Float> max = VectorMath.max(this.getPoints());
         this.setPosition(min);
-        this.setSize(new Vector2<Float>(max.getX() - min.getX(), max.getY() - min.getY()));
+        this.setSize(new Vector2<>(max.getX() - min.getX(), max.getY() - min.getY()));
     }
 
     @Override

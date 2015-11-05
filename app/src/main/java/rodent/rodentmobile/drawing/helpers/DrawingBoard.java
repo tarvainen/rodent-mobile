@@ -40,6 +40,10 @@ public class DrawingBoard extends View {
         return this.paper;
     }
 
+    public void setPaper (Paper paper) {
+        this.paper = paper;
+    }
+
     public List<Shape> getDrawableElements () {
         return this.elements;
     }

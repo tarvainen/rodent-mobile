@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,10 +20,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 import rodent.rodentmobile.drawing.actions.HorizontalFlipAction;
 import rodent.rodentmobile.drawing.actions.VerticalFlipAction;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
+import rodent.rodentmobile.drawing.shapes.Paper;
 import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
@@ -40,6 +43,7 @@ import rodent.rodentmobile.drawing.tools.RectangleTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
 import rodent.rodentmobile.drawing.tools.Tool;
 import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.utilities.SerialCloner;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
@@ -66,6 +70,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     private void setupFromFile() {
         try {
             file = (MyFile) getIntent().getExtras().get("FILE");
+            if (file.getPaper() == null) {
+                Log.d("joo", "null");
+            }
             if (file != null && file.getShapes() != null) {
                 for (Shape s : file.getShapes()) {
                     drawingBoard.addDrawableElement(s);
@@ -236,9 +243,17 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private void saveFile() {
         saveThumbnail();
-        file.setPaper(this.drawingBoard.getPaper());
+
+        file.setPaper(drawingBoard.getPaper());
         file.setShapes(drawingBoard.getDrawableElements());
-        file.save();
+
+        try {
+            file.save();
+        } catch (IOException ex) {
+            Toast.makeText(DrawingActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
         drawingBoard.setModified(false);
     }
@@ -252,53 +267,62 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private void performCopyAction () {
         CopyAction copyAction = new CopyAction(drawingBoard.getDrawableElements());
+
         try {
             copyAction.execute();
         } catch (Exception ex) {
             Toast.makeText(this, "Copy action failed", Toast.LENGTH_SHORT).show();
         }
+
         drawingBoard.invalidate();
     }
 
     private void performDeleteAction () {
         DeleteAction action = new DeleteAction();
         action.setShapes(drawingBoard.getDrawableElements());
+
         if (action.execute() == 0) {
             Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
         }
+
         drawingBoard.invalidate();
     }
 
     private void performHorizontalFlipAction () {
         HorizontalFlipAction action = new HorizontalFlipAction();
         action.setShapes(drawingBoard.getDrawableElements());
+
         if (action.execute() == 0) {
             Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
         }
+
         drawingBoard.invalidate();
     }
 
     private void performVerticalFlipAction () {
         VerticalFlipAction action = new VerticalFlipAction();
         action.setShapes(drawingBoard.getDrawableElements());
+
         if (action.execute() == 0) {
             Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
         }
+
         drawingBoard.invalidate();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown (int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (drawingBoard.isModified()) {
                 createSavePromptDialog();
                 return true;
             }
         }
+
         return super.onKeyDown(keyCode, event);
     }
 
-    private void createSavePromptDialog() {
+    private void createSavePromptDialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Save changes?");
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
@@ -308,6 +332,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 finish();
             }
         });
+
         builder.setNegativeButton("Discard", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -319,6 +344,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             public void onCancel(DialogInterface dialog) {
             }
         });
+
         AlertDialog savePrompt = builder.create();
         savePrompt.show();
     }

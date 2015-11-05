@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -126,7 +128,15 @@ public class LibraryActivity extends AppCompatActivity implements TextPromptDial
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MyFile rodentFile = new RodentFile(files.get(position));
+        MyFile rodentFile;
+        try {
+            rodentFile = new RodentFile(files.get(position));
+        } catch (Exception ex) {
+            Toast.makeText(LibraryActivity.this, "Can't open file", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
         intent.putExtra("FILE", rodentFile);
         startActivity(intent);

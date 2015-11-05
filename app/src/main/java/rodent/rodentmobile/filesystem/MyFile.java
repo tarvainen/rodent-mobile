@@ -1,6 +1,8 @@
 package rodent.rodentmobile.filesystem;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import rodent.rodentmobile.drawing.shapes.Paper;
@@ -10,10 +12,16 @@ import rodent.rodentmobile.drawing.shapes.Shape;
  * Created by Teemu on 25.10.2015.
  *
  */
-public abstract class MyFile implements Serializable{
+public abstract class MyFile implements Serializable {
     protected String filename;
     protected List<Shape> shapes;
     protected Paper paper;
+
+    {
+        this.paper = new Paper();
+        this.shapes = new ArrayList<>();
+        this.filename = "";
+    }
 
     public MyFile() {
 
@@ -27,8 +35,8 @@ public abstract class MyFile implements Serializable{
         this.shapes = shapes;
     }
 
-    public abstract void save();
-    public abstract void load(String path);
+    public abstract void save() throws IOException;
+    public abstract void load(String path) throws Exception;
 
     public List<Shape> getShapes() { return shapes; }
 

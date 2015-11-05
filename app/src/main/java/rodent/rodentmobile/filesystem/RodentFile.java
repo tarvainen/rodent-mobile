@@ -19,12 +19,12 @@ public class RodentFile extends MyFile {
         super(filename + ".rodent");
     }
 
-    public RodentFile(File file) {
+    public RodentFile(File file) throws Exception{
         load(file.getPath());
     }
 
     @Override
-    public void save() {
+    public void save() throws IOException{
         try {
             File root = Environment.getExternalStorageDirectory();
             File dir = new File(root.getAbsolutePath() + "/rodent");
@@ -36,12 +36,12 @@ public class RodentFile extends MyFile {
             out.close();
             outStream.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
     @Override
-    public void load(String path) {
+    public void load(String path) throws Exception {
         try {
             File file = new File(path);
             FileInputStream inStream = new FileInputStream(file);
@@ -49,10 +49,11 @@ public class RodentFile extends MyFile {
             RodentFile tmp = (RodentFile) in.readObject();
             filename = tmp.filename;
             shapes = tmp.shapes;
+            paper = tmp.paper;
             in.close();
             inStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 }
