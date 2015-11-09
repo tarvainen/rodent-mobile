@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,11 +25,11 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import rodent.rodentmobile.drawing.actions.HorizontalFlipAction;
 import rodent.rodentmobile.drawing.actions.VerticalFlipAction;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
-import rodent.rodentmobile.drawing.shapes.Paper;
 import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
@@ -46,10 +47,13 @@ import rodent.rodentmobile.drawing.tools.RectangleTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
 import rodent.rodentmobile.drawing.tools.Tool;
 import rodent.rodentmobile.filesystem.MyFile;
-import rodent.rodentmobile.utilities.SerialCloner;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
+
+    private final float MAX_DEPTH = 1.0f;
+    private final float MIN_DEPTH = 0.0f;
+    private final int DEPTH_SELECTOR_STEPS = 10;
 
     private GestureDetectingDrawingBoard drawingBoard;
     private Spinner activeSpinner;
@@ -218,53 +222,47 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void createDepthSelector() {
-        boolean selected = false;
         float depth = 0;
-        for (Shape s : drawingBoard.getDrawableElements()) {
-            if (s.isSelected()) {
-                if (s.getDepth() > depth) depth = s.getDepth();
-                selected = true;
-            }
-        }
+        for (Shape s : drawingBoard.getDrawableElements())
+            if (s.isSelected())
+                if (s.getDepth() > depth)
+                    depth = s.getDepth();
 
-        if (!selected) depth = 1;
-        final boolean finalselected = selected;
-
-        LayoutInflater inflater = getLayoutInflater();
-        final View view = inflater.inflate(R.layout.depth_selector, null);
+        View view = getLayoutInflater().inflate(R.layout.depth_selector, null);
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
-        seekBar.setProgress((int)depth);
+        seekBar.setProgress((int) (depth * DEPTH_SELECTOR_STEPS));
+        final EditText editText = (EditText) view.findViewById(R.id.depth_edittext);
+        editText.setText(Float.toString(depth));
         final TextView textView = (TextView) view.findViewById(R.id.depth_view);
         textView.setText(depth + "mm");
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                Log.d("SeekBar", "value: " + progress);
-                textView.setText(progress + "mm");
+                BigDecimal d = new BigDecimal(Float.toString(progress * (MAX_DEPTH / DEPTH_SELECTOR_STEPS)));
+                d = d.setScale(1, BigDecimal.ROUND_HALF_DOWN);
+                textView.setText(d.floatValue() + "mm");
+                editText.setText(Float.toString(d.floatValue()));
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view);
-        builder.setTitle("Shape depth");
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(view).setTitle("Shape depth")
+        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!finalselected) {
-                    // set global depth here
-                    return;
-                }
                 for (Shape s : drawingBoard.getDrawableElements()) {
-                    if (s.isSelected()) {
-                        s.setDepth(seekBar.getProgress());
-                    }
+                    float d = Float.valueOf(editText.getText().toString());
+                    if (d < MIN_DEPTH) d = MIN_DEPTH;
+                    else if (d > MAX_DEPTH) d = MAX_DEPTH;
+                    if (s.isSelected())
+                        s.setDepth(d);
                 }
             }
-        });
-        builder.setNegativeButton("Cancel", null);
+        }).setNegativeButton("Cancel", null);
         AlertDialog savePrompt = builder.create();
         savePrompt.show();
     }
