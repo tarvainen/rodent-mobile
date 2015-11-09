@@ -111,13 +111,22 @@
             android:padding="15dp"/>
 
         <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/action_depth"
+            android:layout_toEndOf="@id/action_flip_vertically"
+            android:src="@drawable/ic_play_for_work_black_36dp"
+            android:padding="15dp"
+            android:onClick="onActionButtonClick" />
+
+        <ImageButton
             android:id="@+id/action_undo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_undo_black_36dp"
             android:onClick="onActionButtonClick"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/action_flip_vertically"
+            android:layout_toEndOf="@id/action_depth"
             android:padding="15dp"/>
 
         <ImageButton

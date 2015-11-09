@@ -2,6 +2,7 @@ package rodent.rodentmobile.drawing.shapes;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 import java.io.Serializable;
 
@@ -92,6 +93,7 @@ public abstract class Shape implements Serializable {
 
     public void setDepth (float depth) {
         this.depth = depth;
+        Log.d("Shape", "depth set: " + depth);
     }
 
     public float getDepth () {

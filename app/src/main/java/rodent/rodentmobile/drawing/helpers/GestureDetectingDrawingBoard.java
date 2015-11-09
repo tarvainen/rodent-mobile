@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
@@ -64,13 +63,16 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         if (isToolBusy()) {
             drawBusyElement(canvas);
         }
-        Log.d("on draw", this.getPaper().getMillisInPx() + "");
+//        Log.d("on draw", this.getPaper().getMillisInPx() + "");
     }
 
     @Override
     public boolean onTouchEvent (MotionEvent event) {
         this.scaleDetector.onTouchEvent(event);
         this.handleOnTouchEventGesture(event);
+
+        // Touching invalidates drawing. Maybe implement some more logic here to see if drawing
+        // has actually changed.
         this.modified = true;
         return true;
     }
@@ -205,7 +207,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     public Bitmap getBitmap() {
         Bitmap bitmap = Bitmap.createBitmap(85, 85, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        canvas.scale(0.25f, 0.25f); // Magic variables.
+        canvas.scale(0.25f, 0.25f); // Magic numbers.
         drawElements(canvas);
         invalidate();
         return bitmap;

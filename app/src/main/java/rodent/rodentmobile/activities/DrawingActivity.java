@@ -13,10 +13,13 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -206,9 +209,64 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.action_flip_vertically:
                 this.performVerticalFlipAction();
                 break;
+            case R.id.action_depth:
+                createDepthSelector();
+                break;
             default:
                 break;
         }
+    }
+
+    private void createDepthSelector() {
+        boolean selected = false;
+        float depth = 0;
+        for (Shape s : drawingBoard.getDrawableElements()) {
+            if (s.isSelected()) {
+                if (s.getDepth() > depth) depth = s.getDepth();
+                selected = true;
+            }
+        }
+
+        if (!selected) depth = 1;
+        final boolean finalselected = selected;
+
+        LayoutInflater inflater = getLayoutInflater();
+        final View view = inflater.inflate(R.layout.depth_selector, null);
+        final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        seekBar.setProgress((int)depth);
+        final TextView textView = (TextView) view.findViewById(R.id.depth_view);
+        textView.setText(depth + "mm");
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                Log.d("SeekBar", "value: " + progress);
+                textView.setText(progress + "mm");
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle("Shape depth");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (!finalselected) {
+                    // set global depth here
+                    return;
+                }
+                for (Shape s : drawingBoard.getDrawableElements()) {
+                    if (s.isSelected()) {
+                        s.setDepth(seekBar.getProgress());
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog savePrompt = builder.create();
+        savePrompt.show();
     }
 
     public IconSpinnerAdapter createAdapter (Context context, int resource, int idResource, int drawableResource, int nameResource) {
