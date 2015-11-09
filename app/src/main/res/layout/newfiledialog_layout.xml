@@ -4,9 +4,34 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/filename"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inputType="textNoSuggestions|text" />
+        android:layout_height="wrap_content"
+        android:inputType="textNoSuggestions|text"
+        android:hint="Filename" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/shapedepth"
+        android:hint="Shape default depth" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/paperwidth"
+        android:hint="Paper width" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/paperheight"
+        android:hint="Paper height" />
 
 </LinearLayout>

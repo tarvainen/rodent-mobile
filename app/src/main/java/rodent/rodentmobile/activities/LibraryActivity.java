@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -25,10 +24,10 @@ import rodent.rodentmobile.R;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
 import rodent.rodentmobile.ui.ImageAdapter;
-import rodent.rodentmobile.ui.TextPromptDialogFragment;
-import rodent.rodentmobile.ui.TextPromptDialogFragment.TextPromptDialogListener;
+import rodent.rodentmobile.ui.NewFileDialog;
+import rodent.rodentmobile.ui.NewFileDialog.NewFileDialogListener;
 
-public class LibraryActivity extends AppCompatActivity implements TextPromptDialogListener,
+public class LibraryActivity extends AppCompatActivity implements NewFileDialogListener,
                                                                   OnItemClickListener,
                                                                   FilenameFilter {
     private ArrayList<File> files;
@@ -78,11 +77,11 @@ public class LibraryActivity extends AppCompatActivity implements TextPromptDial
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_new) {
-            DialogFragment dialog = new TextPromptDialogFragment();
+            DialogFragment dialog = new NewFileDialog();
             Bundle arguments = new Bundle();
             arguments.putString("PROMPT", "Enter filename:");
             dialog.setArguments(arguments);
-            dialog.show(getFragmentManager(), "TextPromptDialogFragment");
+            dialog.show(getFragmentManager(), "NewFileDialog");
         } else if (id == R.id.action_open_controller) {
             Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
             this.startActivity(newControllerIntent);
@@ -92,7 +91,7 @@ public class LibraryActivity extends AppCompatActivity implements TextPromptDial
     }
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog, String filename) {
+    public void onDialogPositiveClick(DialogFragment dialog, String filename, float depth, float width, float height) {
         Intent newDrawingIntent = new Intent(this, DrawingActivity.class);
         MyFile file = new RodentFile(filename);
         newDrawingIntent.putExtra("FILE", file);
@@ -135,7 +134,6 @@ public class LibraryActivity extends AppCompatActivity implements TextPromptDial
             Toast.makeText(LibraryActivity.this, "Can't open file", Toast.LENGTH_SHORT).show();
             return;
         }
-
 
         Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
         intent.putExtra("FILE", rodentFile);
