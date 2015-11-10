@@ -5,21 +5,14 @@
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:orderInCategory="2"
-        android:title="@string/action_settings"
-        app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/action_new"
-        android:icon="@drawable/ic_add_black_24dp"
         android:orderInCategory="1"
-        android:title="@string/action_new"
+        android:title="@string/action_settings"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_open_controller"
         android:icon="@drawable/ic_create_black_24dp"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:title="ohjaa"
         app:showAsAction="ifRoom" />
 </menu>

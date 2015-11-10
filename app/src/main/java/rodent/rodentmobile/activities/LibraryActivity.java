@@ -4,14 +4,18 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -27,9 +31,11 @@ import rodent.rodentmobile.ui.ImageAdapter;
 import rodent.rodentmobile.ui.NewFileDialog;
 import rodent.rodentmobile.ui.NewFileDialog.NewFileDialogListener;
 
-public class LibraryActivity extends AppCompatActivity implements NewFileDialogListener,
-                                                                  OnItemClickListener,
-                                                                  FilenameFilter {
+public class LibraryActivity extends AppCompatActivity implements
+                                                        NewFileDialogListener,
+                                                        OnItemClickListener,
+                                                        FilenameFilter {
+
     private ArrayList<File> files;
     private ImageAdapter adapter;
 
@@ -37,6 +43,21 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment dialog = new NewFileDialog();
+                Bundle arguments = new Bundle();
+                arguments.putString("PROMPT", "Enter filename:");
+                dialog.setArguments(arguments);
+                dialog.show(getFragmentManager(), "NewFileDialog");
+            }
+        });
 
         files = new ArrayList<>();
         loadFiles();
@@ -49,25 +70,9 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        loadFiles();
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_library, menu);
         return true;
-    }
-
-    @Override
-    public boolean onKeyDown (int keyCode, KeyEvent e) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && e.getRepeatCount() == 0) {
-            finishAffinity();
-            return true;
-        }
-        return super.onKeyDown(keyCode, e);
     }
 
     @Override
@@ -76,12 +81,6 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
 
         if (id == R.id.action_settings) {
             return true;
-        } else if (id == R.id.action_new) {
-            DialogFragment dialog = new NewFileDialog();
-            Bundle arguments = new Bundle();
-            arguments.putString("PROMPT", "Enter filename:");
-            dialog.setArguments(arguments);
-            dialog.show(getFragmentManager(), "NewFileDialog");
         } else if (id == R.id.action_open_controller) {
             Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
             this.startActivity(newControllerIntent);
@@ -102,7 +101,7 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
     public void onDialogNegativeClick(DialogFragment dialog) {}
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.context_menu_library, menu);
@@ -110,7 +109,7 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
         int id = item.getItemId();
         switch (id) {
             case R.id.item_delete:
@@ -161,6 +160,15 @@ public class LibraryActivity extends AppCompatActivity implements NewFileDialogL
         for (File f : allFiles) {
             files.add(f);
         }
+    }
+
+    @Override
+    public boolean onKeyDown (int keyCode, KeyEvent e) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && e.getRepeatCount() == 0) {
+            finishAffinity();
+            return true;
+        }
+        return super.onKeyDown(keyCode, e);
     }
 
 }
