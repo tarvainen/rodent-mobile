@@ -80,10 +80,13 @@ public class LibraryActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         } else if (id == R.id.action_open_controller) {
             Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
             this.startActivity(newControllerIntent);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
