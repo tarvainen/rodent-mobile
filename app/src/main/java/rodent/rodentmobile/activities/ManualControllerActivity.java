@@ -1,5 +1,7 @@
 package rodent.rodentmobile.activities;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,14 +52,15 @@ public class ManualControllerActivity extends AppCompatActivity {
 
     private void connectWebSocket() {
         if (this.mWebSocketClient != null && this.mWebSocketClient.getConnection().isOpen()) {
-            Log.d("joo", "closeee");
             this.mWebSocketClient.getConnection().closeConnection(0, "Close");
             return;
         }
 
         URI uri;
         try {
-            uri = new URI("ws://192.168.1.8:5000");
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            String ip = pref.getString("ip_address", "");
+            uri = new URI("ws://" + ip + ":5000");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
@@ -71,19 +74,20 @@ public class ManualControllerActivity extends AppCompatActivity {
 
             @Override
             public void onMessage(String s) {
-                Log.d("juuuu", s);
+
             }
 
             @Override
             public void onClose(int i, String s, boolean b) {
-                Log.d("WebSocket", "Disconnected");
+
             }
 
             @Override
             public void onError(Exception e) {
-                Log.i("Websocket", "Error " + e.getMessage());
+
             }
         };
+
         mWebSocketClient.connect();
     }
 

@@ -17,7 +17,7 @@
 
     <string name="pref_header_connection">Connection settings</string>
     <string name="pref_title_ip">IP Address</string>
-    <string name="pref_default_ip">192.167.x.xx</string>
+    <string name="pref_default_ip">192.168.x.xx</string>
 
 
 </resources>

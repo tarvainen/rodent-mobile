@@ -2,11 +2,13 @@ package rodent.rodentmobile.activities;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -32,6 +34,7 @@ import rodent.rodentmobile.drawing.actions.VerticalFlipAction;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
 import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
+import rodent.rodentmobile.filesystem.RodentFile;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.drawing.actions.CopyAction;
@@ -298,20 +301,50 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void saveFile() {
-        saveThumbnail();
-
         file.setPaper(drawingBoard.getPaper());
         file.setShapes(drawingBoard.getDrawableElements());
 
-        try {
-            file.save();
-        } catch (IOException ex) {
-            Toast.makeText(DrawingActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
-            return;
+        saveThumbnail();
+
+        new FileAsyncSaver().execute(file);
+    }
+
+    private class FileAsyncSaver extends AsyncTask<MyFile, Void, Boolean> {
+
+        private ProgressDialog dialog = new ProgressDialog(DrawingActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setMessage("Saving. Please wait.");
+            this.dialog.show();
         }
 
-        Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
-        drawingBoard.setModified(false);
+        @Override
+        protected Boolean doInBackground(MyFile... files) {
+            try {
+                files[0].save();
+            } catch (IOException ex) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (this.dialog.isShowing()) {
+                dialog.dismiss();
+            }
+
+            if (success) {
+                Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                drawingBoard.setModified(false);
+            } else {
+                Toast.makeText(DrawingActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
     }
 
     private void openBroadcast () {
