@@ -133,7 +133,7 @@ public class LibraryActivity extends AppCompatActivity implements
         try {
             rodentFile = new RodentFile(files.get(position));
         } catch (Exception ex) {
-            Toast.makeText(LibraryActivity.this, "Can't open file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LibraryActivity.this, R.string.lib_cannot_open_file, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -144,7 +144,7 @@ public class LibraryActivity extends AppCompatActivity implements
 
     @Override
     public boolean accept(File dir, String filename) {
-        return filename.toLowerCase().endsWith(".rodent");
+        return filename.toLowerCase().endsWith(getString(R.string.default_save_directory));
     }
 
     private void deleteThumbnail(File f) {
@@ -158,7 +158,7 @@ public class LibraryActivity extends AppCompatActivity implements
 
     private void loadFiles() {
         files.clear();
-        File file = new File(Environment.getExternalStorageDirectory() + "/rodent");
+        File file = new File(Environment.getExternalStorageDirectory() + getString(R.string.default_save_directory));
         File[] allFiles = file.listFiles(this);
         for (File f : allFiles) {
             files.add(f);

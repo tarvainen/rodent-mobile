@@ -13,11 +13,40 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- General strings -->
+    <string name="btnOk">Ok</string>
+    <string name="btnCancel">Cancel</string>
+
     <!-- Strings related to Settings -->
 
     <string name="pref_header_connection">Connection settings</string>
     <string name="pref_title_ip">IP Address</string>
     <string name="pref_default_ip">192.168.x.xx</string>
 
+    <!-- Strings related to files -->
+    <string name="default_save_directory">/rodent</string>
+    <string name="default_file_type">.rodent</string>
+
+    <!-- Strings related to library -->
+    <string name="lib_cannot_open_file">Can't open file.</string>
+    <string name="lib_title_new_file_dialog">New file</string>
+    <string name="lib_placeholder_file_name">Filename</string>
+    <string name="lib_placeholder_depth">Default engrave depth</string>
+    <string name="lib_placeholder_paper_width">Engraving width</string>
+    <string name="lib_placeholder_paper_height">Engraving height</string>
+
+    <!-- Strings related to Drawing -->
+    <string name="drawing_notification_saving">Saving. Please wait.</string>
+    <string name="drawing_notification_saved">Saved.</string>
+    <string name="drawing_notification_save_failed">Save failed.</string>
+
+    <string name="drawing_select_element">Select element first.</string>
+    <string name="drawing_copy_action_failure">Copy action failed.</string>
+
+    <string name="drawing_title_save_changes">Save changes?</string>
+    <string name="drawing_changed_btnSave">Save</string>
+    <string name="drawing_changed_btnDiscard">Discard</string>
+
+    <string name="drawing_title_shape_depth_selector">Shape depth</string>
 
 </resources>

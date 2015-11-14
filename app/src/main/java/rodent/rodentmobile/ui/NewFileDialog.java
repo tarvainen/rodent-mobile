@@ -39,8 +39,8 @@ public class NewFileDialog extends DialogFragment {
         final View dialogView = inflater.inflate(R.layout.newfiledialog_layout, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(dialogView)
-                .setMessage("New file")
-        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setMessage(R.string.lib_title_new_file_dialog)
+        .setPositiveButton(R.string.btnOk, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 EditText editText = (EditText) dialogView.findViewById(R.id.filename);
@@ -59,7 +59,7 @@ public class NewFileDialog extends DialogFragment {
                 mListener.onDialogPositiveClick(NewFileDialog.this, filename, shapedepth, paperwidth, paperheight);
             }
         })
-        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        .setNegativeButton(R.string.btnCancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mListener.onDialogNegativeClick(NewFileDialog.this);

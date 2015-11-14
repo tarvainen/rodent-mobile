@@ -81,13 +81,13 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         try {
             file = (MyFile) getIntent().getExtras().get("FILE");
             if (file.getPaper() == null) {
-                Log.d("joo", "null");
             }
             if (file != null && file.getShapes() != null) {
                 for (Shape s : file.getShapes()) {
                     drawingBoard.addDrawableElement(s);
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,22 +100,42 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     public void setUpSpinners () {
         Spinner interpolationSpinner = (Spinner) findViewById(R.id.spinner_interpolation);
-        interpolationSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.interpolation_tool_id, R.array.interpolation_tools, R.array.interpolation_tool_names));
+
+        interpolationSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row,
+                R.array.interpolation_tool_id,
+                R.array.interpolation_tools,
+                R.array.interpolation_tool_names));
+
         interpolationSpinner.setOnItemSelectedListener(this);
         interpolationSpinner.setOnTouchListener(this);
 
         Spinner lineSpinner = (Spinner) findViewById(R.id.spinner_lines);
-        lineSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.line_tool_id, R.array.line_tools, R.array.line_tool_names));
+
+        lineSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row,
+                R.array.line_tool_id,
+                R.array.line_tools,
+                R.array.line_tool_names));
+
         lineSpinner.setOnItemSelectedListener(this);
         lineSpinner.setOnTouchListener(this);
 
         Spinner polySpinner = (Spinner) findViewById(R.id.spinner_polygons);
-        polySpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.poly_tool_id, R.array.poly_tools, R.array.poly_tool_names));
+
+        polySpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row,
+                R.array.poly_tool_id,
+                R.array.poly_tools,
+                R.array.poly_tool_names));
+
         polySpinner.setOnItemSelectedListener(this);
         polySpinner.setOnTouchListener(this);
 
         Spinner circSpinner = (Spinner) findViewById(R.id.spinner_circles);
-        circSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row, R.array.circ_tool_id, R.array.circ_tools, R.array.circ_tools_names));
+
+        circSpinner.setAdapter(createAdapter(this, R.layout.icon_spinner_row,
+                R.array.circ_tool_id,
+                R.array.circ_tools,
+                R.array.circ_tools_names));
+
         circSpinner.setOnItemSelectedListener(this);
         circSpinner.setOnTouchListener(this);
 
@@ -226,18 +246,24 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private void createDepthSelector() {
         float depth = 0;
-        for (Shape s : drawingBoard.getDrawableElements())
-            if (s.isSelected())
-                if (s.getDepth() > depth)
+        for (Shape s : drawingBoard.getDrawableElements()) {
+            if (s.isSelected()) {
+                if (s.getDepth() > depth) {
                     depth = s.getDepth();
+                }
+            }
+        }
 
         View view = getLayoutInflater().inflate(R.layout.depth_selector, null);
         final SeekBar seekBar = (SeekBar) view.findViewById(R.id.seekBar);
         seekBar.setProgress((int) (depth * DEPTH_SELECTOR_STEPS));
+
         final EditText editText = (EditText) view.findViewById(R.id.depth_edittext);
         editText.setText(Float.toString(depth));
+
         final TextView textView = (TextView) view.findViewById(R.id.depth_view);
         textView.setText(depth + "mm");
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -253,29 +279,49 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
-        AlertDialog.Builder builder = new AlertDialog.Builder(this).setView(view).setTitle("Shape depth")
-        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle(R.string.drawing_title_shape_depth_selector);
+
+        builder.setPositiveButton(R.string.btnOk, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 for (Shape s : drawingBoard.getDrawableElements()) {
                     float d = Float.valueOf(editText.getText().toString());
-                    if (d < MIN_DEPTH) d = MIN_DEPTH;
-                    else if (d > MAX_DEPTH) d = MAX_DEPTH;
-                    if (s.isSelected())
+                    d = getValidDepth(d);
+                    if (s.isSelected()) {
                         s.setDepth(d);
+                    }
                 }
             }
-        }).setNegativeButton("Cancel", null);
+        });
+
+        builder.setNegativeButton(R.string.btnCancel, null);
+
         AlertDialog savePrompt = builder.create();
         savePrompt.show();
     }
 
-    public IconSpinnerAdapter createAdapter (Context context, int resource, int idResource, int drawableResource, int nameResource) {
+    private float getValidDepth(float value) {
+        if (value < MIN_DEPTH) {
+
+            value = MIN_DEPTH;
+        }
+        else if (value > MAX_DEPTH) {
+            value = MAX_DEPTH;
+        }
+
+        return value;
+    }
+
+    public IconSpinnerAdapter createAdapter (Context ctx, int rsce, int idRsce, int drawRsce, int nameRsce) {
         IconSpinnerAdapter adapter;
-        TypedArray ids = getResources().obtainTypedArray(idResource);
-        TypedArray drawables = getResources().obtainTypedArray(drawableResource);
-        String names[] = getResources().getStringArray(nameResource);
-        adapter = new IconSpinnerAdapter(context, resource, ids, drawables, names);
+        TypedArray ids = getResources().obtainTypedArray(idRsce);
+        TypedArray drawables = getResources().obtainTypedArray(drawRsce);
+        String names[] = getResources().getStringArray(nameRsce);
+        adapter = new IconSpinnerAdapter(ctx, rsce, ids, drawables, names);
         return adapter;
     }
 
@@ -283,6 +329,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         if (this.activeSpinner != null) {
             this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_unselected_bg));
         }
+
         this.activeSpinner = spinner;
         this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_selected_bg));
     }
@@ -291,7 +338,8 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         Bitmap bitmap = drawingBoard.getBitmap();
         FileOutputStream out;
         try {
-            File f = new File(Environment.getExternalStorageDirectory() + "/rodent", this.file.getFilename() + ".png");
+            File extDir = Environment.getExternalStorageDirectory();
+            File f = new File(extDir + getString(R.string.default_save_directory), this.file.getFilename() + ".png");
             out = new FileOutputStream(f);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.close();
@@ -315,7 +363,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
         @Override
         protected void onPreExecute() {
-            this.dialog.setMessage("Saving. Please wait.");
+            this.dialog.setMessage(getString(R.string.drawing_notification_saving));
             this.dialog.show();
         }
 
@@ -337,14 +385,13 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             }
 
             if (success) {
-                Toast.makeText(DrawingActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DrawingActivity.this, R.string.drawing_notification_saved, Toast.LENGTH_SHORT).show();
                 drawingBoard.setModified(false);
             } else {
-                Toast.makeText(DrawingActivity.this, "Save failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DrawingActivity.this, R.string.drawing_notification_save_failed, Toast.LENGTH_SHORT).show();
             }
 
         }
-
     }
 
     private void openBroadcast () {
@@ -360,7 +407,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         try {
             copyAction.execute();
         } catch (Exception ex) {
-            Toast.makeText(this, "Copy action failed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.drawing_copy_action_failure, Toast.LENGTH_SHORT).show();
         }
 
         drawingBoard.invalidate();
@@ -371,7 +418,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         action.setShapes(drawingBoard.getDrawableElements());
 
         if (action.execute() == 0) {
-            Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.drawing_select_element, Toast.LENGTH_SHORT).show();
         }
 
         drawingBoard.invalidate();
@@ -382,7 +429,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         action.setShapes(drawingBoard.getDrawableElements());
 
         if (action.execute() == 0) {
-            Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.drawing_select_element, Toast.LENGTH_SHORT).show();
         }
 
         drawingBoard.invalidate();
@@ -393,7 +440,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         action.setShapes(drawingBoard.getDrawableElements());
 
         if (action.execute() == 0) {
-            Toast.makeText(this, "You must select elements first", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.drawing_select_element, Toast.LENGTH_SHORT).show();
         }
 
         drawingBoard.invalidate();
@@ -413,8 +460,8 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private void createSavePromptDialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Save changes?");
-        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.drawing_title_save_changes);
+        builder.setPositiveButton(R.string.drawing_changed_btnSave, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveFile();
@@ -422,7 +469,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        builder.setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.drawing_changed_btnDiscard, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
