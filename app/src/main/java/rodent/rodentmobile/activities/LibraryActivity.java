@@ -4,7 +4,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -43,21 +43,6 @@ public class LibraryActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dialog = new NewFileDialog();
-                Bundle arguments = new Bundle();
-                arguments.putString("PROMPT", "Enter filename:");
-                dialog.setArguments(arguments);
-                dialog.show(getFragmentManager(), "NewFileDialog");
-            }
-        });
 
         files = new ArrayList<>();
         loadFiles();
@@ -144,7 +129,7 @@ public class LibraryActivity extends AppCompatActivity implements
 
     @Override
     public boolean accept(File dir, String filename) {
-        return filename.toLowerCase().endsWith(getString(R.string.default_save_directory));
+        return filename.toLowerCase().endsWith(getString(R.string.default_file_type));
     }
 
     private void deleteThumbnail(File f) {
@@ -172,6 +157,25 @@ public class LibraryActivity extends AppCompatActivity implements
             return true;
         }
         return super.onKeyDown(keyCode, e);
+    }
+
+    public void onFabClick(View v) {
+        switch (v.getId()) {
+            case R.id.fabAddDrawing:
+                createNewDrawing();
+            default:
+                break;
+        }
+
+
+    }
+
+    private void createNewDrawing () {
+        DialogFragment dialog = new NewFileDialog();
+        Bundle arguments = new Bundle();
+        arguments.putString("PROMPT", "Enter filename:");
+        dialog.setArguments(arguments);
+        dialog.show(getFragmentManager(), "NewFileDialog");
     }
 
 }

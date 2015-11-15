@@ -24,11 +24,11 @@
     <string name="pref_default_ip">192.168.x.xx</string>
 
     <!-- Strings related to files -->
-    <string name="default_save_directory">/rodent</string>
+    <string name="default_save_directory">/rodent/</string>
     <string name="default_file_type">.rodent</string>
 
     <!-- Strings related to library -->
-    <string name="lib_cannot_open_file">Can't open file.</string>
+    <string name="lib_cannot_open_file">Can\'t open file.</string>
     <string name="lib_title_new_file_dialog">New file</string>
     <string name="lib_placeholder_file_name">Filename</string>
     <string name="lib_placeholder_depth">Default engrave depth</string>
@@ -48,5 +48,6 @@
     <string name="drawing_changed_btnDiscard">Discard</string>
 
     <string name="drawing_title_shape_depth_selector">Shape depth</string>
+    <string name="title_activity_web_loader">WebLoaderActivity</string>
 
 </resources>
