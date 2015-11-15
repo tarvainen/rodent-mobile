@@ -78,8 +78,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     public void scaleCanvas (Canvas canvas) {
-        float width = canvas.getWidth();
-        float height = canvas.getHeight();
+        float width = this.getPaper().getSize().getX();
+        float height = this.getPaper().getSize().getY();
         this.displaySize = new Vector2<>(width, height);
         canvas.scale(this.canvasScaleFactor, this.canvasScaleFactor);
     }

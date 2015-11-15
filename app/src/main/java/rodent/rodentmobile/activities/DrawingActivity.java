@@ -28,10 +28,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 import rodent.rodentmobile.drawing.actions.HorizontalFlipAction;
 import rodent.rodentmobile.drawing.actions.VerticalFlipAction;
+import rodent.rodentmobile.drawing.helpers.AnchorPoint;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
+import rodent.rodentmobile.drawing.shapes.Paper;
+import rodent.rodentmobile.drawing.shapes.PolylineShape;
 import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.filesystem.RodentFile;
@@ -50,6 +54,7 @@ import rodent.rodentmobile.drawing.tools.RectangleTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
 import rodent.rodentmobile.drawing.tools.Tool;
 import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.utilities.Vector2;
 
 
 public class DrawingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnTouchListener, Runnable {
@@ -80,14 +85,34 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     private void setupFromFile() {
         try {
             file = (MyFile) getIntent().getExtras().get("FILE");
-            if (file.getPaper() == null) {
+            if (file.getPaper() != null) {
+                Log.d("paper was", "yes");
+                drawingBoard.setPaper(file.getPaper());
             }
+
+
             if (file != null && file.getShapes() != null) {
+
+                if (!file.isRendered()) {
+                    Paper paper = new Paper();
+                    Vector2<Float> max = getMaxValues(file.getShapes());
+                    Log.d("joups", max.getX() + " " + max.getY());
+                    paper.setWidthInMills(max.getX());
+                    paper.setHeightInMills(max.getY());
+                    drawingBoard.setPaper(paper);
+                }
+
                 for (Shape s : file.getShapes()) {
-                    if (s.getDepth() < 0.f) {
+                    if (s.getDepth() >= 0.f) {
+                        if (!file.isRendered()) {
+                            ((PolylineShape)s).renderToMatchBase(file.getPaper());
+                        }
                         drawingBoard.addDrawableElement(s);
                     }
                 }
+
+                file.setRendered(true);
+
 
             }
 
@@ -486,5 +511,26 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
         AlertDialog savePrompt = builder.create();
         savePrompt.show();
+    }
+
+    private Vector2<Float> getMaxValues (List<Shape> shapes) {
+        float x = 0;
+        float y = 0;
+
+        for (Shape s : shapes) {
+            for (AnchorPoint p : ((PolylineShape)s).getPoints()) {
+                if (p.getX() > x) {
+                    x = p.getX();
+                }
+
+                if (p.getY() > y) {
+                    y = p.getY();
+                }
+            }
+        }
+
+        Vector2<Float> result = new Vector2<>(x, y);
+
+        return result;
     }
 }

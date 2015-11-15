@@ -25,6 +25,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 import rodent.rodentmobile.R;
+import rodent.rodentmobile.drawing.shapes.Paper;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
 import rodent.rodentmobile.ui.ImageAdapter;
@@ -81,6 +82,11 @@ public class LibraryActivity extends AppCompatActivity implements
     public void onDialogPositiveClick(DialogFragment dialog, String filename, float depth, float width, float height) {
         Intent newDrawingIntent = new Intent(this, DrawingActivity.class);
         MyFile file = new RodentFile(filename);
+        Paper paper = new Paper();
+        paper.setWidthInMills(width);
+        paper.setHeightInMills(height);
+        file.setRendered(true);
+        file.setPaper(paper);
         newDrawingIntent.putExtra("FILE", file);
         this.startActivity(newDrawingIntent);
     }
@@ -148,6 +154,12 @@ public class LibraryActivity extends AppCompatActivity implements
         for (File f : allFiles) {
             files.add(f);
         }
+    }
+
+    @Override
+    public void onResume () {
+        super.onResume();
+        loadFiles();
     }
 
     @Override

@@ -15,6 +15,14 @@ import rodent.rodentmobile.utilities.Vector2;
 public class Paper extends Shape {
 
     private float millisInPx;
+    private float widthInMills;
+    private float heightInMills;
+
+    {
+        millisInPx = 12.8f;
+        widthInMills = 100;
+        heightInMills = 20f;
+    }
 
     public Paper() {
         super();
@@ -28,24 +36,41 @@ public class Paper extends Shape {
         paint.setARGB(255, 200, 200, 200);
         canvas.drawARGB(255, 240, 240, 240);
 
-        int linesX = 100;
-        float lineSeparatedDistance = (float) canvas.getWidth() / linesX;
+        int linesX = (int) widthInMills;
+        float lineSeparatedDistance = 12.8f;
         this.millisInPx = lineSeparatedDistance;
-        int linesY = (int) (canvas.getHeight() / lineSeparatedDistance);
+        int linesY = (int) heightInMills;
 
-        this.setSize(new Vector2<>((float)canvas.getWidth(), (float)canvas.getHeight()));
+        this.setSize(new Vector2<>(linesX * millisInPx, linesY * millisInPx));
 
         for (int i = 0; i <= linesX; i++) {
-            canvas.drawLine(i * lineSeparatedDistance, 0, i * lineSeparatedDistance, canvas.getHeight(), paint);
+            canvas.drawLine(i * lineSeparatedDistance, 0, i * lineSeparatedDistance, this.getSize().getY(), paint);
         }
 
         for (int i = 0; i <= linesY; i++) {
-            canvas.drawLine(0, i * lineSeparatedDistance, canvas.getWidth(), i * lineSeparatedDistance, paint);
+            canvas.drawLine(0, i * lineSeparatedDistance, this.getSize().getX(), i * lineSeparatedDistance, paint);
         }
     }
 
+
     public float getMillisInPx () {
         return this.millisInPx;
+    }
+
+    public void setWidthInMills (float mill) {
+        this.widthInMills = mill;
+    }
+
+    public void setHeightInMills (float mill) {
+        this.heightInMills = mill;
+    }
+
+    public float getWidthInMills () {
+        return this.widthInMills;
+    }
+
+    public float getHeightInMills () {
+        return this.heightInMills;
     }
 
     @Override
@@ -80,6 +105,11 @@ public class Paper extends Shape {
 
     @Override
     public void flipVertically () {
+
+    }
+
+    @Override
+    public void renderToMatchBase (Paper paper) {
 
     }
 

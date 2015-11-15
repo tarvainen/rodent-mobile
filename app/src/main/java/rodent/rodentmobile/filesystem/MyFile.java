@@ -16,11 +16,13 @@ public abstract class MyFile implements Serializable {
     protected String filename;
     protected List<Shape> shapes;
     protected Paper paper;
+    protected boolean rendered;
 
     {
         this.paper = new Paper();
         this.shapes = new ArrayList<>();
         this.filename = "";
+        this.rendered = false;
     }
 
     public MyFile() {
@@ -48,5 +50,13 @@ public abstract class MyFile implements Serializable {
 
     public Paper getPaper () {
         return this.paper;
+    }
+
+    public void setRendered (boolean rendered) {
+        this.rendered = rendered;
+    }
+
+    public boolean isRendered () {
+        return this.rendered;
     }
 }

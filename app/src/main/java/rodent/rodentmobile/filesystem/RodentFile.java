@@ -50,6 +50,7 @@ public class RodentFile extends MyFile {
             filename = tmp.filename;
             shapes = tmp.shapes;
             paper = tmp.paper;
+            this.rendered = tmp.rendered;
             in.close();
             inStream.close();
         } catch (Exception e) {

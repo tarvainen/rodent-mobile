@@ -147,4 +147,6 @@ public abstract class Shape implements Serializable {
 
     public abstract void flipHorizontally ();
     public abstract void flipVertically ();
+
+    public abstract void renderToMatchBase (Paper paper);
 }

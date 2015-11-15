@@ -125,8 +125,6 @@ public class GCode {
                     result *= -1;
                 }
             }
-
-            result *= 10;
             return result;
         } catch (ParseException ex) {
             throw new InvalidGCodeException();

@@ -191,6 +191,18 @@ public class PolylineShape extends Shape {
         }
     }
 
+    @Override
+    public void renderToMatchBase (Paper paper) {
+        float factor = paper.getMillisInPx();
+        Log.d("millis in px", factor + "");
+        for (AnchorPoint a : this.points) {
+            a.setX(a.getX() * factor);
+            a.setY(a.getY() * factor);
+        }
+        update();
+        setReady(true);
+    }
+
     public static PolylineShape asCircleShape (Vector2<Float> position, float radius) {
         PolylineShape result = new PolylineShape();
         Angle angle = new Angle();
@@ -215,7 +227,7 @@ public class PolylineShape extends Shape {
 
     public static PolylineShape fromGCodeList (List<GCode> codes) {
         PolylineShape shape = new PolylineShape();
-        shape.setDepth(codes.get(0).getZ());
+        shape.setDepth(-codes.get(0).getZ());
         for (int i = 0; i < codes.size(); i++) {
             Log.d("new anchor", codes.get(i).getX() + " " + codes.get(i).getY());
             shape.addPoint(new AnchorPoint(codes.get(i).getX(), codes.get(i).getY()));
