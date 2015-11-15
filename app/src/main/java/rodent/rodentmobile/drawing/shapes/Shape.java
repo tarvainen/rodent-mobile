@@ -34,8 +34,9 @@ public abstract class Shape implements Serializable {
     public Shape () {
         this.paint = new CustomPaint();
         this.paint.setARGB(180, 80, 80, 80);
-        this.paint.setAntiAlias(true);
-        this.paint.setStrokeWidth(5);
+
+        this.paint.setAntiAlias(false);
+        this.paint.setStrokeWidth(2);
         this.paint.setStyle(Paint.Style.STROKE);
         this.position = new Vector2<>(0f, 0f);
         this.size = new Vector2<>(0f, 0f);

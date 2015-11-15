@@ -1,29 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="40dp">
 
-    <ImageView
+    <RelativeLayout
+        android:id="@+id/joo"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="20dp"
-        android:src="@drawable/ic_format_size_black_36dp"/>
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/webItemName"
-            android:textSize="20sp"
-            android:gravity="center_vertical"
+        <ImageView
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:text="Name here"/>
+            android:scaleType="centerCrop"
+            android:layout_height="300dp"
+            android:src="@drawable/empty_gcode_icon"
+            android:id="@+id/webItemThmbnail"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
 
-    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/relativeLayout2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="#2c3e50">
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/webItemName"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name here"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:textColor="#ecf0f1"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonContainer">
+
+            <com.github.clans.fab.FloatingActionMenu
+                android:id="@+id/fabLoadItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="onFabClick"
+                app:menu_colorNormal="#e67e22"
+                app:menu_fab_size="mini"
+                app:menu_openDirection="down"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fabDownloadItem"
+                    android:onClick="onFabClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_cloud_download_black_24dp">
+                </com.github.clans.fab.FloatingActionButton>
+
+            </com.github.clans.fab.FloatingActionMenu>
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

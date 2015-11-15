@@ -17,7 +17,7 @@
         android:numColumns="auto_fit"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
-        android:horizontalSpacing="30dp"
-        android:verticalSpacing="30dp"/>
+        android:horizontalSpacing="50dp"
+        android:verticalSpacing="50dp"/>
 
 </RelativeLayout>

@@ -27,6 +27,9 @@
     <string name="default_save_directory">/rodent/</string>
     <string name="default_file_type">.rodent</string>
 
+    <!-- Strings related to connections -->
+    <string name="rodentOnlineApiAddress">http://46.101.165.251/rodentonline/json/</string>
+
     <!-- Strings related to library -->
     <string name="lib_cannot_open_file">Can\'t open file.</string>
     <string name="lib_title_new_file_dialog">New file</string>
@@ -35,7 +38,7 @@
     <string name="lib_placeholder_paper_width">Engraving width</string>
     <string name="lib_placeholder_paper_height">Engraving height</string>
 
-    <!-- Strings related to Drawing -->
+    <!-- Strings related to drawing -->
     <string name="drawing_notification_saving">Saving. Please wait.</string>
     <string name="drawing_notification_saved">Saved.</string>
     <string name="drawing_notification_save_failed">Save failed.</string>
@@ -49,5 +52,10 @@
 
     <string name="drawing_title_shape_depth_selector">Shape depth</string>
     <string name="title_activity_web_loader">WebLoaderActivity</string>
+
+    <!-- Strings related to web load activity -->
+    <string name="web_error_url_syntax">The API url error occurred.</string>
+    <string name="web_synced_succesfully">Loaded</string>
+    <string name="web_sync_failed">Failed to load data.</string>
 
 </resources>

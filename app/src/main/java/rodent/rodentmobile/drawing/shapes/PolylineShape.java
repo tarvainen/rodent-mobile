@@ -1,10 +1,12 @@
 package rodent.rodentmobile.drawing.shapes;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import rodent.rodentmobile.data.GCode;
 import rodent.rodentmobile.drawing.helpers.AnchorPoint;
 import rodent.rodentmobile.utilities.Angle;
 import rodent.rodentmobile.utilities.Vector2;
@@ -209,5 +211,15 @@ public class PolylineShape extends Shape {
         float x = (float)Math.cos(angle.getRadians()) * radius + origo.getX();
         float y = (float)Math.sin(angle.getRadians()) * radius + origo.getY();
         return new AnchorPoint(x, y);
+    }
+
+    public static PolylineShape fromGCodeList (List<GCode> codes) {
+        PolylineShape shape = new PolylineShape();
+        shape.setDepth(codes.get(0).getZ());
+        for (int i = 0; i < codes.size(); i++) {
+            Log.d("new anchor", codes.get(i).getX() + " " + codes.get(i).getY());
+            shape.addPoint(new AnchorPoint(codes.get(i).getX(), codes.get(i).getY()));
+        }
+        return shape;
     }
 }
