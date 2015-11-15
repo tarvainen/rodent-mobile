@@ -84,7 +84,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             }
             if (file != null && file.getShapes() != null) {
                 for (Shape s : file.getShapes()) {
-                    drawingBoard.addDrawableElement(s);
+                    if (s.getDepth() < 0.f) {
+                        drawingBoard.addDrawableElement(s);
+                    }
                 }
 
             }

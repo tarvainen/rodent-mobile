@@ -37,26 +37,32 @@ public class GCodeParser {
 
         List<GCode> shapeRows = new ArrayList<>();
 
-        GCode last = null;
+        GCode last = new GCode();
+
         for (int i = 0; i < gcode.size(); i++) {
             String row = gcode.get(i);
             if (isUsefulCodeRow(row)) {
                 GCode code = parseGCodeFromRow(row);
 
-                Log.d("useful", code.getX() + " " + code.getY());
+                if (!code.isX()) {
+                    code.setX(last.getX());
+                }
+                if (!code.isY()) {
+                    code.setY(last.getY());
+                }
+
                 if (code.isZ()) {
                     if (z != code.getZ()) {
                         if (shapeRows.size() > 0) {
                             shapes.add(PolylineShape.fromGCodeList(shapeRows));
                             shapeRows.clear();
                         }
+
                     }
                     z = code.getZ();
                 }
-                if (z < 0.f) {
 
-                    shapeRows.add(code);
-                }
+                shapeRows.add(code);
 
                 last = code;
             }
@@ -68,7 +74,7 @@ public class GCodeParser {
 
     private static boolean isUsefulCodeRow (String code) {
         code = code.toUpperCase();
-        return code.contains("G00") || code.contains("G01");
+        return code.contains("G00") || code.contains("G01") || code.contains("G0") || code.contains("G1");
     }
 
     private static GCode parseGCodeFromRow (String row) throws InvalidGCodeException {
