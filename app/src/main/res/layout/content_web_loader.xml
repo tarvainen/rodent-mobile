@@ -10,4 +10,14 @@
     tools:showIn="@layout/activity_web_loader"
     tools:context="rodent.rodentmobile.activities.WebLoaderActivity">
 
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gridView"
+        android:numColumns="auto_fit"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:horizontalSpacing="30dp"
+        android:verticalSpacing="30dp"/>
+
 </RelativeLayout>

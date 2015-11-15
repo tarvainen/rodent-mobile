@@ -163,11 +163,16 @@ public class LibraryActivity extends AppCompatActivity implements
         switch (v.getId()) {
             case R.id.fabAddDrawing:
                 createNewDrawing();
+                break;
+            case R.id.fabSettings:
+                openSettings();
+                break;
+            case R.id.fabCloud:
+                openWebLoader();
+                break;
             default:
                 break;
         }
-
-
     }
 
     private void createNewDrawing () {
@@ -178,4 +183,13 @@ public class LibraryActivity extends AppCompatActivity implements
         dialog.show(getFragmentManager(), "NewFileDialog");
     }
 
+    private void openSettings () {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void openWebLoader () {
+        Intent intent = new Intent(this, WebLoaderActivity.class);
+        startActivity(intent);
+    }
 }

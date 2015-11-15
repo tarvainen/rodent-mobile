@@ -28,6 +28,7 @@
                 android:layout_gravity="bottom|right"
                 android:src="@drawable/ic_border_color_black_24dp"
                 android:onClick="onFabClick"
+                fab:fab_label="Schematic"
                 />
 
             <com.github.clans.fab.FloatingActionButton
@@ -37,6 +38,7 @@
                 android:layout_gravity="bottom|right"
                 android:src="@drawable/ic_format_size_black_24dp"
                 android:onClick="onFabClick"
+                fab:fab_label="Font"
                 />
         </com.github.clans.fab.FloatingActionMenu>
 
