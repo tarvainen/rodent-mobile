@@ -44,10 +44,10 @@ public class LibraryActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_library);
 
         files = new ArrayList<>();
+        adapter = new ImageAdapter(this, files);
         loadFiles();
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        adapter = new ImageAdapter(this, files);
         gridView.setAdapter(adapter);
         registerForContextMenu(gridView);
         gridView.setOnItemClickListener(this);
@@ -152,6 +152,7 @@ public class LibraryActivity extends AppCompatActivity implements
         for (File f : allFiles) {
             files.add(f);
         }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
