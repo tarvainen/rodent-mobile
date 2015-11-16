@@ -181,10 +181,10 @@ public class LibraryActivity extends AppCompatActivity implements
             case R.id.fabCloud:
                 openWebLoader();
                 break;
-            case R.id.fabManualController:
-                Intent intent = new Intent(this, ManualControllerActivity.class);
-                this.startActivity(intent);
-                break;
+//            case R.id.fabManualController:
+//                Intent intent = new Intent(this, ManualControllerActivity.class);
+//                this.startActivity(intent);
+//                break;
             default:
                 break;
         }

@@ -19,8 +19,7 @@ import rodent.rodentmobile.R;
 /**
  * Created by Teemu on 21.10.2015.
  * <br>
- * Adapter used by GridView in LibraryActivity. Currently only displays text
- * items.
+ *
  */
 public class ImageAdapter extends BaseAdapter {
 
@@ -51,12 +50,9 @@ public class ImageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-
-        if (view == null) {
+        if (view == null)
             view = LayoutInflater.from(context).inflate(R.layout.library_item, null);
-        }
-        view.setLayoutParams(new GridView.LayoutParams(-2, -2)); // -2 = WRAP_CONTENT
-        view.setPadding(8, 8, 8, 8);
+
         ((TextView)view.findViewById(R.id.textView)).setText(files.get(position).getName());
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
         Bitmap bm = BitmapFactory.decodeFile(
