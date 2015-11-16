@@ -1,9 +1,12 @@
 package rodent.rodentmobile.activities;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,7 +46,6 @@ public class BroadcastActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppThemeNoActionBar);
         setContentView(R.layout.activity_broadcast);
 
         Bundle b = getIntent().getExtras();
@@ -129,7 +131,7 @@ public class BroadcastActivity extends AppCompatActivity {
 
     private void setLineAmountValue () {
         TextView view = (TextView) findViewById(R.id.lbl_line_amount);
-        view.setText(this.pack.getLines().length + "");
+        view.setText(String.format(getString(R.string.line_amount_placeholder), this.pack.getLines().length));
     }
 
     private void setMaxValues () {
@@ -137,7 +139,7 @@ public class BroadcastActivity extends AppCompatActivity {
         float x = this.pack.getXValues().getY();
         float y = this.pack.getYValues().getY();
         float z = this.pack.getZValues().getY();
-        String text = String.format(getString(R.string.bound_value_placeholder), x, y, z);
+        String text = String.format(getString(R.string.bound_min_value_placeholder), x, y, z);
         view.setText(text);
     }
 
@@ -146,7 +148,7 @@ public class BroadcastActivity extends AppCompatActivity {
         float x = this.pack.getXValues().getX();
         float y = this.pack.getYValues().getX();
         float z = this.pack.getZValues().getX();
-        String text = String.format(getString(R.string.bound_value_placeholder), x, y, z);
+        String text = String.format(getString(R.string.bound_min_value_placeholder), x, y, z);
         view.setText(text);
     }
 
@@ -185,11 +187,22 @@ public class BroadcastActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Exception ex) {
-
+                        onSocketError();
                     }
                 };
 
-                this.socket.connect();
+                Thread t = new Thread() {
+                    @Override
+                    public void run () {
+                        try {
+                            socket.connectBlocking();
+                        } catch (Exception ex) {
+                            onSocketError();
+                        }
+                    }
+                };
+
+                t.start();
             }
         }
     }
@@ -203,8 +216,15 @@ public class BroadcastActivity extends AppCompatActivity {
         return isSocketValid() && this.socket.getConnection().isOpen();
     }
 
-    private void connectionOpened () {
-        Toast.makeText(this, getString(R.string.brdcast_connection_opened), Toast.LENGTH_SHORT).show();
+    public void connectionOpened () {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ActionMenuItemView v = (ActionMenuItemView) findViewById(R.id.icon_connection_status);
+                v.setIcon(getResources().getDrawable(R.drawable.ic_signal_wifi_4_bar_black_24dp));
+                Toast.makeText(BroadcastActivity.this, getString(R.string.brdcast_connection_opened), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void disconnect () {
@@ -214,7 +234,23 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void disconnected () {
-        Toast.makeText(this, getString(R.string.brdcast_connection_closed), Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ActionMenuItemView v = (ActionMenuItemView) findViewById(R.id.icon_connection_status);
+                v.setIcon(getResources().getDrawable(R.drawable.ic_signal_wifi_off_black_24dp));
+                Toast.makeText(BroadcastActivity.this, getString(R.string.brdcast_connection_closed), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void onSocketError () {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(BroadcastActivity.this, getString(R.string.brdcast_connection_error), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void handleSocketMessage (String message) {

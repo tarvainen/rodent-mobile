@@ -2,6 +2,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="rodent.rodentmobile.activities.BroadcastActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:orderInCategory="2"
+        android:title="@string/brdcast_menu_settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/icon_connection_status"
+        android:icon="@drawable/ic_signal_wifi_off_black_24dp"
+        android:orderInCategory="1"
+        android:title="@string/brdcast_menu_connection_status"
+        app:showAsAction="ifRoom"
+        android:enabled="false" />
+
 </menu>

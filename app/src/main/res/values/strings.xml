@@ -61,7 +61,11 @@
     <string name="web_sync_failed">Failed to load data.</string>
 
     <!-- Strings related to the broadcast activity -->
-    <string name="bound_value_placeholder">X%1$.2f Y%2$.2f Z%3$.2f</string>
+    <string name="filename_placeholder">File: %1$s</string>
+    <string name="line_amount_placeholder">Lines: %1$d</string>
+    <string name="bound_max_value_placeholder">Max values: X%1$.2f Y%2$.2f Z%3$.2f</string>
+    <string name="bound_min_value_placeholder">Min values: X%1$.2f Y%2$.2f Z%3$.2f</string>
+
     <string name="current_x_placeholder">X%1$.2f</string>
     <string name="current_y_placeholder">Y%1$.2f</string>
     <string name="current_z_placeholder">Z%1$.2f</string>
@@ -71,5 +75,8 @@
     <string name="brdcast_connection_opened">Connected</string>
     <string name="brdcast_connection_closed">Disconnected</string>
     <string name="brdcast_connection_error">Error occurred with connection.</string>
+
+    <string name="brdcast_menu_connection_status">Connection</string>
+    <string name="brdcast_menu_settings">Settings</string>
 
 </resources>
