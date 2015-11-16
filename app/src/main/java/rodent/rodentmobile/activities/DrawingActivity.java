@@ -97,8 +97,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 if (!file.isRendered()) {
                     Paper paper = new Paper();
                     Vector2<Float> max = getMaxValues(file.getShapes());
-                    paper.setWidthInMills(max.getX());
-                    paper.setHeightInMills(max.getY());
+                    paper.setWidthInMills(max.getX() + 1);
+                    paper.setHeightInMills(max.getY() + 1);
+                    file.setPaper(paper);
                     drawingBoard.setPaper(paper);
                 }
 
@@ -332,7 +333,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     private float getValidDepth(float value) {
         if (value < MIN_DEPTH) {
-
             value = MIN_DEPTH;
         }
         else if (value > MAX_DEPTH) {

@@ -152,7 +152,7 @@ public abstract class Shape implements Serializable {
 
     public Vector2<Float> getRealBoundsX (Paper paper) {
         float min = this.position.getX() * paper.getMillisInPx();
-        float max = (this.position.getX() + this.size.getX()) * paper.getMillisInPx();
+        float max = paper.getHeightInMills() - (this.position.getX() + this.size.getX()) * paper.getMillisInPx();
         return new Vector2<>(min, max);
     }
 
@@ -165,6 +165,5 @@ public abstract class Shape implements Serializable {
     public Vector2<Float> getRealBoundsZ (Paper paper) {
         return new Vector2<>(0f, this.depth);
     }
-
 
 }

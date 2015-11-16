@@ -30,7 +30,6 @@ public class HttpLoader {
         String line;
         while ((line = reader.readLine()) != null) {
             result.add(line);
-            Log.d("result add", line);
         }
 
         return result;

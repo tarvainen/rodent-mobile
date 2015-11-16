@@ -195,9 +195,12 @@ public class PolylineShape extends Shape {
     public void renderToMatchBase (Paper paper) {
         float factor = paper.getMillisInPx();
 
+        float height = paper.getHeightInMills();
+
+        Log.d("height", height + "");
         for (AnchorPoint a : this.points) {
             a.setX(a.getX() * factor);
-            a.setY(a.getY() * factor);
+            a.setY((height - a.getY()) * factor);
         }
 
         update();

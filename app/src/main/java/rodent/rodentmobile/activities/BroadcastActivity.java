@@ -10,21 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.data.GCode;
 import rodent.rodentmobile.data.GCodePackage;
 import rodent.rodentmobile.data.GCodeParser;
 import rodent.rodentmobile.exceptions.InvalidGCodeException;
 import rodent.rodentmobile.filesystem.MyFile;
-import rodent.rodentmobile.drawing.shapes.Shape;
 
 public class BroadcastActivity extends AppCompatActivity {
 
@@ -172,6 +167,7 @@ public class BroadcastActivity extends AppCompatActivity {
         } else {
             if (this.uri != null) {
                 this.socket = new WebSocketClient(this.uri) {
+
                     @Override
                     public void onOpen(ServerHandshake handshakedata) {
                         connectionOpened();
@@ -222,7 +218,6 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void handleSocketMessage (String message) {
-        Log.d(message, message);
         try {
             GCode code = GCodeParser.parseGCodeFromRow(message);
             switch ((int)code.get("R")) {

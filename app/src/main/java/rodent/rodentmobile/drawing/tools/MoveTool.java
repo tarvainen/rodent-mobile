@@ -11,10 +11,12 @@ public class MoveTool extends Tool {
 
     private Vector2<Float> lastMovePosition;
     private boolean moved;
+    private boolean elementSelected;
 
     {
         this.lastMovePosition = new Vector2<>(0f, 0f);
         this.moved = false;
+        this.elementSelected = false;
     }
 
     public MoveTool () {
@@ -61,6 +63,11 @@ public class MoveTool extends Tool {
         this.deselectAll();
     }
 
+    @Override
+    public boolean isCanvasTranslateAllowed () {
+        return !this.elementSelected;
+    }
+
     public void handleSelections (Vector2<Float> position) {
         selectLimitedAmountOfElementsAtPosition(position, Integer.MAX_VALUE);
     }
@@ -70,6 +77,7 @@ public class MoveTool extends Tool {
         for (Shape shape : this.getShapeContainer()) {
             if (shape.wasTouched(position)) {
                 selected++;
+                this.elementSelected = true;
                 if (selected >= limit) {
                     return;
                 }
@@ -81,6 +89,11 @@ public class MoveTool extends Tool {
         for (Shape shape : this.getShapeContainer()) {
             shape.setSelected(false);
         }
+        this.elementSelected = false;
+    }
+
+    public boolean isElementSelected () {
+        return this.elementSelected;
     }
 
     private void handleMovement (Vector2<Float> position) {

@@ -63,7 +63,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         if (isToolBusy()) {
             drawBusyElement(canvas);
         }
-//        Log.d("on draw", this.getPaper().getMillisInPx() + "");
     }
 
     @Override

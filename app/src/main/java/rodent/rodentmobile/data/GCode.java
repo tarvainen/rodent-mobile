@@ -1,7 +1,5 @@
 package rodent.rodentmobile.data;
 
-import android.util.Log;
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
@@ -152,7 +150,6 @@ public class GCode {
             throw new InvalidGCodeException();
         }
     }
-
 
     public boolean is (String str) {
         return this.code.contains(str);

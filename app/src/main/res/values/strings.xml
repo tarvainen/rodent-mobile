@@ -38,6 +38,8 @@
     <string name="lib_placeholder_paper_width">Engraving width</string>
     <string name="lib_placeholder_paper_height">Engraving height</string>
 
+    <string name="lib_new_file_invalid_input">Invalid input.</string>
+
     <!-- Strings related to drawing -->
     <string name="drawing_notification_saving">Saving. Please wait.</string>
     <string name="drawing_notification_saved">Saved.</string>
