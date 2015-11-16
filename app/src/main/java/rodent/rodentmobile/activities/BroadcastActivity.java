@@ -4,10 +4,10 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.java_websocket.client.WebSocketClient;
@@ -157,7 +157,7 @@ public class BroadcastActivity extends AppCompatActivity {
             String ip = pref.getString("ip_address", "");
             this.uri = new URI("ws://" + ip + ":5000");
         } catch (URISyntaxException ex) {
-            Toast.makeText(this, "Invalid socket uri", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.brdcast_invalid_uri), Toast.LENGTH_SHORT).show();
             this.uri = null;
         }
 
@@ -204,7 +204,7 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void connectionOpened () {
-        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.brdcast_connection_opened), Toast.LENGTH_SHORT).show();
     }
 
     private void disconnect () {
@@ -214,7 +214,7 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void disconnected () {
-        Toast.makeText(this, "Disconnected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.brdcast_connection_closed), Toast.LENGTH_SHORT).show();
     }
 
     private void handleSocketMessage (String message) {
@@ -248,11 +248,10 @@ public class BroadcastActivity extends AppCompatActivity {
                 TextView yLabel = (TextView) findViewById(R.id.lbl_yCoord);
                 TextView zLabel = (TextView) findViewById(R.id.lbl_zCoord);
 
-                xLabel.setText("X" + x);
-                yLabel.setText("Y" + y);
-                zLabel.setText("Z" + z);
+                xLabel.setText(String.format(getString(R.string.current_x_placeholder), x));
+                yLabel.setText(String.format(getString(R.string.current_y_placeholder), y));
+                zLabel.setText(String.format(getString(R.string.current_z_placeholder), z));
             }
-
         });
     }
 
@@ -261,13 +260,24 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void sendLine () {
-        sendMessageToSocket(this.pack.getLines()[currentLine] + " Q0");
         if (currentLine < this.pack.getLines().length) {
             currentLine++;
         } else {
             currentLine = 0;
             running = false;
+            updateProgressBar();
+            return;
         }
+
+        sendMessageToSocket(this.pack.getLines()[currentLine - 1] + " Q0");
+        updateProgressBar();
+    }
+
+    private void updateProgressBar () {
+        ProgressBar bar = (ProgressBar) findViewById(R.id.progBar_broadcast_status);
+        float progress = this.currentLine / (float)this.pack.getLines().length;
+        progress *= 100;
+        bar.setProgress((int)progress);
     }
 
     private void sendMessageToSocket (String message) {

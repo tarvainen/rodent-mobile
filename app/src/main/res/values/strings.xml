@@ -62,5 +62,14 @@
 
     <!-- Strings related to the broadcast activity -->
     <string name="bound_value_placeholder">X%1$.2f Y%2$.2f Z%3$.2f</string>
+    <string name="current_x_placeholder">X%1$.2f</string>
+    <string name="current_y_placeholder">Y%1$.2f</string>
+    <string name="current_z_placeholder">Z%1$.2f</string>
+
+
+    <string name="brdcast_invalid_uri">Invalid socket url.</string>
+    <string name="brdcast_connection_opened">Connected</string>
+    <string name="brdcast_connection_closed">Disconnected</string>
+    <string name="brdcast_connection_error">Error occurred with connection.</string>
 
 </resources>
