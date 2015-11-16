@@ -13,30 +13,36 @@ import rodent.rodentmobile.exceptions.InvalidGCodeException;
  */
 public class GCode {
 
+    private String code;
+
     private float x;
     private float y;
     private float z;
     private float g;
+    private float r;
 
     private boolean isx;
     private boolean isy;
     private boolean isz;
     private boolean isg;
+    private boolean isr;
 
     {
         x = 0.f;
         y = 0.f;
         z = 0.f;
         g = 0.f;
+        r = 0.f;
 
         isx = false;
         isy = false;
         isz = false;
         isg = false;
+        isr = false;
     }
 
-    public GCode () {
-
+    public GCode (String code) {
+        this.code = code;
     }
 
     public void setX (float x) {
@@ -59,6 +65,11 @@ public class GCode {
         this.isg = true;
     }
 
+    public void setR (float r) {
+        this.r = r;
+        this.isr = true;
+    }
+
     public float getX () {
         return this.x;
     }
@@ -73,6 +84,10 @@ public class GCode {
 
     public float getG () {
         return this.g;
+    }
+
+    public float getR () {
+        return this.r;
     }
 
     public boolean isX () {
@@ -91,8 +106,13 @@ public class GCode {
         return this.isg;
     }
 
+    public boolean isR () {
+        return this.isr;
+    }
+
+
     public static GCode fromString (String codeRow) throws InvalidGCodeException {
-        GCode code = new GCode();
+        GCode code = new GCode(codeRow);
 
         String[] elements = codeRow.split(" ");
 
@@ -105,6 +125,8 @@ public class GCode {
                 code.setY(getValueFromString(elements[i]));
             } else if (elements[i].contains("Z")) {
                 code.setZ(getValueFromString(elements[i]));
+            } else if (elements[i].contains("R")) {
+                code.setR(getValueFromString(elements[i]));
             }
         }
 
@@ -131,4 +153,29 @@ public class GCode {
         }
     }
 
+
+    public boolean is (String str) {
+        return this.code.contains(str);
+    }
+
+    public float get (String value) {
+        String codes[] = this.code.split(" ");
+        for (String code : codes) {
+            if (code.startsWith(value)) {
+                return parseValueFromCode(code.substring(value.length(), code.length()));
+            }
+        }
+        return -1f;
+    }
+
+    private float parseValueFromCode (String code) {
+        float result = -1f;
+        try {
+            result = Float.parseFloat(code);
+        } catch (Exception ex) {
+
+        }
+
+        return result;
+    }
 }

@@ -4,9 +4,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import com.github.clans.fab.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -181,6 +179,10 @@ public class LibraryActivity extends AppCompatActivity implements
                 break;
             case R.id.fabCloud:
                 openWebLoader();
+                break;
+            case R.id.fabManualController:
+                Intent intent = new Intent(this, ManualControllerActivity.class);
+                this.startActivity(intent);
                 break;
             default:
                 break;

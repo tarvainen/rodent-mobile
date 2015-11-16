@@ -1,17 +1,18 @@
 package rodent.rodentmobile.data;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rodent.rodentmobile.drawing.helpers.AnchorPoint;
-import rodent.rodentmobile.drawing.shapes.Paper;
 import rodent.rodentmobile.drawing.shapes.PolylineShape;
 import rodent.rodentmobile.drawing.shapes.Shape;
 import rodent.rodentmobile.exceptions.InvalidGCodeException;
+import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
 import rodent.rodentmobile.utilities.Vector2;
+import rodent.rodentmobile.utilities.VectorMath;
 
 /**
  * Created by Atte on 15/11/15.
@@ -37,7 +38,7 @@ public class GCodeParser {
 
         List<GCode> shapeRows = new ArrayList<>();
 
-        GCode last = new GCode();
+        GCode last = new GCode("");
 
         for (int i = 0; i < gcode.size(); i++) {
             String row = gcode.get(i);
@@ -52,12 +53,11 @@ public class GCodeParser {
                 }
 
                 if (code.isZ()) {
-                    if (z != code.getZ()) {
+                    if (z != code.getZ()) { // if z value changes, the engraving shape ends
                         if (shapeRows.size() > 0) {
                             shapes.add(PolylineShape.fromGCodeList(shapeRows));
                             shapeRows.clear();
                         }
-
                     }
                     z = code.getZ();
                 }
@@ -66,7 +66,6 @@ public class GCodeParser {
 
                 last = code;
             }
-
         }
 
         return shapes;
@@ -77,9 +76,55 @@ public class GCodeParser {
         return code.contains("G00") || code.contains("G01") || code.contains("G0") || code.contains("G1");
     }
 
-    private static GCode parseGCodeFromRow (String row) throws InvalidGCodeException {
+    public static GCode parseGCodeFromRow (String row) throws InvalidGCodeException {
         return GCode.fromString(row);
     }
 
+    public static GCodePackage parseFileToGCode (Context context, MyFile file) {
+        GCodeBuilder builder = new GCodeBuilder(context);
+
+        GCodePackage pack = new GCodePackage();
+
+        String gcode = getJobStartCommands(builder);
+
+        Vector2<Float> xMaxes = new Vector2<>(0f, 0f);
+        Vector2<Float> yMaxes = new Vector2<>(0f, 0f);
+        Vector2<Float> zMaxes = new Vector2<>(0f, 0f);
+
+        for (Shape shape : file.getShapes()) {
+            gcode += shape.toGCode(file.getPaper());
+            xMaxes = VectorMath.getBounds(xMaxes, shape.getRealBoundsX(file.getPaper()));
+            yMaxes = VectorMath.getBounds(yMaxes, shape.getRealBoundsY(file.getPaper()));
+            zMaxes = VectorMath.getBounds(zMaxes, shape.getRealBoundsZ(file.getPaper()));
+        }
+
+        gcode += getJobEndCommands(builder);
+
+        pack.setLines(gcode.split("\n"));
+        pack.setXValues(xMaxes);
+        pack.setYValues(yMaxes);
+        pack.setZValues(zMaxes);
+
+        return pack;
+    }
+
+    private static String getJobStartCommands (GCodeBuilder builder) {
+        String gcode = "";
+        gcode += toLine(builder.getRapidPositioningToZ(1.f));
+        gcode += toLine(builder.getSpindleCounterwiseStartCommand());
+        return gcode;
+    }
+
+    private static String getJobEndCommands (GCodeBuilder builder) {
+        String gcode = "";
+        gcode += toLine(builder.getRapidPositioningToZ(1.f));
+        gcode += toLine(builder.getSpindleStopCommand());
+        gcode += toLine(builder.getGoToHomeCommand());
+        return gcode;
+    }
+
+    private static String toLine (String command) {
+        return command + "\n";
+    }
 
 }

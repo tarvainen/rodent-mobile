@@ -58,4 +58,7 @@
     <string name="web_synced_succesfully">Loaded</string>
     <string name="web_sync_failed">Failed to load data.</string>
 
+    <!-- Strings related to the broadcast activity -->
+    <string name="bound_value_placeholder">X%1$.2f Y%2$.2f Z%3$.2f</string>
+
 </resources>

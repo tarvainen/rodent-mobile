@@ -1,5 +1,7 @@
 package rodent.rodentmobile.activities;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import rodent.rodentmobile.R;
+import rodent.rodentmobile.data.GCode;
+import rodent.rodentmobile.data.GCodePackage;
+import rodent.rodentmobile.data.GCodeParser;
+import rodent.rodentmobile.exceptions.InvalidGCodeException;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.drawing.shapes.Shape;
 
@@ -24,8 +30,8 @@ public class BroadcastActivity extends AppCompatActivity {
 
     private MyFile file;
 
-    private String gcode;
-    private ArrayList<String> lines;
+    private GCodePackage pack;
+
     private int currentLine;
     private boolean running;
 
@@ -34,18 +40,9 @@ public class BroadcastActivity extends AppCompatActivity {
     private URI uri;
 
     {
-        try {
-            this.uri = new URI("ws://192.168.1.8:5000");
-        } catch (URISyntaxException ex) {
-            Log.d("Socket uri error", ex.getMessage());
-            Toast.makeText(this, "Invalid socket uri", Toast.LENGTH_SHORT).show();
-            this.uri = null;
-        }
-
-        lines = new ArrayList<>();
+        pack = new GCodePackage();
         currentLine = 0;
         running = false;
-        gcode = "";
     }
 
     @Override
@@ -59,7 +56,7 @@ public class BroadcastActivity extends AppCompatActivity {
             try {
                 file = (MyFile) getIntent().getExtras().get("FILE");
                 if (file != null && file.getShapes() != null) {
-                    createSimpleTestGCode();
+                    this.pack = GCodeParser.parseFileToGCode(this, file);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -104,28 +101,16 @@ public class BroadcastActivity extends AppCompatActivity {
                 break;
             case R.id.btn_start_broadcast:
                 running = true;
-                sendMessageToSocket("R9");
+                sendMessageToSocket(getResources().getString(R.string.ask_if_ready));
                 break;
             case R.id.btn_stop_broadcast:
                 running = false;
                 break;
             case R.id.btn_clear_coordinates:
-                sendMessageToSocket("M28");
+                sendMessageToSocket(getResources().getString(R.string.clear_coordinates));
                 break;
             default:
                 break;
-        }
-    }
-
-    private void createSimpleTestGCode () {
-        for (Shape shape : file.getShapes()) {
-            this.gcode += shape.toGCode(file.getPaper());
-        }
-
-        String rows[]= this.gcode.split("\n");
-        for (String line : rows) {
-            Log.d("i", line);
-            this.lines.add(line);
         }
     }
 
@@ -133,6 +118,8 @@ public class BroadcastActivity extends AppCompatActivity {
         if (isFileValid()) {
             setFileNameLabelValue(file.getFilename());
             setLineAmountValue();
+            setMaxValues();
+            setMinValues();
         }
     }
 
@@ -147,19 +134,39 @@ public class BroadcastActivity extends AppCompatActivity {
 
     private void setLineAmountValue () {
         TextView view = (TextView) findViewById(R.id.lbl_line_amount);
-        view.setText(this.lines.size() + "");
+        view.setText(this.pack.getLines().length + "");
     }
 
     private void setMaxValues () {
-
+        TextView view = (TextView) findViewById(R.id.lbl_max_values);
+        float x = this.pack.getXValues().getY();
+        float y = this.pack.getYValues().getY();
+        float z = this.pack.getZValues().getY();
+        String text = String.format(getString(R.string.bound_value_placeholder), x, y, z);
+        view.setText(text);
     }
 
     private void setMinValues () {
-
+        TextView view = (TextView) findViewById(R.id.lbl_min_values);
+        float x = this.pack.getXValues().getX();
+        float y = this.pack.getYValues().getX();
+        float z = this.pack.getZValues().getX();
+        String text = String.format(getString(R.string.bound_value_placeholder), x, y, z);
+        view.setText(text);
     }
 
     private void connectSocket () {
-        Log.d("joo", "juu");
+
+        try {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+            String ip = pref.getString("ip_address", "");
+            this.uri = new URI("ws://" + ip + ":5000");
+        } catch (URISyntaxException ex) {
+            Toast.makeText(this, "Invalid socket uri", Toast.LENGTH_SHORT).show();
+            this.uri = null;
+        }
+
+
         if (isSocketConnected()) {
             this.disconnect();
         } else {
@@ -215,43 +222,27 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void handleSocketMessage (String message) {
-        int rValue = (int)getValueFromGCodeString("R", message);
-        switch (rValue) {
-            case 4:
-                float x = getValueFromGCodeString("X", message);
-                float y = getValueFromGCodeString("Y", message);
-                float z = getValueFromGCodeString("Z", message);
-                setCoordinateValues(x, y, z);
-                break;
-            case 10:
-                if (isRunning()) {
-                    sendLine();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private float getValueFromGCodeString (String value, String message) {
-        String codes[] = message.split(" ");
-        for (String code : codes) {
-            if (code.startsWith(value)) {
-                return parseValueFromCode(code.substring(value.length(), code.length()));
-            }
-        }
-        return -1f;
-    }
-
-    private float parseValueFromCode (String code) {
-        float result = -1f;
+        Log.d(message, message);
         try {
-            result = Float.parseFloat(code);
-        } catch (Exception ex) {
-            Log.d("Parse error", ex.getMessage());
-        }
+            GCode code = GCodeParser.parseGCodeFromRow(message);
+            switch ((int)code.get("R")) {
+                case 4:
+                    float x = code.getX();
+                    float y = code.getY();
+                    float z = code.getZ();
+                    setCoordinateValues(x, y, z);
+                    break;
+                case 10:
+                    if (isRunning()) {
+                        sendLine();
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch (InvalidGCodeException ex) {
 
-        return result;
+        }
     }
 
     private void setCoordinateValues (final float x, final float y, final float z) {
@@ -275,8 +266,8 @@ public class BroadcastActivity extends AppCompatActivity {
     }
 
     private void sendLine () {
-        sendMessageToSocket(this.lines.get(currentLine) + " Q0");
-        if (currentLine < this.lines.size()) {
+        sendMessageToSocket(this.pack.getLines()[currentLine] + " Q0");
+        if (currentLine < this.pack.getLines().length) {
             currentLine++;
         } else {
             currentLine = 0;
@@ -286,7 +277,6 @@ public class BroadcastActivity extends AppCompatActivity {
 
     private void sendMessageToSocket (String message) {
         if (isSocketConnected() && message.length() > 1) {
-            Log.d("Sending message", message);
             this.socket.send(message);
         }
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="identification_msg">R1</string>
+    <string name="ask_if_ready">R9</string>
+
+    <string name="rapid_positioning">G00</string>
+    <string name="linear_interpolation">G01</string>
+
+
+    <string name="pause_job">M1</string>
+    <string name="goto_home_positioning">M2</string>
+    <string name="spindle_counterwise_start">M3</string>
+    <string name="spindle_stop">M5</string>
+    <string name="clear_coordinates">M28</string>
+
+</resources>

@@ -116,16 +116,28 @@ public class VectorMath {
 
         Angle a = Angle.getAngleBetween(pivot, point);
         a.substract(amount);
-        Log.d("len", len + "");
-        Log.d("amountradians", amount.getRadians() + "");
         float x = (float)Math.cos(a.getRadians()) * len + pivot.getX();
         float y = (float)Math.sin(a.getRadians()) * len + pivot.getY();
-        Log.d("pivot", pivot.getX() + " " + pivot.getY());
-        Log.d("point", point.getX() + " " + point.getY());
-        Log.d("angle", amount.getDegrees() + "");
-        Log.d("result", x + " " + y);
+
         return new Vector2<>(x, y);
     }
 
+    public static Vector2<Float> getBounds (Vector2<Float> a, Vector2<Float> b) {
+        Vector2<Float> result = new Vector2<>(a.getX(), a.getY());
+
+        if (a.getX() < b.getX()) {
+            result.setX(a.getX());
+        } else {
+            result.setX(b.getX());
+        }
+
+        if (a.getY() > b.getY()) {
+            result.setY(a.getY());
+        } else {
+            result.setY(b.getY());
+        }
+
+        return result;
+    }
 
 }

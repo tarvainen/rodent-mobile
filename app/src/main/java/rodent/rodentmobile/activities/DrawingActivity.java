@@ -86,17 +86,17 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         try {
             file = (MyFile) getIntent().getExtras().get("FILE");
             if (file.getPaper() != null) {
-                Log.d("paper was", "yes");
                 drawingBoard.setPaper(file.getPaper());
             }
 
-
             if (file != null && file.getShapes() != null) {
 
+                // file might not be rendered if it is opened first time
+                // this will happen always with the new file loaded from rodent online
+                // after rendering the base (paper) size will match the maximum values of the drawing
                 if (!file.isRendered()) {
                     Paper paper = new Paper();
                     Vector2<Float> max = getMaxValues(file.getShapes());
-                    Log.d("joups", max.getX() + " " + max.getY());
                     paper.setWidthInMills(max.getX());
                     paper.setHeightInMills(max.getY());
                     drawingBoard.setPaper(paper);
@@ -105,15 +105,13 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 for (Shape s : file.getShapes()) {
                     if (s.getDepth() >= 0.f) {
                         if (!file.isRendered()) {
-                            ((PolylineShape)s).renderToMatchBase(file.getPaper());
+                            s.renderToMatchBase(file.getPaper());
                         }
                         drawingBoard.addDrawableElement(s);
                     }
                 }
 
                 file.setRendered(true);
-
-
             }
 
         } catch (Exception e) {
@@ -489,6 +487,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     private void createSavePromptDialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.drawing_title_save_changes);
+
         builder.setPositiveButton(R.string.drawing_changed_btnSave, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -503,6 +502,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 finish();
             }
         });
+
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {

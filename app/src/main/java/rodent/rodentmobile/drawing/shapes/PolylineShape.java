@@ -131,7 +131,7 @@ public class PolylineShape extends Shape {
 
         AnchorPoint start = this.points.get(0);
         result += "G00 X" + round(start.getX() / millisInPx)  + " Y" + flipMap(round(start.getY() / millisInPx), height) + "\n";
-        result += "G00 Z" + this.getDepth() + "\n";
+        result += "G00 Z-" + this.getDepth() + "\n";
 
         for (AnchorPoint point : this.points) {
             result += "G00 X" + round(point.getX() / millisInPx);
@@ -194,13 +194,54 @@ public class PolylineShape extends Shape {
     @Override
     public void renderToMatchBase (Paper paper) {
         float factor = paper.getMillisInPx();
-        Log.d("millis in px", factor + "");
+
         for (AnchorPoint a : this.points) {
             a.setX(a.getX() * factor);
             a.setY(a.getY() * factor);
         }
+
         update();
         setReady(true);
+    }
+
+    @Override
+    public Vector2<Float> getRealBoundsX (Paper paper) {
+        float max = 0f;
+        float min = 0f;
+
+        for (AnchorPoint a : this.points) {
+            if (a.getX() > max) {
+                max = a.getX();
+            }
+            else if (a.getX() < min) {
+                min = a.getX();
+            }
+        }
+
+        min /= paper.getMillisInPx();
+        max /= paper.getMillisInPx();
+
+        return new Vector2<>(min, max);
+    }
+
+    @Override
+    public Vector2<Float> getRealBoundsY (Paper paper) {
+        float max = 0f;
+        float min = 0f;
+
+        for (AnchorPoint a : this.points) {
+            if (a.getY() > max) {
+                max = a.getY();
+            }
+            else if (a.getY() < min) {
+                min = a.getY();
+            }
+        }
+
+        min /= paper.getMillisInPx();
+        max /= paper.getMillisInPx();
+
+        return new Vector2<>(min, max);
     }
 
     public static PolylineShape asCircleShape (Vector2<Float> position, float radius) {
