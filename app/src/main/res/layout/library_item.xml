@@ -1,26 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="50dp"
-              android:layout_height="100dp"
-              android:background="@drawable/layoutborder" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/layoutborder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="40dp">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#2c3e50"
-        android:gravity="center"
-        android:padding="2dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#fff"
-        android:layout_alignParentTop="true"
-        android:singleLine="true"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/thumbnail"
-        android:minHeight="100dp"/>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="300dp"
+            android:src="@drawable/empty_gcode_icon"
+            android:id="@+id/imgViewThumbnail"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/relativeLayout2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:background="#2c3e50">
+
+            <TextView
+                android:id="@+id/txtViewFileName"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name here"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="4dp"
+                android:padding="5dp"
+                android:textColor="#ecf0f1"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonContainer">
+
+            <com.github.clans.fab.FloatingActionMenu
+                android:id="@+id/fabListFileMethods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="8dp"
+                android:onClick="onFabClick"
+                app:menu_colorNormal="#e67e22"
+                app:menu_fab_size="mini"
+                app:menu_openDirection="down"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true">
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fabRemoveFile"
+                    android:onClick="onFabClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_delete_black_24dp">
+                </com.github.clans.fab.FloatingActionButton>
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fabEditFile"
+                    android:onClick="onFabClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_create_black_24dp">
+                </com.github.clans.fab.FloatingActionButton>
+
+            </com.github.clans.fab.FloatingActionMenu>
+
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

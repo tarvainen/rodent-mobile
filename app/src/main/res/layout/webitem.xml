@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/layoutborder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="40dp">
 
     <RelativeLayout
-        android:id="@+id/joo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -31,7 +31,7 @@
 
             <TextView
                 android:id="@+id/webItemName"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,36 +45,19 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabDownloadItem"
+            android:onClick="onFabClick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonContainer">
-
-            <com.github.clans.fab.FloatingActionMenu
-                android:id="@+id/fabLoadItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="onFabClick"
-                app:menu_colorNormal="#e67e22"
-                app:menu_fab_size="mini"
-                app:menu_openDirection="down"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true">
-
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/fabDownloadItem"
-                    android:onClick="onFabClick"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_cloud_download_black_24dp">
-                </com.github.clans.fab.FloatingActionButton>
-
-            </com.github.clans.fab.FloatingActionMenu>
-
-        </RelativeLayout>
-
+            app:fab_size="mini"
+            app:fab_colorNormal="#e67e22"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/ic_cloud_download_black_24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:baselineAlignBottom="false">
+        </com.github.clans.fab.FloatingActionButton>
 
 
     </RelativeLayout>

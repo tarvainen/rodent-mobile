@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.github.nkzawa.socketio.client.Url;
 
 import java.io.BufferedInputStream;
@@ -154,7 +155,6 @@ public class WebLoaderActivity extends AppCompatActivity {
     private void showList () {
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.webitem, R.id.webItemName, files);
         view.setAdapter(adapter);
-
     }
 
     public void onFabClick (View v) {
@@ -163,7 +163,7 @@ public class WebLoaderActivity extends AppCompatActivity {
                 updateList();
                 break;
             case R.id.fabDownloadItem:
-                RelativeLayout parent = (RelativeLayout)v.getParent().getParent().getParent();
+                RelativeLayout parent = (RelativeLayout)v.getParent().getParent();
                 int position = view.getPositionForView(parent);
                 String url = (String)view.getAdapter().getItem(position);
                 downloadItemWithName(url);
@@ -179,18 +179,29 @@ public class WebLoaderActivity extends AppCompatActivity {
 
     private class GCodeLoader extends AsyncTask<String, Void, Boolean> {
 
-        private ProgressDialog dialog = new ProgressDialog(WebLoaderActivity.this);
+        private ProgressDialog dialog;
         List<String> list;
         String filename;
 
         @Override
         protected void onPreExecute() {
+            super.onPreExecute();
+            this.dialog = new ProgressDialog(WebLoaderActivity.this);
+            this.dialog.setCancelable(false);
             this.dialog.setMessage(getString(R.string.drawing_notification_saving));
+            this.dialog.setIndeterminate(true);
             this.dialog.show();
         }
 
         @Override
+        public void onProgressUpdate (Void... vals) {
+            super.onProgressUpdate(vals);
+            this.dialog.setProgress(this.dialog.getProgress() + 1);
+        }
+
+        @Override
         protected Boolean doInBackground(String... urls) {
+
             try {
                 list = HttpLoader.getGCodesByFilename(urls[1]);
                 filename = urls[0];
@@ -202,6 +213,7 @@ public class WebLoaderActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            super.onPostExecute(success);
             if (success) {
                 convertToRodentFile(filename, list);
                 Toast.makeText(WebLoaderActivity.this, R.string.web_synced_succesfully, Toast.LENGTH_SHORT).show();

@@ -33,8 +33,7 @@
         </activity>
         <activity
             android:name=".activities.LibraryActivity"
-            android:label="@string/title_activity_library"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="@string/title_activity_library" >
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
@@ -42,8 +41,7 @@
         </activity>
         <activity
             android:name=".activities.WebLoaderActivity"
-            android:label="@string/title_activity_web_loader"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="@string/title_activity_web_loader" >
         </activity>
     </application>
 

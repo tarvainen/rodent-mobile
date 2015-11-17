@@ -14,12 +14,13 @@
     tools:showIn="@layout/activity_library2">
 
     <GridView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/gridView"
         android:numColumns="auto_fit"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="5dp"
-        android:layout_centerHorizontal="true"/>
+        android:verticalSpacing="50dp"
+        android:horizontalSpacing="50dp"
+        android:layout_centerHorizontal="true"
+        android:columnWidth="200dp"/>
 
 </RelativeLayout>

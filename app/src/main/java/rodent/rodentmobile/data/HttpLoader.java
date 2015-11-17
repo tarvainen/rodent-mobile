@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class HttpLoader {
 
-    public static List<String> getGCodesByFilename (String filename) throws MalformedURLException, IOException {
+    public static List<String> getGCodesByFilename (String filename) throws IOException {
         URL url = new URL(filename);
         InputStream stream = url.openStream();
         return parseInputStreamToStringList(stream);

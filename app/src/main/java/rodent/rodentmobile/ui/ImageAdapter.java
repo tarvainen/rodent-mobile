@@ -53,8 +53,8 @@ public class ImageAdapter extends BaseAdapter {
         if (view == null)
             view = LayoutInflater.from(context).inflate(R.layout.library_item, null);
 
-        ((TextView)view.findViewById(R.id.textView)).setText(files.get(position).getName());
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
+        ((TextView)view.findViewById(R.id.txtViewFileName)).setText(files.get(position).getName());
+        ImageView imageView = (ImageView) view.findViewById(R.id.imgViewThumbnail);
         Bitmap bm = BitmapFactory.decodeFile(
                 files.get(position) + ".png");
         imageView.setImageBitmap(bm);

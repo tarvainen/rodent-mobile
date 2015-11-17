@@ -94,7 +94,6 @@ public abstract class Shape implements Serializable {
 
     public void setDepth (float depth) {
         this.depth = depth;
-        Log.d("Shape", "depth set: " + depth);
     }
 
     public float getDepth () {

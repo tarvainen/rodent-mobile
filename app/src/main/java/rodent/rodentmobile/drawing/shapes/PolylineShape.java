@@ -197,7 +197,6 @@ public class PolylineShape extends Shape {
 
         float height = paper.getHeightInMills();
 
-        Log.d("height", height + "");
         for (AnchorPoint a : this.points) {
             a.setX(a.getX() * factor);
             a.setY((height - a.getY()) * factor);
@@ -273,7 +272,6 @@ public class PolylineShape extends Shape {
         PolylineShape shape = new PolylineShape();
         shape.setDepth(-codes.get(0).getZ());
         for (int i = 0; i < codes.size(); i++) {
-            Log.d("new anchor", codes.get(i).getX() + " " + codes.get(i).getY());
             shape.addPoint(new AnchorPoint(codes.get(i).getX(), codes.get(i).getY()));
         }
         return shape;

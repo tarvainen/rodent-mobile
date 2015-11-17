@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -16,7 +17,10 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -32,7 +36,6 @@ import rodent.rodentmobile.ui.NewFileDialog.NewFileDialogListener;
 
 public class LibraryActivity extends AppCompatActivity implements
                                                         NewFileDialogListener,
-                                                        OnItemClickListener,
                                                         FilenameFilter {
 
     private ArrayList<File> files;
@@ -49,8 +52,6 @@ public class LibraryActivity extends AppCompatActivity implements
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
-        registerForContextMenu(gridView);
-        gridView.setOnItemClickListener(this);
     }
 
     @Override
@@ -63,14 +64,15 @@ public class LibraryActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        } else if (id == R.id.action_open_controller) {
-            Intent newControllerIntent = new Intent(this, ManualControllerActivity.class);
-            this.startActivity(newControllerIntent);
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_cloud:
+                openWebLoader();
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -93,65 +95,19 @@ public class LibraryActivity extends AppCompatActivity implements
     public void onDialogNegativeClick(DialogFragment dialog) {}
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_menu_library, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.item_delete:
-                File file = files.get(info.position);
-                deleteThumbnail(file);
-                file.delete();
-                files.remove(info.position);
-                adapter.notifyDataSetChanged();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        MyFile rodentFile;
-        try {
-            rodentFile = new RodentFile(files.get(position));
-        } catch (Exception ex) {
-            Toast.makeText(LibraryActivity.this, R.string.lib_cannot_open_file, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
-        intent.putExtra("FILE", rodentFile);
-        startActivity(intent);
-    }
-
-    @Override
     public boolean accept(File dir, String filename) {
         return filename.toLowerCase().endsWith(getString(R.string.default_file_type));
-    }
-
-    private void deleteThumbnail(File f) {
-        try {
-            File thumbnail = new File(f.getParent(), f.getName() + ".png");
-            thumbnail.delete();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void loadFiles() {
         files.clear();
         File file = new File(Environment.getExternalStorageDirectory() + getString(R.string.default_save_directory));
         File[] allFiles = file.listFiles(this);
+
         for (File f : allFiles) {
             files.add(f);
         }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -175,18 +131,62 @@ public class LibraryActivity extends AppCompatActivity implements
             case R.id.fabAddDrawing:
                 createNewDrawing();
                 break;
-            case R.id.fabSettings:
-                openSettings();
+            case R.id.fabEditFile:
+                closeMenu(v);
+                File file = files.get(getClickedFabParentPosition(v));
+                openFile(file);
                 break;
-            case R.id.fabCloud:
-                openWebLoader();
+            case R.id.fabRemoveFile:
+                closeMenu(v);
+                int position = getClickedFabParentPosition(v);
+                File removeFile = files.get(position);
+                files.remove(position);
+                removeFile(removeFile);
                 break;
-//            case R.id.fabManualController:
-//                Intent intent = new Intent(this, ManualControllerActivity.class);
-//                this.startActivity(intent);
-//                break;
             default:
                 break;
+        }
+    }
+
+    private int getClickedFabParentPosition (View v) {
+        RelativeLayout parent = (RelativeLayout)v.getParent().getParent().getParent();
+        GridView gridView = (GridView) findViewById(R.id.gridView);
+        int position = gridView.getPositionForView(parent);
+        return position;
+    }
+
+    private void closeMenu (View v) {
+        FloatingActionMenu menu = (FloatingActionMenu) v.getParent();
+        menu.close(true);
+    }
+
+    private void openFile (File file) {
+        MyFile rodentFile;
+        try {
+            rodentFile = new RodentFile(file);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Toast.makeText(LibraryActivity.this, R.string.lib_cannot_open_file, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
+        intent.putExtra("FILE", rodentFile);
+        startActivity(intent);
+    }
+
+    private void removeFile(File file) {
+        deleteThumbnail(file);
+        file.delete();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void deleteThumbnail(File f) {
+        try {
+            File thumbnail = new File(f.getParent(), f.getName() + ".png");
+            thumbnail.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
