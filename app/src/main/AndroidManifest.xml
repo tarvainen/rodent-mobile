@@ -33,6 +33,7 @@
         </activity>
         <activity
             android:name=".activities.LibraryActivity"
+            android:theme="@style/AppTheme"
             android:label="@string/title_activity_library" >
         </activity>
         <activity

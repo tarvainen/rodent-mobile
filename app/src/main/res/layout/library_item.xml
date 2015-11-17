@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/layoutborder"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="40dp">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -26,7 +25,7 @@
             android:id="@+id/relativeLayout2"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:background="#2c3e50">
+            android:background="@color/dark_primary_color">
 
             <TextView
                 android:id="@+id/txtViewFileName"
@@ -40,7 +39,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginLeft="4dp"
                 android:padding="5dp"
-                android:textColor="#ecf0f1"/>
+                android:textColor="@color/text_icons"/>
 
         </RelativeLayout>
 
@@ -56,7 +55,7 @@
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="8dp"
                 android:onClick="onFabClick"
-                app:menu_colorNormal="#e67e22"
+                app:menu_colorNormal="@color/accent_color"
                 app:menu_fab_size="mini"
                 app:menu_openDirection="down"
                 android:layout_alignParentTop="true"
@@ -67,6 +66,7 @@
                     android:onClick="onFabClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:fab_colorNormal="@color/dark_primary_color"
                     android:src="@drawable/ic_delete_black_24dp">
                 </com.github.clans.fab.FloatingActionButton>
 
@@ -74,6 +74,7 @@
                     android:id="@+id/fabEditFile"
                     android:onClick="onFabClick"
                     android:layout_width="wrap_content"
+                    app:fab_colorNormal="@color/dark_primary_color"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_create_black_24dp">
                 </com.github.clans.fab.FloatingActionButton>

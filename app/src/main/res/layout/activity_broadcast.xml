@@ -1,173 +1,180 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="rodent.rodentmobile.activities.BroadcastActivity">
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tools3">
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tools3"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/current_x_placeholder"
-            android:id="@+id/lbl_xCoord"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/current_y_placeholder"
-            android:id="@+id/lbl_yCoord"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/current_z_placeholder"
-            android:id="@+id/lbl_zCoord"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:id="@+id/linearLayout2">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:id="@+id/btn_start_broadcast"
-            android:maxWidth="50dp"
-            android:layout_weight="1"
-            android:onClick="buttonClick"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stop"
-            android:id="@+id/btn_stop_broadcast"
-            android:layout_weight="1"
-            android:onClick="buttonClick"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Zero"
-            android:id="@+id/btn_clear_coordinates"
-            android:layout_weight="1"
-            android:onClick="buttonClick"/>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/relativeLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Progress"
-            android:layout_alignParentStart="false"
-            android:id="@+id/textView4" />
-
-        <ProgressBar
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="20dp"
-            android:id="@+id/progBar_broadcast_status"
-            android:layout_below="@+id/textView4"
-            android:layout_alignParentStart="false" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_marginTop="20dp">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/filename_placeholder"
-            android:id="@+id/lbl_filename" />
+            android:layout_alignParentStart="true"
+            android:id="@+id/tools3">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/line_amount_placeholder"
-            android:id="@+id/lbl_line_amount"
-            android:layout_below="@+id/lbl_filename"
-            android:layout_alignParentStart="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/bound_max_value_placeholder"
-            android:id="@+id/lbl_max_values"
-            android:layout_below="@+id/lbl_line_amount" />
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/bound_min_value_placeholder"
-            android:id="@+id/lbl_min_values"
-            android:layout_below="@+id/lbl_max_values"
-            android:layout_alignParentStart="true" />
+            android:layout_below="@+id/tools3"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/linearLayout">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btn_connect"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/current_x_placeholder"
+                android:id="@+id/lbl_xCoord"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/current_y_placeholder"
+                android:id="@+id/lbl_yCoord"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/current_z_placeholder"
+                android:id="@+id/lbl_zCoord"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="30sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginRight="8dp"
-            android:onClick="buttonClick"
-            android:src="@drawable/ic_tap_and_play_black_24dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:id="@+id/linearLayout2">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_start_text"
+                android:id="@+id/btn_start_broadcast"
+                android:maxWidth="50dp"
+                android:layout_weight="1"
+                android:onClick="buttonClick" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_stop_text"
+                android:id="@+id/btn_stop_broadcast"
+                android:layout_weight="1"
+                android:onClick="buttonClick"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_reset_text"
+                android:id="@+id/btn_clear_coordinates"
+                android:layout_weight="1"
+                android:onClick="buttonClick"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/brdcast_progress_text"
+                android:layout_alignParentStart="false"
+                android:id="@+id/textView4" />
+
+            <ProgressBar
+                style="@style/AppTheme.ProgressBar"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:id="@+id/progBar_broadcast_status"
+                android:layout_below="@+id/textView4"
+                android:layout_alignParentStart="false" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/filename_placeholder"
+                android:id="@+id/lbl_filename" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/line_amount_placeholder"
+                android:id="@+id/lbl_line_amount"
+                android:layout_below="@+id/lbl_filename"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/bound_max_value_placeholder"
+                android:id="@+id/lbl_max_values"
+                android:layout_below="@+id/lbl_line_amount" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/bound_min_value_placeholder"
+                android:id="@+id/lbl_min_values"
+                android:layout_below="@+id/lbl_max_values"
+                android:layout_alignParentStart="true" />
+
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-
-</RelativeLayout>
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/btn_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:onClick="buttonClick"
+        android:src="@drawable/ic_tap_and_play_black_24dp"
+        app:fab_colorNormal="@color/accent_color"
+        app:fab_colorPressed="@color/light_primary_color"
+        android:layout_margin="@dimen/fab_margin" />
+</FrameLayout>

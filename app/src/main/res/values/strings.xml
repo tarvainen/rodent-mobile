@@ -71,6 +71,11 @@
     <string name="current_y_placeholder">Y%1$.2f</string>
     <string name="current_z_placeholder">Z%1$.2f</string>
 
+    <string name="btn_start_text">Start</string>
+    <string name="btn_stop_text">Stop</string>
+    <string name="btn_reset_text">Zero</string>
+
+    <string name="brdcast_progress_text">Progress</string>
 
     <string name="brdcast_invalid_uri">Invalid socket url.</string>
     <string name="brdcast_connection_opened">Connected</string>

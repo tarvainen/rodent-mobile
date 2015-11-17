@@ -353,11 +353,11 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
     public void setActiveSpinner (Spinner spinner) {
         if (this.activeSpinner != null) {
-            this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_unselected_bg));
+            this.activeSpinner.setBackground(getResources().getDrawable(R.drawable.drawing_button));
         }
 
         this.activeSpinner = spinner;
-        this.activeSpinner.setBackgroundColor(getResources().getColor(R.color.button_selected_bg));
+        this.activeSpinner.setBackground(getResources().getDrawable(R.drawable.drawing_button_selected));
     }
 
     private void saveThumbnail() {

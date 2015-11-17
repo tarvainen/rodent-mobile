@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:fab="http://schemas.android.com/apk/res-auto"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:fitsSystemWindows="true"
-             tools:context="rodent.rodentmobile.activities.LibraryActivity">
-
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme"
+    tools:context="rodent.rodentmobile.activities.LibraryActivity" >
     <include layout="@layout/content_library"/>
 
 
     <android.widget.LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom">
+        android:layout_gravity="right|bottom"
+        android:layout_margin="@dimen/fab_margin">
 
-        <com.github.clans.fab.FloatingActionMenu
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabAddDrawing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp">
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabAddDrawing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:onClick="onFabClick"
-                android:src="@drawable/ic_border_color_black_24dp"
-                fab:fab_label="Schematic"
-                />
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabAddFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:onClick="onFabClick"
-                android:src="@drawable/ic_format_size_black_24dp"
-                fab:fab_label="Font"
-                />
-        </com.github.clans.fab.FloatingActionMenu>
+            android:layout_gravity="bottom|right"
+            android:onClick="onFabClick"
+            app:fab_colorNormal="@color/accent_color"
+            app:fab_colorPressed="@color/light_primary_color"
+            android:src="@drawable/ic_border_color_black_24dp"
+            fab:fab_label="Schematic" />
 
     </android.widget.LinearLayout>
 
