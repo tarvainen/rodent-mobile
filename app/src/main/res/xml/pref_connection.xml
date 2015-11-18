@@ -10,4 +10,14 @@
         android:singleLine="true"
         android:maxLines="1" />
 
+    <EditTextPreference
+        android:key="port"
+        android:title="@string/pref_title_port"
+        android:defaultValue="@string/pref_default_port"
+        android:selectAllOnFocus="true"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:singleLine="true"
+        android:maxLines="1" />
+
 </PreferenceScreen>

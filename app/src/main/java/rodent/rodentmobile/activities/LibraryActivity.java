@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,8 +67,7 @@ public class LibraryActivity extends AppCompatActivity implements
 
         switch (id) {
             case R.id.action_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                openSettings();
                 break;
             case R.id.action_cloud:
                 openWebLoader();
@@ -117,15 +115,6 @@ public class LibraryActivity extends AppCompatActivity implements
     public void onResume () {
         super.onResume();
         loadFiles();
-    }
-
-    @Override
-    public boolean onKeyDown (int keyCode, KeyEvent e) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && e.getRepeatCount() == 0) {
-            finishAffinity();
-            return true;
-        }
-        return super.onKeyDown(keyCode, e);
     }
 
     public void showItemMenu (final View v) {
