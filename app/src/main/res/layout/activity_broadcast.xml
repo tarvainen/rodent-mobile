@@ -17,8 +17,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:id="@+id/tools3">
-
-
         </RelativeLayout>
 
         <LinearLayout

@@ -1,6 +1,7 @@
 package rodent.rodentmobile.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -85,6 +86,7 @@ public class BroadcastActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            openSettings();
             return true;
         }
 
@@ -117,6 +119,7 @@ public class BroadcastActivity extends AppCompatActivity {
             setLineAmountValue();
             setMaxValues();
             setMinValues();
+            setCoordinateValues(0f, 0f, 0f);
         }
     }
 
@@ -207,7 +210,6 @@ public class BroadcastActivity extends AppCompatActivity {
             }
         }
     }
-
 
     private boolean isSocketValid () {
         return this.socket != null;
@@ -314,7 +316,7 @@ public class BroadcastActivity extends AppCompatActivity {
         ProgressBar bar = (ProgressBar) findViewById(R.id.progBar_broadcast_status);
         float progress = this.currentLine / (float)this.pack.getLines().length;
         progress *= 100;
-        bar.setProgress((int)progress);
+        bar.setProgress((int) progress);
     }
 
     private void sendMessageToSocket (String message) {
@@ -322,4 +324,10 @@ public class BroadcastActivity extends AppCompatActivity {
             this.socket.send(message);
         }
     }
+
+    private void openSettings () {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
 }
