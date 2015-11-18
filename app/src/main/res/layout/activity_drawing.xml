@@ -156,10 +156,10 @@
                 android:id="@+id/spinner_interpolation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/drawing_button"
-                android:popupBackground="@android:color/transparent"
+                android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
             </Spinner>
 
@@ -171,7 +171,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/spinner_interpolation"
                 android:background="@drawable/drawing_button"
-                android:popupBackground="@android:color/transparent"
+                android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
             </Spinner>
 
@@ -183,7 +183,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/spinner_lines"
                 android:background="@drawable/drawing_button"
-                android:popupBackground="@android:color/transparent"
+                android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
             </Spinner>
 
@@ -195,7 +195,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/spinner_polygons"
                 android:background="@drawable/drawing_button"
-                android:popupBackground="@android:color/transparent"
+                android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
             </Spinner>
 
