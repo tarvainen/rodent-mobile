@@ -13,9 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,36 +22,36 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+import rodent.rodentmobile.R;
+import rodent.rodentmobile.drawing.actions.CopyAction;
+import rodent.rodentmobile.drawing.actions.DeleteAction;
 import rodent.rodentmobile.drawing.actions.HorizontalFlipAction;
 import rodent.rodentmobile.drawing.actions.VerticalFlipAction;
 import rodent.rodentmobile.drawing.helpers.AnchorPoint;
 import rodent.rodentmobile.drawing.helpers.GestureDetectingDrawingBoard;
 import rodent.rodentmobile.drawing.shapes.Paper;
 import rodent.rodentmobile.drawing.shapes.PolylineShape;
-import rodent.rodentmobile.drawing.tools.CircleTool;
-import rodent.rodentmobile.drawing.tools.RotateTool;
-import rodent.rodentmobile.filesystem.RodentFile;
-import rodent.rodentmobile.ui.IconSpinnerAdapter;
-import rodent.rodentmobile.R;
-import rodent.rodentmobile.drawing.actions.CopyAction;
-import rodent.rodentmobile.drawing.actions.DeleteAction;
 import rodent.rodentmobile.drawing.shapes.Shape;
 import rodent.rodentmobile.drawing.tools.AnchorPointTool;
+import rodent.rodentmobile.drawing.tools.CircleTool;
 import rodent.rodentmobile.drawing.tools.FreeHandTool;
 import rodent.rodentmobile.drawing.tools.LineTool;
 import rodent.rodentmobile.drawing.tools.MoveTool;
 import rodent.rodentmobile.drawing.tools.PolyLineTool;
 import rodent.rodentmobile.drawing.tools.PolygonTool;
 import rodent.rodentmobile.drawing.tools.RectangleTool;
+import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
 import rodent.rodentmobile.drawing.tools.Tool;
 import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.ui.IconSpinnerAdapter;
 import rodent.rodentmobile.utilities.Vector2;
 
 
@@ -73,7 +71,6 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(R.style.AppThemeNoActionBar);
         setContentView(R.layout.activity_drawing);
         this.drawingBoard = (GestureDetectingDrawingBoard) findViewById(R.id.drawing_board);
         this.createLongTouchHandler();
@@ -406,9 +403,10 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (this.dialog.isShowing()) {
-                dialog.dismiss();
-            }
+            // Crashes when saving on backbutton.
+//            if (this.dialog.isShowing()) {
+//                dialog.dismiss();
+//            }
 
             if (success) {
                 Toast.makeText(DrawingActivity.this, R.string.drawing_notification_saved, Toast.LENGTH_SHORT).show();

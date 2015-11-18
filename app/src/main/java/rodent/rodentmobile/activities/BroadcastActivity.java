@@ -157,7 +157,8 @@ public class BroadcastActivity extends AppCompatActivity {
         try {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             String ip = pref.getString("ip_address", "");
-            this.uri = new URI("ws://" + ip + ":5000");
+            String port = pref.getString("port", "");
+            this.uri = new URI("ws://" + ip + ":" + port);
         } catch (URISyntaxException ex) {
             Toast.makeText(this, getString(R.string.brdcast_invalid_uri), Toast.LENGTH_SHORT).show();
             this.uri = null;
