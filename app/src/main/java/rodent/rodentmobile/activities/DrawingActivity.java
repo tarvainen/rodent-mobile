@@ -67,6 +67,11 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
     private Handler longTouchHandler;
 
     private MyFile file;
+    private boolean finishing;
+
+    {
+        finishing = false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +189,12 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         }
 
         return true;
+    }
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy();
+        finishing = true;
     }
 
     @Override
@@ -403,10 +414,14 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            // Crashes when saving on backbutton.
-//            if (this.dialog.isShowing()) {
-//                dialog.dismiss();
-//            }
+            if (this.dialog.isShowing()) {
+                dialog.dismiss();
+
+                // if the saving was performed by confirm exit dialog
+                if (finishing) {
+                    finish();
+                }
+            }
 
             if (success) {
                 Toast.makeText(DrawingActivity.this, R.string.drawing_notification_saved, Toast.LENGTH_SHORT).show();
@@ -490,7 +505,7 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveFile();
-                finish();
+                finishing = true;
             }
         });
 

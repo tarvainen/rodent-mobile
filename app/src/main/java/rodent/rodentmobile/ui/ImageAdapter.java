@@ -1,6 +1,7 @@
 package rodent.rodentmobile.ui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -58,6 +59,10 @@ public class ImageAdapter extends BaseAdapter {
         Bitmap bm = BitmapFactory.decodeFile(
                 files.get(position) + ".png");
         imageView.setImageBitmap(bm);
+
+        if (bm == null) {
+            imageView.setImageResource(R.drawable.defbg);
+        }
 
         return view;
     }

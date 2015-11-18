@@ -204,7 +204,7 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
      * @return Thumbnail Bitmap
      */
     public Bitmap getBitmap() {
-        Bitmap bitmap = Bitmap.createBitmap(85, 85, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.scale(0.25f, 0.25f); // Magic numbers.
         drawElements(canvas);
