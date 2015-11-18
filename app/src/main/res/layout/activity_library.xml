@@ -9,6 +9,7 @@
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme"
     tools:context="rodent.rodentmobile.activities.LibraryActivity" >
+
     <include layout="@layout/content_library"/>
 
 
@@ -26,7 +27,7 @@
             android:onClick="onFabClick"
             app:fab_colorNormal="@color/accent_color"
             app:fab_colorPressed="@color/light_primary_color"
-            android:src="@drawable/ic_border_color_black_24dp"
+            android:src="@drawable/ic_border_color_white_24dp"
             fab:fab_label="Schematic" />
 
     </android.widget.LinearLayout>

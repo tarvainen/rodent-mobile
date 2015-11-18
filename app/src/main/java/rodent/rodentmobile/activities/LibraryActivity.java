@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -131,6 +132,7 @@ public class LibraryActivity extends AppCompatActivity implements
             case R.id.fabAddDrawing:
                 createNewDrawing();
                 break;
+            /*
             case R.id.fabEditFile:
                 closeMenu(v);
                 File file = files.get(getClickedFabParentPosition(v));
@@ -143,21 +145,44 @@ public class LibraryActivity extends AppCompatActivity implements
                 files.remove(position);
                 removeFile(removeFile);
                 break;
+                */
             default:
                 break;
         }
     }
 
+    public void showItemMenu (final View v) {
+        PopupMenu menu = new PopupMenu(this, v);
+        menu.inflate(R.menu.library_item_menu);
+        menu.setOnMenuItemClickListener(new android.widget.PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick (MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.btnOpenItem:
+                        File file = files.get(getClickedFabParentPosition(v));
+                        openFile(file);
+                        return true;
+                    case R.id.btnDeleteItem:
+                        int position = getClickedFabParentPosition(v);
+                        File removeFile = files.get(position);
+                        files.remove(position);
+                        removeFile(removeFile);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        menu.show();
+    }
+
+
     private int getClickedFabParentPosition (View v) {
-        RelativeLayout parent = (RelativeLayout)v.getParent().getParent().getParent();
+        RelativeLayout parent = (RelativeLayout)v.getParent().getParent();
         GridView gridView = (GridView) findViewById(R.id.gridView);
         int position = gridView.getPositionForView(parent);
         return position;
-    }
-
-    private void closeMenu (View v) {
-        FloatingActionMenu menu = (FloatingActionMenu) v.getParent();
-        menu.close(true);
     }
 
     private void openFile (File file) {

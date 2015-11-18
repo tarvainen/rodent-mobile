@@ -31,7 +31,15 @@ public class IconSpinnerAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        return getCustomView(position, convertView, parent);
+        return getCustomDropdownView(position, convertView, parent);
+    }
+
+    public View getCustomDropdownView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View spinner = inflater.inflate(R.layout.icon_spinner_dropdown, parent, false);
+        ImageView button = (ImageView)spinner.findViewById(R.id.spinner_image);
+        button.setImageResource(this.drawableResources.getResourceId(position, 0));
+        return spinner;
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {

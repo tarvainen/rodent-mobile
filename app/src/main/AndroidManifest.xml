@@ -42,6 +42,7 @@
         </activity>
         <activity
             android:name=".activities.WebLoaderActivity"
+            android:theme="@style/AppTheme"
             android:label="@string/title_activity_web_loader" >
         </activity>
     </application>

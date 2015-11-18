@@ -16,7 +16,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:fab_colorNormal="@color/accent_color"
         app:fab_colorPressed="@color/light_primary_color"
-        android:src="@drawable/ic_autorenew_black_24dp"
+        android:src="@drawable/ic_refresh_white_24dp"
         android:onClick="onFabClick"
         />
 

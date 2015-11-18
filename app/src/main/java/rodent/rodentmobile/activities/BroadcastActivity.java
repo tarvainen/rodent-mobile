@@ -221,7 +221,7 @@ public class BroadcastActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ActionMenuItemView v = (ActionMenuItemView) findViewById(R.id.icon_connection_status);
-                v.setIcon(getResources().getDrawable(R.drawable.ic_signal_wifi_4_bar_black_24dp));
+                v.setIcon(getResources().getDrawable(R.drawable.ic_signal_wifi_4_bar_white_24dp));
                 Toast.makeText(BroadcastActivity.this, getString(R.string.brdcast_connection_opened), Toast.LENGTH_SHORT).show();
             }
         });
@@ -238,7 +238,7 @@ public class BroadcastActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ActionMenuItemView v = (ActionMenuItemView) findViewById(R.id.icon_connection_status);
-                v.setIcon(getResources().getDrawable(R.drawable.ic_signal_wifi_off_black_24dp));
+                v.setIcon(getResources().getDrawable(R.drawable.ic_signal_wifi_off_white_24dp));
                 Toast.makeText(BroadcastActivity.this, getString(R.string.brdcast_connection_closed), Toast.LENGTH_SHORT).show();
             }
         });

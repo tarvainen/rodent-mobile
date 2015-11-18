@@ -1,6 +1,7 @@
 package rodent.rodentmobile.activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
@@ -12,6 +13,8 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -53,10 +56,30 @@ public class WebLoaderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_loader);
-
         view = (GridView) findViewById(R.id.gridView);
-
         updateList();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_web_loader, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateList () {
@@ -162,7 +185,14 @@ public class WebLoaderActivity extends AppCompatActivity {
             case R.id.fabLoad:
                 updateList();
                 break;
-            case R.id.fabDownloadItem:
+            default:
+                break;
+        }
+    }
+
+    public void onButtonClick (View v) {
+        switch (v.getId()) {
+            case R.id.btnLoadItem:
                 RelativeLayout parent = (RelativeLayout)v.getParent().getParent();
                 int position = view.getPositionForView(parent);
                 String url = (String)view.getAdapter().getItem(position);
