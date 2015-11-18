@@ -5,23 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionButton;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -53,6 +46,14 @@ public class LibraryActivity extends AppCompatActivity implements
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddDrawing);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createNewDrawing();
+            }
+        });
     }
 
     @Override
@@ -125,30 +126,6 @@ public class LibraryActivity extends AppCompatActivity implements
             return true;
         }
         return super.onKeyDown(keyCode, e);
-    }
-
-    public void onFabClick(View v) {
-        switch (v.getId()) {
-            case R.id.fabAddDrawing:
-                createNewDrawing();
-                break;
-            /*
-            case R.id.fabEditFile:
-                closeMenu(v);
-                File file = files.get(getClickedFabParentPosition(v));
-                openFile(file);
-                break;
-            case R.id.fabRemoveFile:
-                closeMenu(v);
-                int position = getClickedFabParentPosition(v);
-                File removeFile = files.get(position);
-                files.remove(position);
-                removeFile(removeFile);
-                break;
-                */
-            default:
-                break;
-        }
     }
 
     public void showItemMenu (final View v) {
