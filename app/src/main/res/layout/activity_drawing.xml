@@ -75,7 +75,7 @@
                 android:padding="10dp"
                 android:background="@drawable/drawing_button"
                 android:layout_margin="6dp"
-                android:src="@drawable/ic_flip_white_24dp"/>
+                android:src="@drawable/ic_flip_v_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_depth"
