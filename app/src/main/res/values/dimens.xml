@@ -6,4 +6,7 @@
     <dimen name="activity_drawing_vertical_padding">0dp</dimen>
     <dimen name="activity_toolbar_height">50dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <integer name="thumbnail_width">300</integer>
+    <integer name="thumbnail_height">300</integer>
 </resources>
