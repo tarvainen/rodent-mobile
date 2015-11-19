@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
+import rodent.rodentmobile.R;
 import rodent.rodentmobile.drawing.tools.FreeHandTool;
 import rodent.rodentmobile.drawing.tools.MoveTool;
 import rodent.rodentmobile.drawing.tools.Tool;
@@ -27,9 +28,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private Vector2<Float> canvasTranslate;
     private Vector2<Float> previousCanvasTranslate;
     private Vector2<Float> displaySize;
-    private int canvasWidth;
-    private int canvasHeight;
-
 
     private ScaleGestureDetector scaleDetector;
 
@@ -66,10 +64,6 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         if (isToolBusy()) {
             drawBusyElement(canvas);
         }
-
-        canvasWidth = canvas.getWidth();
-        canvasHeight = canvas.getHeight();
-
     }
 
     @Override
@@ -207,11 +201,19 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     }
 
     public Bitmap getBitmap() {
-        Bitmap bitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
+        // Create paper sized bitmap.
+        int width = Math.round(getPaper().getSize().getX());
+        int height = Math.round(getPaper().getSize().getY());
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         drawElements(canvas);
         invalidate();
-        return bitmap;
+
+        // Resize bitmap to thumbnail size.
+        width = getContext().getResources().getInteger(R.integer.thumbnail_width);
+        height = getContext().getResources().getInteger(R.integer.thumbnail_height);
+
+        return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
 
     public boolean isModified() {
