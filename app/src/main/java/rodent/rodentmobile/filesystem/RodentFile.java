@@ -29,7 +29,6 @@ public class RodentFile extends MyFile {
 
     @Override
     public void save() throws IOException{
-        System.out.println(path);
         try {
             File file = new File(path);
             FileOutputStream outStream = new FileOutputStream(file);

@@ -71,7 +71,6 @@ public abstract class MyFile implements Serializable {
     }
 
     protected void loadThumbnail() {
-        System.out.println("LOADING THUMBNAIL FROM: " + path);
         bitmap = BitmapFactory.decodeFile(path + ".png");
     }
 }

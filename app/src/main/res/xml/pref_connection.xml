@@ -20,4 +20,13 @@
         android:singleLine="true"
         android:maxLines="1" />
 
+    <EditTextPreference
+        android:key="online_api_address"
+        android:title="@string/pref_title_api"
+        android:defaultValue="@string/online_api_address"
+        android:selectAllOnFocus="true"
+        android:inputType="textNoSuggestions"
+        android:singleLine="true"
+        android:maxLines="1" />
+
 </PreferenceScreen>

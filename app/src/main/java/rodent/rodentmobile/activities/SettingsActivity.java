@@ -98,6 +98,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             bindPreferenceSummaryToValue(findPreference("ip_address"));
             bindPreferenceSummaryToValue(findPreference("port"));
+            bindPreferenceSummaryToValue(findPreference("online_api_address"));
         }
 
         @Override
