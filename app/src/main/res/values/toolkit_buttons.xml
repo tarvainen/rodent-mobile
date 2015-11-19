@@ -7,6 +7,7 @@
         <item>@drawable/ic_anchor_point_tool</item>
         <item>@drawable/ic_scale_tool</item>
         <item>@drawable/ic_rotate_tool</item>
+        <item>@drawable/ic_text_fields_white_24dp</item>
     </array>
 
     <string-array name="interpolation_tool_names">
@@ -14,6 +15,7 @@
         <item>AnchorPoint</item>
         <item>Scale</item>
         <item>Rotate</item>
+        <item>Text</item>
     </string-array>
 
     <array name="interpolation_tool_id">
@@ -21,6 +23,7 @@
         <item>@id/tool_anchor</item>
         <item>@id/tool_scale</item>
         <item>@id/tool_rotate</item>
+        <item>@id/tool_text</item>
     </array>
 
     <!-- /Interpolation tools -->
@@ -89,6 +92,8 @@
     <item type="id" name="tool_anchor"></item>
     <item type="id" name="tool_scale"></item>
     <item type="id" name="tool_rotate"></item>
+    <item type="id" name="tool_text"></item>
+
 
 
     <item type="color" name="button_unselected_bg">#fff</item>

@@ -12,10 +12,10 @@
         android:id="@+id/drawing_board"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/horizontalScrollView"
         android:layout_alignParentEnd="true"
-        android:background="@color/button_unselected_bg"
         android:layout_below="@+id/horizontalScrollView2"
-        android:layout_above="@+id/horizontalScrollView"/>
+        android:background="@color/button_unselected_bg"/>
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -24,140 +24,123 @@
         android:layout_alignParentBottom="true"
         android:background="@color/primary_color">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/tools3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/action_delete_element"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:onClick="onActionButtonClick"
-                android:background="@drawable/drawing_button"
-                android:padding="10dp"
                 android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
+                android:onClick="onActionButtonClick"
+                android:padding="10dp"
                 android:src="@drawable/ic_delete_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_copy_element"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/action_delete_element"
+                android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
                 android:onClick="onActionButtonClick"
                 android:padding="10dp"
-                android:background="@drawable/drawing_button"
-                android:layout_margin="6dp"
                 android:src="@drawable/ic_content_copy_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_flip_horizontally"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/action_copy_element"
+                android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
                 android:onClick="onActionButtonClick"
                 android:padding="10dp"
-                android:background="@drawable/drawing_button"
-                android:layout_margin="6dp"
                 android:src="@drawable/ic_flip_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_flip_vertically"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/action_flip_horizontally"
+                android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
                 android:onClick="onActionButtonClick"
                 android:padding="10dp"
-                android:background="@drawable/drawing_button"
-                android:layout_margin="6dp"
                 android:src="@drawable/ic_flip_v_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_depth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/action_flip_vertically"
+                android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
                 android:onClick="onActionButtonClick"
                 android:padding="10dp"
-                android:background="@drawable/drawing_button"
-                android:layout_margin="6dp"
                 android:src="@drawable/ic_depth_selection"/>
 
             <ImageButton
                 android:id="@+id/action_undo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/action_depth"
+                android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
                 android:onClick="onActionButtonClick"
                 android:padding="10dp"
-                android:background="@drawable/drawing_button"
-                android:layout_margin="6dp"
                 android:src="@drawable/ic_undo_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_redo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:onClick="onActionButtonClick"
-                android:layout_toEndOf="@id/action_undo"
-                android:padding="10dp"
-                android:background="@drawable/drawing_button"
                 android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
+                android:onClick="onActionButtonClick"
+                android:padding="10dp"
                 android:src="@drawable/ic_redo_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_save_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/action_redo"
+                android:layout_margin="6dp"
+                android:background="@drawable/drawing_button"
                 android:onClick="onActionButtonClick"
                 android:padding="10dp"
-                android:background="@drawable/drawing_button"
-                android:layout_margin="6dp"
                 android:src="@drawable/ic_save_white_24dp"/>
 
             <ImageButton
                 android:id="@+id/action_open_broadcast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/action_save_file"
-                android:onClick="onActionButtonClick"
-                android:padding="10dp"
                 android:layout_margin="6dp"
                 android:background="@drawable/drawing_button"
+                android:onClick="onActionButtonClick"
+                android:padding="10dp"
                 android:src="@drawable/ic_wifi_white_24dp"/>
 
-        </RelativeLayout>
+        </LinearLayout>
     </HorizontalScrollView>
 
     <HorizontalScrollView
+        android:id="@+id/horizontalScrollView2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/horizontalScrollView2"
         android:layout_alignParentTop="true"
         android:background="@color/primary_color">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/tools2"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Spinner
                 android:id="@+id/spinner_interpolation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:layout_centerVertical="true"
                 android:background="@drawable/drawing_button"
                 android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
@@ -168,8 +151,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/spinner_interpolation"
                 android:background="@drawable/drawing_button"
                 android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
@@ -180,8 +161,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/spinner_lines"
                 android:background="@drawable/drawing_button"
                 android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
@@ -192,14 +171,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="6dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/spinner_polygons"
                 android:background="@drawable/drawing_button"
                 android:popupBackground="@drawable/dropdown_background"
                 android:spinnerMode="dropdown">
             </Spinner>
 
-        </RelativeLayout>
+        </LinearLayout>
     </HorizontalScrollView>
 
 </RelativeLayout>

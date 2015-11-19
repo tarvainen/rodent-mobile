@@ -20,7 +20,6 @@
     <string name="btnCancel">Cancel</string>
 
     <!-- Strings related to Settings -->
-
     <string name="pref_header_connection">Connection settings</string>
     <string name="pref_title_ip">Rodent IP Address</string>
     <string name="pref_default_ip">192.168.x.xx</string>
@@ -59,6 +58,11 @@
     <string name="drawing_changed_btnDiscard">Discard</string>
 
     <string name="drawing_title_shape_depth_selector">Shape depth</string>
+
+    <!-- TextTool layout -->
+    <string name="textsize_default">32</string>
+    <string name="textsize_hint">Text size</string>
+    <string name="text_hint">Enter text</string>
 
     <!-- Strings related to web load activity -->
     <string name="web_error_url_syntax">The API url error occurred.</string>

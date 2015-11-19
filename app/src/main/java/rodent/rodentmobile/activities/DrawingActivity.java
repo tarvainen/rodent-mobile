@@ -45,6 +45,7 @@ import rodent.rodentmobile.drawing.tools.PolygonTool;
 import rodent.rodentmobile.drawing.tools.RectangleTool;
 import rodent.rodentmobile.drawing.tools.RotateTool;
 import rodent.rodentmobile.drawing.tools.ScaleTool;
+import rodent.rodentmobile.drawing.tools.TextTool;
 import rodent.rodentmobile.drawing.tools.Tool;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.ui.IconSpinnerAdapter;
@@ -235,6 +236,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
                 break;
             case R.id.tool_circle:
                 drawingBoard.changeTool(new CircleTool());
+                break;
+            case R.id.tool_text:
+                drawingBoard.changeTool(new TextTool(this));
                 break;
         }
     }
