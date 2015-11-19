@@ -32,7 +32,8 @@
     <string name="default_file_type">.rodent</string>
 
     <!-- Strings related to connections -->
-    <string name="rodentOnlineApiAddress">http://46.101.165.251/rodentonline/json/</string>
+    <string name="online_api_address">http://46.101.165.251/rodentonline/json/</string>
+    <string name="relative_replaced_address">./../json/</string>
 
     <!-- Strings related to library -->
     <string name="lib_cannot_open_file">Can\'t open file.</string>
@@ -88,5 +89,18 @@
 
     <string name="brdcast_menu_connection_status">Connection</string>
     <string name="brdcast_menu_settings">Settings</string>
+    <string name="brdcast_menu_controller">Controller</string>
+
+    <!-- Machine controller dialog -->
+    <string name="ctrl_dialog_title">Rodent machine control</string>
+
+    <string name="ctrl_dialog_spindle_speed_title">Spindle speed: %1$d</string>
+    <string name="ctrl_dialog_light_red_channel_title">Red channel: %1$d</string>
+    <string name="ctrl_dialog_light_green_channel_title">Green channel: %1$d</string>
+    <string name="ctrl_dialog_light_blue_channel_title">Blue channel: %1$d</string>
+
+    <string name="error_socket_not_connected">No machine connection.</string>
+
+    <string name="ctrl_dialob_btn_back">Back</string>
 
 </resources>

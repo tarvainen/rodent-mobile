@@ -13,4 +13,9 @@ public class Utils {
         return decimal.floatValue();
     }
 
+    public static int map (int value, int maxDef, int newMax) {
+        float part = (float) value / maxDef;
+        return (int)(part * newMax);
+    }
+
 }

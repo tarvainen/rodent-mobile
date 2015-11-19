@@ -1,6 +1,8 @@
 package rodent.rodentmobile.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.java_websocket.client.WebSocketClient;
@@ -22,8 +25,10 @@ import rodent.rodentmobile.R;
 import rodent.rodentmobile.data.GCode;
 import rodent.rodentmobile.data.GCodePackage;
 import rodent.rodentmobile.data.GCodeParser;
+import rodent.rodentmobile.drawing.shapes.Shape;
 import rodent.rodentmobile.exceptions.InvalidGCodeException;
 import rodent.rodentmobile.filesystem.MyFile;
+import rodent.rodentmobile.utilities.Utils;
 
 public class BroadcastActivity extends AppCompatActivity {
 
@@ -34,6 +39,11 @@ public class BroadcastActivity extends AppCompatActivity {
     private int currentLine;
     private boolean running;
 
+    private int spindleSpeed;
+    private int redLightChannel;
+    private int greenLightChannel;
+    private int blueLightChannel;
+
     private WebSocketClient socket;
 
     private URI uri;
@@ -42,6 +52,11 @@ public class BroadcastActivity extends AppCompatActivity {
         pack = new GCodePackage();
         currentLine = 0;
         running = false;
+
+        spindleSpeed = 0;
+        redLightChannel = 0;
+        greenLightChannel = 0;
+        blueLightChannel = 0;
     }
 
     @Override
@@ -79,15 +94,17 @@ public class BroadcastActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            openSettings();
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                openSettings();
+                break;
+            case R.id.action_controller:
+                openController();
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -266,6 +283,15 @@ public class BroadcastActivity extends AppCompatActivity {
                     float z = code.getZ();
                     setCoordinateValues(x, y, z);
                     break;
+                case 5:
+                    Log.d("light", "reported");
+                    redLightChannel = (int)code.get("r");
+                    greenLightChannel = (int)code.get("g");
+                    blueLightChannel = (int)code.get("b");
+                    break;
+                case 8:
+                    spindleSpeed = (int)code.get("Q");
+                    break;
                 case 10:
                     if (isRunning()) {
                         sendLine();
@@ -330,4 +356,124 @@ public class BroadcastActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void openController () {
+
+        if (!isSocketConnected()) {
+            Toast.makeText(this, R.string.error_socket_not_connected, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        View view = getLayoutInflater().inflate(R.layout.machine_controller_dialog, null);
+        setSpindleSpeedControllingSeekBar(view);
+        setRedChannelSeekBar(view);
+        setGreenChannelSeekBar(view);
+        setBlueChannelSeekBar(view);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle(R.string.ctrl_dialog_title);
+        builder.setCancelable(false);
+        builder.setNegativeButton("Back", null);
+
+        AlertDialog savePrompt = builder.create();
+        savePrompt.show();
+    }
+
+    private void setSpindleSpeedControllingSeekBar (View v) {
+        final SeekBar bar = (SeekBar) v.findViewById(R.id.seekBar_spindle_speed);
+        final TextView title = (TextView) v.findViewById(R.id.spindle_speed_view);
+
+        title.setText(String.format(getString(R.string.ctrl_dialog_spindle_speed_title), spindleSpeed));
+
+        bar.setProgress(Utils.map(spindleSpeed, 255, 10));
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // handle values here
+                int value = Utils.map(progress, 10, 255);
+                spindleSpeed = value;
+                title.setText(String.format(getString(R.string.ctrl_dialog_spindle_speed_title), spindleSpeed));
+                sendMessageToSocket(String.format(getString(R.string.send_spindle_speed), value));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    private void setRedChannelSeekBar (View v) {
+        final SeekBar bar = (SeekBar) v.findViewById(R.id.seekBar_light_red_channel);
+        final TextView title = (TextView) v.findViewById(R.id.light_red_channel_view);
+
+        title.setText(String.format(getString(R.string.ctrl_dialog_light_red_channel_title), redLightChannel));
+        bar.setProgress(Utils.map(redLightChannel, 255, 10));
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // handle values here
+                int value = Utils.map(progress, 10, 255);
+                redLightChannel = value;
+                title.setText(String.format(getString(R.string.ctrl_dialog_light_red_channel_title), redLightChannel));
+                sendMessageToSocket(String.format(getString(R.string.send_red_channel), value));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+    }
+
+    private void setGreenChannelSeekBar (View v) {
+        final SeekBar bar = (SeekBar) v.findViewById(R.id.seekBar_light_green_channel);
+        final TextView title = (TextView) v.findViewById(R.id.light_green_channel_view);
+        title.setText(String.format(getString(R.string.ctrl_dialog_light_green_channel_title), greenLightChannel));
+
+        bar.setProgress(Utils.map(greenLightChannel, 255, 10));
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // handle values here
+                int value = Utils.map(progress, 10, 255);
+                greenLightChannel = value;
+                title.setText(String.format(getString(R.string.ctrl_dialog_light_green_channel_title), greenLightChannel));
+                sendMessageToSocket(String.format(getString(R.string.send_green_channel), value));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+    }
+
+    private void setBlueChannelSeekBar (View v) {
+        final SeekBar bar = (SeekBar) v.findViewById(R.id.seekBar_light_blue_channel);
+        final TextView title = (TextView) v.findViewById(R.id.light_blue_channel_view);
+        title.setText(String.format(getString(R.string.ctrl_dialog_light_blue_channel_title), blueLightChannel));
+
+        bar.setProgress(Utils.map(blueLightChannel, 255, 10));
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // handle values here
+                int value = Utils.map(progress, 10, 255);
+                blueLightChannel = value;
+                title.setText(String.format(getString(R.string.ctrl_dialog_light_blue_channel_title), blueLightChannel));
+                sendMessageToSocket(String.format(getString(R.string.send_blue_channel), value));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) { }
+        });
+    }
 }

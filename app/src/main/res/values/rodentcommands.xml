@@ -13,4 +13,9 @@
     <string name="spindle_stop">M5</string>
     <string name="clear_coordinates">M28</string>
 
+    <string name="send_spindle_speed">R29 Q%1$d</string>
+    <string name="send_red_channel">R22 r%1$d</string>
+    <string name="send_green_channel">R23 g%1$d</string>
+    <string name="send_blue_channel">R24 b%1$d</string>
+
 </resources>

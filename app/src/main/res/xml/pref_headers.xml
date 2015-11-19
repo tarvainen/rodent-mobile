@@ -3,6 +3,6 @@
     <header
         android:fragment="rodent.rodentmobile.activities.SettingsActivity$ConnectionPreferenceFragment"
         android:title="@string/pref_header_connection"
-        android:icon="@drawable/ic_cast_connected_black_36dp"/>
+        android:icon="@drawable/ic_wifi_white_24dp"/>
 
 </preference-headers>

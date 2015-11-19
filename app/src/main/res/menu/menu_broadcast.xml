@@ -6,6 +6,13 @@
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_white_24dp"
+        android:orderInCategory="3"
+        android:title="@string/brdcast_menu_settings"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_controller"
+        android:icon="@drawable/ic_settings_remote_white_24dp"
         android:orderInCategory="2"
         android:title="@string/brdcast_menu_settings"
         app:showAsAction="ifRoom" />

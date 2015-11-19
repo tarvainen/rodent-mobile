@@ -75,7 +75,7 @@ public class WebLoaderActivity extends AppCompatActivity {
     private void updateList () {
         URL uri;
         try {
-            uri = new URL(getString(R.string.rodentOnlineApiAddress));
+            uri = new URL(getString(R.string.online_api_address));
             WebItemLoader loader = new WebItemLoader();
             loader.execute(uri);
         } catch (MalformedURLException ex) {
@@ -149,8 +149,7 @@ public class WebLoaderActivity extends AppCompatActivity {
             }
 
             if (filename != null) {
-                Log.d("url for image", "./../files/" + filename + ".png");
-                file.setThumbnail(drawableFromUrl(url + "./../files/" + filename + ".png"));
+                file.setThumbnail(drawableFromUrl(url + filename + ".png"));
             }
 
             reader.endObject();
@@ -158,13 +157,12 @@ public class WebLoaderActivity extends AppCompatActivity {
         }
 
         private String getOnlyNameFromFilename (String filename) {
-            return filename.replace("./../files/", "");
+            return filename.replace(getString(R.string.relative_replaced_address), "");
         }
 
         public Drawable drawableFromUrl(String url) {
-            Bitmap x;
-
             try {
+                Bitmap x;
                 HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                 connection.connect();
                 InputStream input = connection.getInputStream();
@@ -222,7 +220,7 @@ public class WebLoaderActivity extends AppCompatActivity {
     }
 
     private void downloadItemWithName (String name) {
-        String url = getString(R.string.rodentOnlineApiAddress) + "../files/" + name;
+        String url = getString(R.string.online_api_address) + name;
         new GCodeLoader().execute(name, url);
     }
 
