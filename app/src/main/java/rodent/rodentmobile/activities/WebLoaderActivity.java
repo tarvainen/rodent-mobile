@@ -2,39 +2,28 @@ package rodent.rodentmobile.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.JsonReader;
-import android.util.JsonToken;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionMenu;
-import com.github.nkzawa.socketio.client.Url;
-
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,15 +31,16 @@ import java.util.List;
 import rodent.rodentmobile.R;
 import rodent.rodentmobile.data.GCodeParser;
 import rodent.rodentmobile.data.HttpLoader;
+import rodent.rodentmobile.data.WebItemFile;
 import rodent.rodentmobile.exceptions.InvalidGCodeException;
 import rodent.rodentmobile.filesystem.MyFile;
 import rodent.rodentmobile.filesystem.RodentFile;
+import rodent.rodentmobile.ui.WebItemAdapter;
 
 public class WebLoaderActivity extends AppCompatActivity {
 
-    private List files;
+    private List<WebItemFile> files;
     private GridView view;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +76,7 @@ public class WebLoaderActivity extends AppCompatActivity {
         URL uri;
         try {
             uri = new URL(getString(R.string.rodentOnlineApiAddress));
-            WebLoader loader = new WebLoader();
+            WebItemLoader loader = new WebItemLoader();
             loader.execute(uri);
         } catch (MalformedURLException ex) {
             Toast.makeText(this, R.string.web_error_url_syntax, Toast.LENGTH_SHORT).show();
@@ -94,11 +84,13 @@ public class WebLoaderActivity extends AppCompatActivity {
         }
     }
 
-    private class WebLoader extends AsyncTask<URL, Void, Boolean> {
+
+    private class WebItemLoader extends AsyncTask<URL, Void, Boolean> {
 
         private ProgressDialog dialog = new ProgressDialog(WebLoaderActivity.this);
 
-        private List filelist;
+        private List<WebItemFile> filelist;
+        private URL url;
 
         @Override
         protected void onPreExecute() {
@@ -109,6 +101,7 @@ public class WebLoaderActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(URL... urls) {
             try {
+                url = urls[0];
                 InputStream input = urls[0].openStream();
                 filelist = toJSON(input);
             } catch (IOException ex) {
@@ -118,7 +111,7 @@ public class WebLoaderActivity extends AppCompatActivity {
             return true;
         }
 
-        private List toJSON (InputStream iStream) throws IOException {
+        private List<WebItemFile> toJSON (InputStream iStream) throws IOException {
             JsonReader reader = new JsonReader(new InputStreamReader(iStream, "UTF-8"));
             try {
                 return readMessagesArray(reader);
@@ -127,18 +120,20 @@ public class WebLoaderActivity extends AppCompatActivity {
             }
         }
 
-        public List readMessagesArray(JsonReader reader) throws IOException {
+        public List<WebItemFile> readMessagesArray(JsonReader reader) throws IOException {
             List messages = new ArrayList();
 
             reader.beginArray();
             while (reader.hasNext()) {
+
                 messages.add(readMessage(reader));
             }
             reader.endArray();
             return messages;
         }
 
-        public String readMessage(JsonReader reader) throws IOException {
+        public WebItemFile readMessage(JsonReader reader) throws IOException {
+            WebItemFile file = new WebItemFile();
             String filename = null;
 
             reader.beginObject();
@@ -147,17 +142,40 @@ public class WebLoaderActivity extends AppCompatActivity {
                 if (name.equals("filename")) {
                     filename = reader.nextString();
                     filename = getOnlyNameFromFilename(filename);
+                    file.setName(filename);
                 } else {
                     reader.skipValue();
                 }
             }
 
+            if (filename != null) {
+                Log.d("url for image", "./../files/" + filename + ".png");
+                file.setThumbnail(drawableFromUrl(url + "./../files/" + filename + ".png"));
+            }
+
             reader.endObject();
-            return filename;
+            return file;
         }
 
         private String getOnlyNameFromFilename (String filename) {
             return filename.replace("./../files/", "");
+        }
+
+        public Drawable drawableFromUrl(String url) {
+            Bitmap x;
+
+            try {
+                HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                connection.connect();
+                InputStream input = connection.getInputStream();
+
+                x = BitmapFactory.decodeStream(input);
+                return new BitmapDrawable(x);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            return null;
         }
 
         @Override
@@ -169,6 +187,7 @@ public class WebLoaderActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(WebLoaderActivity.this, R.string.web_sync_failed, Toast.LENGTH_SHORT).show();
             }
+
             if (this.dialog.isShowing()) {
                 dialog.dismiss();
             }
@@ -176,7 +195,7 @@ public class WebLoaderActivity extends AppCompatActivity {
     }
 
     private void showList () {
-        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.webitem, R.id.webItemName, files);
+        WebItemAdapter adapter = new WebItemAdapter(this, files);
         view.setAdapter(adapter);
     }
 
@@ -195,8 +214,8 @@ public class WebLoaderActivity extends AppCompatActivity {
             case R.id.btnLoadItem:
                 RelativeLayout parent = (RelativeLayout)v.getParent().getParent();
                 int position = view.getPositionForView(parent);
-                String url = (String)view.getAdapter().getItem(position);
-                downloadItemWithName(url);
+                WebItemFile file = (WebItemFile)view.getAdapter().getItem(position);
+                downloadItemWithName(file.getName());
             default:
                 break;
         }
@@ -236,6 +255,7 @@ public class WebLoaderActivity extends AppCompatActivity {
                 list = HttpLoader.getGCodesByFilename(urls[1]);
                 filename = urls[0];
             } catch (Exception ex) {
+                ex.printStackTrace();
                 return false;
             }
             return true;
@@ -250,18 +270,19 @@ public class WebLoaderActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(WebLoaderActivity.this, R.string.web_sync_failed, Toast.LENGTH_SHORT).show();
             }
+
             if (this.dialog.isShowing()) {
                 dialog.dismiss();
             }
         }
     }
 
-    private void convertToRodentFile (String filename, List<String> gcode) {
+    private void convertToRodentFile (String filename, List<String> list) {
         try {
-            RodentFile file = GCodeParser.parseFileFromGCode(filename, gcode);
+            RodentFile file = GCodeParser.parseFileFromGCode(filename, list);
             saveFile(file);
         } catch (InvalidGCodeException ex) {
-            Toast.makeText(this, "Invalid gcode.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.web_invalid_gcode, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -270,7 +291,7 @@ public class WebLoaderActivity extends AppCompatActivity {
             file.save();
         } catch (IOException ex) {
             ex.printStackTrace();
-            Toast.makeText(this, "File save failed.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.web_file_save_failed, Toast.LENGTH_SHORT).show();
         }
     }
 

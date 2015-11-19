@@ -62,6 +62,8 @@
     <string name="web_error_url_syntax">The API url error occurred.</string>
     <string name="web_synced_succesfully">Loaded</string>
     <string name="web_sync_failed">Failed to load data.</string>
+    <string name="web_invalid_gcode">Invalid GCode found.</string>
+    <string name="web_file_save_failed">Failed to save file.</string>
 
     <!-- Strings related to the broadcast activity -->
     <string name="filename_placeholder">File: %1$s</string>
