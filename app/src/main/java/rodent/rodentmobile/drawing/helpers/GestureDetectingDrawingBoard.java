@@ -67,8 +67,8 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
             drawBusyElement(canvas);
         }
 
-        canvasWidth = canvas.getWidth();
-        canvasHeight = canvas.getHeight();
+        canvasWidth = (int)(getPaper().getWidthInMills() * getPaper().getMillisInPx());
+        canvasHeight = (int)(getPaper().getHeightInMills() * getPaper().getMillisInPx());
 
     }
 
