@@ -27,6 +27,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
     private Vector2<Float> canvasTranslate;
     private Vector2<Float> previousCanvasTranslate;
     private Vector2<Float> displaySize;
+    private int canvasWidth;
+    private int canvasHeight;
+
 
     private ScaleGestureDetector scaleDetector;
 
@@ -63,6 +66,10 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         if (isToolBusy()) {
             drawBusyElement(canvas);
         }
+
+        canvasWidth = canvas.getWidth();
+        canvasHeight = canvas.getHeight();
+
     }
 
     @Override
@@ -199,14 +206,9 @@ public class GestureDetectingDrawingBoard extends DrawingBoard {
         }
     }
 
-    /**
-     * Makes pretty fucking ugly thumbnails. Needs some work.
-     * @return Thumbnail Bitmap
-     */
     public Bitmap getBitmap() {
-        Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(canvasWidth, canvasHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        canvas.scale(0.25f, 0.25f); // Magic numbers.
         drawElements(canvas);
         invalidate();
         return bitmap;
