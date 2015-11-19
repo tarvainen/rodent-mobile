@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 
@@ -31,7 +30,7 @@ public class LibraryActivity extends AppCompatActivity implements
                                                         NewFileDialogListener,
                                                         FilenameFilter {
 
-    private ArrayList<File> files;
+    private ArrayList<MyFile> files;
     private ImageAdapter adapter;
 
     @Override
@@ -105,7 +104,11 @@ public class LibraryActivity extends AppCompatActivity implements
         File[] allFiles = file.listFiles(this);
 
         for (File f : allFiles) {
-            files.add(f);
+            try {
+                files.add(new RodentFile(f));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         adapter.notifyDataSetChanged();
@@ -125,14 +128,12 @@ public class LibraryActivity extends AppCompatActivity implements
             public boolean onMenuItemClick (MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.btnOpenItem:
-                        File file = files.get(getClickedFabParentPosition(v));
-                        openFile(file);
+                        openFile(files.get(getClickedFabParentPosition(v)));
                         return true;
                     case R.id.btnDeleteItem:
                         int position = getClickedFabParentPosition(v);
-                        File removeFile = files.get(position);
+                        removeFile(files.get(position).getPath());
                         files.remove(position);
-                        removeFile(removeFile);
                         return true;
                     default:
                         return false;
@@ -143,30 +144,20 @@ public class LibraryActivity extends AppCompatActivity implements
         menu.show();
     }
 
-
     private int getClickedFabParentPosition (View v) {
         RelativeLayout parent = (RelativeLayout)v.getParent().getParent();
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        int position = gridView.getPositionForView(parent);
-        return position;
+        return gridView.getPositionForView(parent);
     }
 
-    private void openFile (File file) {
-        MyFile rodentFile;
-        try {
-            rodentFile = new RodentFile(file);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Toast.makeText(LibraryActivity.this, R.string.lib_cannot_open_file, Toast.LENGTH_SHORT).show();
-            return;
-        }
-
+    private void openFile (MyFile file) {
         Intent intent = new Intent(getApplicationContext(), DrawingActivity.class);
-        intent.putExtra("FILE", rodentFile);
+        intent.putExtra("FILE", file);
         startActivity(intent);
     }
 
-    private void removeFile(File file) {
+    private void removeFile(String path) {
+        File file = new File(path);
         deleteThumbnail(file);
         file.delete();
         adapter.notifyDataSetChanged();

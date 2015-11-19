@@ -16,20 +16,22 @@ import java.io.ObjectOutputStream;
 public class RodentFile extends MyFile {
 
     public RodentFile(String filename) {
-        super(filename + ".rodent");
+        this.filename = filename;
+        File root = Environment.getExternalStorageDirectory();
+        File dir = new File(root.getAbsolutePath() + "/rodent", filename + ".rodent");
+        this.path = dir.getPath();
     }
 
     public RodentFile(File file) throws Exception{
+        this.path = file.getPath();
         load(file.getPath());
     }
 
     @Override
     public void save() throws IOException{
+        System.out.println(path);
         try {
-            File root = Environment.getExternalStorageDirectory();
-            File dir = new File(root.getAbsolutePath() + "/rodent");
-            if (!dir.exists()) dir.mkdirs();
-            File file = new File(dir, filename);
+            File file = new File(path);
             FileOutputStream outStream = new FileOutputStream(file);
             ObjectOutputStream out = new ObjectOutputStream(outStream);
             out.writeObject(this);
@@ -38,6 +40,7 @@ public class RodentFile extends MyFile {
         } catch (IOException e) {
             throw e;
         }
+        saveThumbnail();
     }
 
     @Override
@@ -47,14 +50,16 @@ public class RodentFile extends MyFile {
             FileInputStream inStream = new FileInputStream(file);
             ObjectInputStream in = new ObjectInputStream(inStream);
             RodentFile tmp = (RodentFile) in.readObject();
+            rendered = tmp.rendered;
             filename = tmp.filename;
             shapes = tmp.shapes;
             paper = tmp.paper;
-            this.rendered = tmp.rendered;
+            this.path = tmp.path;
             in.close();
             inStream.close();
         } catch (Exception e) {
             throw e;
         }
+        loadThumbnail();
     }
 }

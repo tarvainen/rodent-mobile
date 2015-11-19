@@ -7,10 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -23,8 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -368,25 +364,10 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
         this.activeSpinner.setBackground(getResources().getDrawable(R.drawable.drawing_button_selected));
     }
 
-    private void saveThumbnail() {
-        Bitmap bitmap = drawingBoard.getBitmap();
-        FileOutputStream out;
-        try {
-            File extDir = Environment.getExternalStorageDirectory();
-            File f = new File(extDir + getString(R.string.default_save_directory), this.file.getFilename() + ".png");
-            out = new FileOutputStream(f);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void saveFile() {
         file.setPaper(drawingBoard.getPaper());
         file.setShapes(drawingBoard.getDrawableElements());
-
-        saveThumbnail();
+        file.setBitmap(drawingBoard.getBitmap());
 
         new FileAsyncSaver().execute(file);
     }
