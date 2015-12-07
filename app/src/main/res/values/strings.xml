@@ -25,7 +25,7 @@
     <string name="pref_default_ip">192.168.x.xx</string>
     <string name="pref_title_port">Rodent Port</string>
     <string name="pref_default_port">0000</string>
-    <string name="pref_title_api">Rodent Online Module API Address</string>
+    <string name="pref_title_api">Rodent Online API Address</string>
 
     <!-- Strings related to files -->
     <string name="default_save_directory">/rodent/</string>

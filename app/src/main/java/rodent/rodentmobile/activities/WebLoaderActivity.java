@@ -2,19 +2,19 @@ package rodent.rodentmobile.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -75,7 +75,9 @@ public class WebLoaderActivity extends AppCompatActivity {
     private void updateList () {
         URL uri;
         try {
-            uri = new URL(getString(R.string.online_api_address));
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String url = prefs.getString("online_api_address", getString(R.string.online_api_address));
+            uri = new URL(url);
             WebItemLoader loader = new WebItemLoader();
             loader.execute(uri);
         } catch (MalformedURLException ex) {
@@ -220,7 +222,8 @@ public class WebLoaderActivity extends AppCompatActivity {
     }
 
     private void downloadItemWithName (String name) {
-        String url = getString(R.string.online_api_address) + name;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String url = prefs.getString("online_api_address", getString(R.string.online_api_address)) + name;
         new GCodeLoader().execute(name, url);
     }
 
