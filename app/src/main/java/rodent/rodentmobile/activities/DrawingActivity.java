@@ -237,9 +237,9 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.tool_circle:
                 drawingBoard.changeTool(new CircleTool());
                 break;
-            case R.id.tool_text:
-                drawingBoard.changeTool(new TextTool(this));
-                break;
+//            case R.id.tool_text:
+//                drawingBoard.changeTool(new TextTool(this));
+//                break;
         }
     }
 
@@ -258,10 +258,10 @@ public class DrawingActivity extends AppCompatActivity implements AdapterView.On
             case R.id.action_copy_element:
                 this.performCopyAction();
                 break;
-            case R.id.action_undo:
-                break;
-            case R.id.action_redo:
-                break;
+//            case R.id.action_undo:
+//                break;
+//            case R.id.action_redo:
+//                break;
             case R.id.action_save_file:
                 saveFile();
                 break;

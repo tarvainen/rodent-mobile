@@ -141,25 +141,25 @@
                 android:padding="10dp"
                 android:src="@drawable/ic_depth_selection"/>
 
-            <ImageButton
-                android:id="@+id/action_undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:background="@drawable/drawing_button"
-                android:onClick="onActionButtonClick"
-                android:padding="10dp"
-                android:src="@drawable/ic_undo_white_24dp"/>
+            <!--<ImageButton-->
+                <!--android:id="@+id/action_undo"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="6dp"-->
+                <!--android:background="@drawable/drawing_button"-->
+                <!--android:onClick="onActionButtonClick"-->
+                <!--android:padding="10dp"-->
+                <!--android:src="@drawable/ic_undo_white_24dp"/>-->
 
-            <ImageButton
-                android:id="@+id/action_redo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:background="@drawable/drawing_button"
-                android:onClick="onActionButtonClick"
-                android:padding="10dp"
-                android:src="@drawable/ic_redo_white_24dp"/>
+            <!--<ImageButton-->
+                <!--android:id="@+id/action_redo"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="6dp"-->
+                <!--android:background="@drawable/drawing_button"-->
+                <!--android:onClick="onActionButtonClick"-->
+                <!--android:padding="10dp"-->
+                <!--android:src="@drawable/ic_redo_white_24dp"/>-->
 
             <ImageButton
                 android:id="@+id/action_save_file"
